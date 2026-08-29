@@ -1,0 +1,140 @@
+:root {
+    color-scheme: light dark;
+
+    --omm-transition-duration: 300ms;
+
+    --omm-text: light-dark(rgb(24, 24, 24), rgb(248, 248, 248));
+    --omm-text-muted: light-dark(rgb(100, 100, 100), rgb(165, 165, 165));
+
+    --omm-surface: light-dark(#ffffff, #121212);
+
+    --omm-surface-inverted: light-dark(#171717, #e5e5e5);
+    --omm-on-surface-inverted: light-dark(#f5f5f5, #171717);
+
+    --omm-color-success: light-dark(#046e00, #90e58c);
+    --omm-surface-success: light-dark(#d6f0df, #1f3a2b);
+    --omm-on-surface-success: light-dark(#14532d, #b8e0c8);
+    
+    --omm-color-warning: light-dark(#8a5200, #f0c265);
+    --omm-surface-warning: light-dark(#f7e6c2, #3a2f1f);
+    --omm-on-surface-warning: light-dark(#663c00, #f1d7a3);
+
+    --omm-color-error: light-dark(#b3261e, #f2b8b5);
+
+    --omm-surface-error: light-dark(#f7d4da, #3a1f24);
+    --omm-on-surface-error: light-dark(#7a1d27, #f0b4bd);
+
+    --omm-color-info: light-dark(#1d4ed8, #93b4f5);
+    --omm-surface-info: light-dark(#d6e4f5, #1f2a3a);
+    --omm-on-surface-info: light-dark(#1d3a7a, #b8c8e0);
+
+    --omm-outline: light-dark(rgb(180, 180, 180), rgb(94, 94, 94));
+    --omm-outline-muted: light-dark(rgb(225, 225, 225), rgb(45, 45, 45));
+
+    // Safe-area insets — how much of each edge belongs to the OS rather than the
+    // app (status bar, gesture bar, display cutout). Capacitor's SystemBars plugin
+    // sets `--safe-area-inset-*` as an inline style on <html>: the real values when
+    // the WebView runs edge-to-edge, and zero on WebViews too old to forward
+    // insets, where the native side pads the WebView instead. `env()` is the
+    // fallback for iOS and the browser, where nothing is injected.
+    //
+    // Everything inside `app-root` is already clear of these (the shell pads
+    // itself); they're only needed by boxes that escape it — top-layer dialogs
+    // and `position: fixed` overlays.
+    --omm-safe-area-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+    --omm-safe-area-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+    --omm-safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+    --omm-safe-area-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+
+    --omm-spacing-xl: 2rem;
+    --omm-spacing-l: 1.5rem;
+    --omm-spacing: 1rem;
+    --omm-spacing-s: 0.5rem;
+    --omm-spacing-xs: 0.25rem;
+
+    --omm-accent: light-dark(#c75a00, #ffba60);
+    --omm-on-accent: light-dark(#ffffff, #0c0c0c);
+
+    --omm-corner-xl: 1.5rem;
+    --omm-corner-l: 1rem;
+    --omm-corner: 0.5rem;
+    --omm-corner-s: 0.35rem;
+    --omm-corner-xs: 0.2rem;
+
+    --omm-pane-surface: light-dark(#f7f7f7, rgb(26, 26, 26));
+    --omm-pane-surface-outline: var(--omm-outline-muted);
+    --omm-pane-radius: var(--omm-corner);
+    --omm-active-background: color-mix(in srgb, var(--omm-text) 5%, transparent);
+    --omm-selected-background: color-mix(in srgb, var(--omm-accent) 11%, transparent);
+
+    // Neutral overlay washes — black over light, white over dark. Authored as
+    // plain colors on purpose: relative color syntax (rgb(from …)) computes to
+    // an invalid value when its origin is a light-dark() token, so it renders
+    // fully transparent instead of the intended wash. Derived alphas either go
+    // through color-mix() (which does accept light-dark()) or live here.
+    --omm-overlay-weak: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
+    --omm-overlay: light-dark(rgb(0 0 0 / 0.15), rgb(255 255 255 / 0.15));
+    --omm-overlay-strong: light-dark(rgb(0 0 0 / 0.2), rgb(255 255 255 / 0.2));
+
+    --omm-input: light-dark(#00000008, #ffffff10);
+    --omm-input-outline: light-dark(#0000001f, #ffffff26);
+    --omm-input-corner: var(--omm-corner-s);
+    --omm-input-padding: 0.35rem;
+
+    --omm-button: var(--omm-input);
+    --omm-button-hover: var(--omm-overlay-weak);
+    --omm-on-button: var(--omm-text);
+    --omm-button-outline: var(--omm-input-outline);
+
+    --omm-button-primary: var(--omm-surface-inverted);
+    --omm-button-on-primary: var(--omm-on-surface-inverted);
+    --omm-button-primary-outline: transparent;
+    --omm-button-primary-hover: color-mix(in srgb, var(--omm-button-primary) 90%, transparent);
+
+    --omm-scrollbar-outer-size: 22px;
+    --omm-scrollbar-inner-size: 4px;
+    --omm-scrollbar-thumb-color: color-mix(in srgb, var(--omm-outline-muted) 50%, transparent);
+    --omm-scrollbar-track-color: transparent;
+    --omm-scrollbar-thumb-color-hover: var(--omm-outline-muted);
+
+    // semantics
+    --omm-divider: var(--omm-outline-muted);
+
+    // PDF viewer
+    // Page background stays light in both themes — most PDFs are authored on
+    // white and look broken on a dark surface. Naming makes the deviation
+    // from the usual surface tokens explicit.
+    --omm-pdf-page-surface: light-dark(#ffffff, #f5f5f5);
+    --omm-pdf-page-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+    --omm-pdf-search-match: light-dark(rgba(255, 200, 0, 0.45), rgba(255, 200, 0, 0.35));
+    --omm-pdf-search-match-active: light-dark(rgba(255, 140, 0, 0.7), rgba(255, 140, 0, 0.6));
+    --omm-pdf-text-selection: light-dark(rgba(0, 100, 255, 0.4), rgba(80, 160, 255, 0.45));
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html {
+    background-color: var(--omm-surface);
+    color: var(--omm-text);
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--omm-accent) 20%, transparent);
+}
+
+::selection {
+    color: var(--omm-on-accent);
+    background-color: color-mix(in srgb, var(--omm-accent) 60%, transparent);
+}
+
+.tag {
+    display: inline-flex;
+    &::before {
+        content: "#";
+        margin-inline-end: 0.15em;
+        
+    }
+}

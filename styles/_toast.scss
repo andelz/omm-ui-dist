@@ -1,0 +1,62 @@
+.toast {
+    --toast-surface: var(--omm-surface-inverted);
+    --toast-on-surface: var(--omm-on-surface-inverted);
+
+    position: fixed;
+    // Fixed to the viewport, so it clears the gesture bar itself.
+    inset-block-end: calc(var(--omm-spacing) + var(--omm-safe-area-bottom));
+    margin: auto;
+    background-color: var(--toast-surface);
+    color: var(--toast-on-surface);
+    min-width: 20ch;
+    max-width: 40ch;
+    padding: var(--omm-spacing-s) var(--omm-spacing);
+    border-radius: var(--omm-corner);
+    border: 1px solid color-mix(in srgb, var(--toast-on-surface) 30%, transparent);
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease;
+    z-index: 1000;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: start;
+    gap: var(--omm-spacing);
+
+    > p {
+        margin: 0;
+        line-height: 1.7em;
+    }
+    button {
+        color: var(--toast-on-surface);
+    }
+
+    .toast-action {
+        font-weight: 600;
+        text-decoration: underline;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    &.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &.toast-success {
+        --toast-surface: var(--omm-surface-success);
+        --toast-on-surface: var(--omm-on-surface-success);
+    }
+
+    &.toast-warning {
+        --toast-surface: var(--omm-surface-warning);
+        --toast-on-surface: var(--omm-on-surface-warning);
+    }
+
+    &.toast-error {
+        --toast-surface: var(--omm-surface-error);
+        --toast-on-surface: var(--omm-on-surface-error);
+    }
+}

@@ -1,0 +1,44 @@
+:root {
+    --font-base-size: 1em;
+    --scale-ratio: 1.25;
+
+    --h4: var(--font-base-size);
+    --h3: calc(var(--h4) * var(--scale-ratio));
+    --h2: calc(var(--h3) * var(--scale-ratio));
+    --h1: calc(var(--h2) * var(--scale-ratio));
+
+    --omm-font-size: var(--font-base-size);
+    --omm-font-size-muted: calc(var(--font-base-size) * 0.875);
+    --omm-font-size-tiny: calc(var(--font-base-size) * 0.75);
+
+    --omm-font-monospace: normal 400 var(--font-base-size) "Google Sans Code", monospace;
+}
+
+* {
+    font-family: "Google Sans Code", monospace;
+    font-size: var(--omm-font-size);
+}
+
+p {
+    max-width: 50ch;
+
+    &.muted {
+        color: var(--omm-text-muted);
+    }
+}
+
+h1 {
+    font-size: var(--h1);
+    font-weight: normal;
+}
+h2 {
+    font-size: var(--h2);
+    font-weight: normal;
+}
+h3 {
+    font-size: var(--h3);
+    font-weight: normal;
+}
+h4 {
+    font-size: var(--h4);
+}

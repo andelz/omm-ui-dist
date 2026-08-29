@@ -1,0 +1,55 @@
+// Angular aria styles
+
+[ngTabs] {
+    overflow: hidden;
+}
+
+[ngTabList] {
+    grid-area: list;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    position: relative;
+}
+
+[ngTab] {
+    flex: 1;
+    outline: none;
+    padding: 0.75rem 0;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    border-block-end: 1px solid var(--omm-outline);
+
+    &:after {
+        position: absolute;
+        content: "";
+        inset-block-end: -1px;
+        inset-inline: 0;
+        height: 2px;
+    }
+}
+[ngTab][aria-selected="false"]:focus {
+    outline-offset: -8px;
+    border-radius: 0.7rem;
+    outline: 2px solid var(--omm-accent);
+}
+[ngTab]:hover {
+    &:after {
+        background-color: color-mix(in srgb, var(--omm-outline) 60%, transparent);
+    }
+}
+[ngTab][aria-selected="true"] {
+    &:after {
+        background-color: var(--omm-accent);
+    }
+}
+
+[ngTabPanel] {
+    height: 100%;
+    flex: 1;
+}
+
+[ngTabPanel][inert] {
+    display: none;
+}

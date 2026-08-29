@@ -1,0 +1,31 @@
+::-webkit-scrollbar {
+    height: var(--omm-scrollbar-outer-size);
+    width: var(--omm-scrollbar-outer-size);
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    outline: calc(var(--omm-scrollbar-inner-size) / 2) solid var(--omm-scrollbar-track-color);
+    outline-offset: calc((var(--omm-scrollbar-outer-size) - var(--omm-scrollbar-inner-size)) * -1);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    outline: calc(var(--omm-scrollbar-inner-size) / 2) solid var(--omm-scrollbar-thumb-color);
+    outline-offset: calc((var(--omm-scrollbar-outer-size) - var(--omm-scrollbar-inner-size)) * -1);
+    transition: outline-color 200ms ease-in-out;
+
+    &:hover {
+        outline-color: var(--omm-scrollbar-thumb-color-hover);
+        background-color: transparent;
+    }
+}
+
+::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}

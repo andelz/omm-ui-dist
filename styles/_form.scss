@@ -1,0 +1,123 @@
+button {
+    color: var(--omm-text);
+    // font: var(--omm-font-monospace);
+    border: 1px solid currentColor;
+    background-color: transparent;
+    // padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    color: var(--omm-on-button);
+    background-color: var(--omm-button);
+    border: 1px solid var(--omm-button-outline);
+    font-weight: normal;
+    border-radius: var(--omm-corner-xs);
+    padding: var(--omm-input-padding);
+
+    &:not(.icon) {
+        padding-inline: calc(var(--omm-input-padding) * 2);
+    }
+
+    &:hover {
+        background-color: var(--omm-button-hover);
+    }
+
+    &.primary {
+        --omm-button: var(--omm-button-primary);
+        --omm-on-button: var(--omm-button-on-primary);
+        --omm-button-outline: var(--omm-button-primary-outline);
+        --omm-button-hover: var(--omm-button-primary-hover);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    &.icon {
+        border: 0;
+        &:not(:hover) {
+            background-color: transparent;
+        }
+    }
+}
+
+textarea {
+    overflow: hidden;
+}
+
+.omm-input,
+input,
+textarea {
+    color: var(--omm-text);
+    // font: var(--omm-font-monospace);
+    font-size: 1rem;
+    border: 1px solid var(--omm-input-outline);
+    background-color: var(--omm-input);
+    border-radius: var(--omm-input-corner);
+    padding: var(--omm-input-padding);
+    resize: none;
+
+    outline: 0;
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+        border-color: var(--omm-text);
+    }
+}
+
+label:not(.checkbox) {
+    --border-color: var(--omm-outline);
+    --label-gap: 0.25em;
+    --line-height: 1.7em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    position: relative;
+    line-height: 1em;
+    row-gap: var(--label-gap);
+    padding: 0;
+    // padding-inline-start: var(--omm-spacing-s);
+    font-size: var(--omm-font-size-muted);
+    color: var(--omm-text-muted);
+
+    &:has(.ng-invalid) {
+        --border-color: var(--omm-on-surface-error);
+        color: var(--border-color);
+    }
+}
+
+label.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.inline-submit {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    border: 1px solid var(--omm-outline);
+    padding: 2px;
+    border-radius: var(--omm-corner-s);
+
+    input {
+        border:0;
+        background-color: transparent;
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+footer.form-footer {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    padding: var(--omm-spacing);
+    align-items: center;
+    justify-content: end;
+    gap: var(--omm-spacing);
+}

@@ -1,0 +1,82 @@
+// Tooltip rendered in the browser top layer via the Popover API and positioned
+// natively with CSS Anchor Positioning. Living in the top layer means it is never
+// clipped by an `overflow: hidden` / transformed ancestor. The directive
+// ([ommTooltip]) creates the <tool-tip> element, links it to its trigger with a
+// named anchor, and toggles it on hover/focus. Browsers without these APIs never
+// get a <tool-tip> element — the directive falls back to the native `title`.
+tool-tip {
+  --_gap: 8px;
+  --_bg: var(--omm-surface-inverted);
+  --_color: var(--omm-on-surface-inverted);
+  --_shadow-alpha: 50%;
+
+  // Reset the UA popover box (default is centered with `inset: 0; margin: auto`).
+  position: fixed;
+  inset: auto;
+  margin: var(--_gap);
+  border: 0;
+  padding: 0.5ch 1ch;
+  overflow: visible;
+
+  inline-size: max-content;
+  max-inline-size: 25ch;
+  text-align: center;
+  // Honour explicit newlines in the tooltip text so a caller can give a headline
+  // plus detail lines. Space runs still collapse exactly as with `normal`.
+  white-space: pre-line;
+  font-size: 0.85rem;
+  font-weight: normal;
+  line-height: initial;
+  border-radius: var(--omm-corner-s);
+  background: var(--_bg);
+  color: var(--_color);
+  pointer-events: none;
+  user-select: none;
+  will-change: filter;
+  filter:
+    drop-shadow(0 3px 3px hsl(0 0% 0% / var(--_shadow-alpha)))
+    drop-shadow(0 12px 12px hsl(0 0% 0% / var(--_shadow-alpha)));
+
+  // Fade in/out across the popover display + top-layer (overlay) toggle.
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    overlay 0.2s ease allow-discrete,
+    display 0.2s ease allow-discrete;
+
+  &:popover-open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    &:popover-open {
+      opacity: 0;
+    }
+  }
+
+  // top / block-start (and the default, no attribute): above the trigger.
+  &:is([tip-position="top"], [tip-position="block-start"], :not([tip-position])) {
+    position-area: block-start;
+    position-try-fallbacks: flip-block;
+  }
+
+  // bottom / block-end: below the trigger.
+  &:is([tip-position="bottom"], [tip-position="block-end"]) {
+    position-area: block-end;
+    position-try-fallbacks: flip-block;
+  }
+
+  // left / inline-start: before the trigger (right side in RTL).
+  &:is([tip-position="left"], [tip-position="inline-start"]) {
+    position-area: inline-start;
+    position-try-fallbacks: flip-inline;
+    text-align: start;
+  }
+
+  // right / inline-end: after the trigger (left side in RTL).
+  &:is([tip-position="right"], [tip-position="inline-end"]) {
+    position-area: inline-end;
+    position-try-fallbacks: flip-inline;
+    text-align: start;
+  }
+}
