@@ -1,18 +1,16 @@
 import * as i0 from '@angular/core';
-import { input, output, Component, viewChild, ChangeDetectionStrategy, model, effect, forwardRef, signal, computed, inject, ElementRef, afterNextRender, LOCALE_ID, Injectable, ChangeDetectorRef, HostListener, contentChildren, Directive, booleanAttribute, DestroyRef, untracked, viewChildren, InjectionToken, afterRenderEffect, Renderer2 } from '@angular/core';
+import { input, output, Component, booleanAttribute, viewChild, ChangeDetectionStrategy, model, effect, forwardRef, signal, computed, inject, ElementRef, afterNextRender, LOCALE_ID, Injectable, ChangeDetectorRef, HostListener, contentChildren, Directive, DestroyRef, untracked, viewChildren, afterRenderEffect, Renderer2 } from '@angular/core';
 import * as i1 from 'lucide-angular';
-import { LucideAngularModule, Check, Minus, DeleteIcon, ChevronsRightIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronLeftIcon, Calendar1Icon, MonitorUp, ChevronDown, PlusIcon, Trash2Icon, ChevronDownIcon, XIcon, SunIcon, MoonIcon, MonitorIcon, X, ChevronUp, Maximize2, RectangleHorizontal, MoveHorizontal, SearchIcon, Plus } from 'lucide-angular';
-import * as i1$1 from '@angular/forms';
+import { LucideAngularModule, Check, Minus, DeleteIcon, ChevronsRightIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronLeftIcon, Calendar1Icon, MonitorUp, ChevronDown, PlusIcon, Trash2Icon, ChevronDownIcon, XIcon, SunIcon, MoonIcon, MonitorIcon } from 'lucide-angular';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule, NgControl } from '@angular/forms';
 import * as i2 from '@ngx-translate/core';
-import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FocusKeyManager } from '@angular/cdk/a11y';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as i2$1 from '@angular/cdk/overlay';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Combobox, ComboboxInput, ComboboxPopupContainer } from '@angular/aria/combobox';
 import { Option, Listbox } from '@angular/aria/listbox';
-import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { CurrencyPipe } from '@angular/common';
 
 class ButtonToggle {
@@ -36,6 +34,12 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
 
 class BottomSheet {
     ariaLabel = input(...(ngDevMode ? [undefined, { debugName: "ariaLabel" }] : /* istanbul ignore next */ []));
+    /**
+     * On a wide viewport, show a centred panel instead of a sheet along the
+     * bottom edge. A full-width strip suits a phone held in one hand; on a
+     * desktop window it stretches short content across the whole screen.
+     */
+    panelOnWide = input(false, { ...(ngDevMode ? { debugName: "panelOnWide" } : /* istanbul ignore next */ {}), transform: booleanAttribute });
     closed = output();
     dlg = viewChild.required('dlg');
     open() {
@@ -52,12 +56,12 @@ class BottomSheet {
             this.close();
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: BottomSheet, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.2.0", version: "21.2.7", type: BottomSheet, isStandalone: true, selector: "omm-bottom-sheet", inputs: { ariaLabel: { classPropertyName: "ariaLabel", publicName: "ariaLabel", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { closed: "closed" }, viewQueries: [{ propertyName: "dlg", first: true, predicate: ["dlg"], descendants: true, isSignal: true }], ngImport: i0, template: "<dialog\r\n    #dlg\r\n    class=\"bottom-sheet\"\r\n    [attr.aria-label]=\"ariaLabel()\"\r\n    (close)=\"onClose()\"\r\n    (click)=\"onBackdropClick($event)\">\r\n    <div class=\"sheet\">\r\n        <div class=\"grabber\" aria-hidden=\"true\"></div>\r\n        <div class=\"content\">\r\n            <ng-content></ng-content>\r\n        </div>\r\n    </div>\r\n</dialog>\r\n", styles: [":host{display:contents}dialog.bottom-sheet{inset:auto 0 0;margin:0;padding:0;width:100%;max-width:100vw;min-width:0;background:transparent;border:0;outline:0;box-shadow:none;border-radius:0;overflow:visible;opacity:0;transform:translateY(100%);transition:opacity .25s ease-out,transform .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]{opacity:1;transform:translateY(0)}@starting-style{dialog.bottom-sheet[open]{opacity:0;transform:translateY(100%)}}@media(prefers-reduced-motion:reduce){dialog.bottom-sheet{transform:none}dialog.bottom-sheet[open]{transform:none}@starting-style{dialog.bottom-sheet[open]{transform:none}}}dialog.bottom-sheet::backdrop{background-color:transparent;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:background-color .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]::backdrop{background-color:color-mix(in srgb,var(--omm-surface) 40%,transparent)}@starting-style{dialog.bottom-sheet[open]::backdrop{background-color:transparent}}dialog.bottom-sheet .sheet{padding-block-end:var(--omm-safe-area-bottom);background:var(--omm-pane-surface);color:var(--omm-text);border-top-left-radius:var(--omm-spacing-l);border-top-right-radius:var(--omm-spacing-l);max-height:85vh;display:flex;flex-direction:column;overflow:hidden}dialog.bottom-sheet .grabber{width:36px;height:4px;margin:8px auto;border-radius:2px;background:var(--omm-outline);flex:0 0 auto}dialog.bottom-sheet .content{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}\n"], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.2.0", version: "21.2.7", type: BottomSheet, isStandalone: true, selector: "omm-bottom-sheet", inputs: { ariaLabel: { classPropertyName: "ariaLabel", publicName: "ariaLabel", isSignal: true, isRequired: false, transformFunction: null }, panelOnWide: { classPropertyName: "panelOnWide", publicName: "panelOnWide", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { closed: "closed" }, viewQueries: [{ propertyName: "dlg", first: true, predicate: ["dlg"], descendants: true, isSignal: true }], ngImport: i0, template: "<dialog\r\n    #dlg\r\n    class=\"bottom-sheet\"\r\n    [class.panel-on-wide]=\"panelOnWide()\"\r\n    [attr.aria-label]=\"ariaLabel()\"\r\n    (close)=\"onClose()\"\r\n    (click)=\"onBackdropClick($event)\">\r\n    <div class=\"sheet\">\r\n        <div class=\"grabber\" aria-hidden=\"true\"></div>\r\n        <div class=\"content\">\r\n            <ng-content></ng-content>\r\n        </div>\r\n    </div>\r\n</dialog>\r\n", styles: [":host{display:contents}dialog.bottom-sheet{inset:auto 0 0;margin:0;padding:0;width:100%;max-width:100vw;min-width:0;background:transparent;border:0;outline:0;box-shadow:none;border-radius:0;overflow:visible;opacity:0;transform:translateY(100%);transition:opacity .25s ease-out,transform .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]{opacity:1;transform:translateY(0)}@starting-style{dialog.bottom-sheet[open]{opacity:0;transform:translateY(100%)}}@media(prefers-reduced-motion:reduce){dialog.bottom-sheet{transform:none}dialog.bottom-sheet[open]{transform:none}@starting-style{dialog.bottom-sheet[open]{transform:none}}}dialog.bottom-sheet::backdrop{background-color:transparent;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:background-color .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]::backdrop{background-color:color-mix(in srgb,var(--omm-surface) 40%,transparent)}@starting-style{dialog.bottom-sheet[open]::backdrop{background-color:transparent}}dialog.bottom-sheet .sheet{padding-block-end:var(--omm-safe-area-bottom);background:var(--omm-pane-surface);color:var(--omm-text);border-top-left-radius:var(--omm-spacing-l);border-top-right-radius:var(--omm-spacing-l);max-height:85vh;display:flex;flex-direction:column;overflow:hidden}dialog.bottom-sheet .grabber{width:36px;height:4px;margin:8px auto;border-radius:2px;background:var(--omm-outline);flex:0 0 auto}dialog.bottom-sheet .content{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}@media(min-width:600px){dialog.bottom-sheet.panel-on-wide{inset:0;margin:auto;width:min(36rem,100vw - 2 * var(--omm-spacing-l));height:fit-content;transform:translateY(var(--omm-spacing-l))}dialog.bottom-sheet.panel-on-wide[open]{transform:translateY(0)}@starting-style{dialog.bottom-sheet.panel-on-wide[open]{transform:translateY(var(--omm-spacing-l))}}dialog.bottom-sheet.panel-on-wide .sheet{padding-block-end:0;border-radius:var(--omm-spacing-l)}dialog.bottom-sheet.panel-on-wide .grabber{display:none}}\n"], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: BottomSheet, decorators: [{
             type: Component,
-            args: [{ selector: 'omm-bottom-sheet', imports: [], changeDetection: ChangeDetectionStrategy.OnPush, template: "<dialog\r\n    #dlg\r\n    class=\"bottom-sheet\"\r\n    [attr.aria-label]=\"ariaLabel()\"\r\n    (close)=\"onClose()\"\r\n    (click)=\"onBackdropClick($event)\">\r\n    <div class=\"sheet\">\r\n        <div class=\"grabber\" aria-hidden=\"true\"></div>\r\n        <div class=\"content\">\r\n            <ng-content></ng-content>\r\n        </div>\r\n    </div>\r\n</dialog>\r\n", styles: [":host{display:contents}dialog.bottom-sheet{inset:auto 0 0;margin:0;padding:0;width:100%;max-width:100vw;min-width:0;background:transparent;border:0;outline:0;box-shadow:none;border-radius:0;overflow:visible;opacity:0;transform:translateY(100%);transition:opacity .25s ease-out,transform .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]{opacity:1;transform:translateY(0)}@starting-style{dialog.bottom-sheet[open]{opacity:0;transform:translateY(100%)}}@media(prefers-reduced-motion:reduce){dialog.bottom-sheet{transform:none}dialog.bottom-sheet[open]{transform:none}@starting-style{dialog.bottom-sheet[open]{transform:none}}}dialog.bottom-sheet::backdrop{background-color:transparent;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:background-color .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]::backdrop{background-color:color-mix(in srgb,var(--omm-surface) 40%,transparent)}@starting-style{dialog.bottom-sheet[open]::backdrop{background-color:transparent}}dialog.bottom-sheet .sheet{padding-block-end:var(--omm-safe-area-bottom);background:var(--omm-pane-surface);color:var(--omm-text);border-top-left-radius:var(--omm-spacing-l);border-top-right-radius:var(--omm-spacing-l);max-height:85vh;display:flex;flex-direction:column;overflow:hidden}dialog.bottom-sheet .grabber{width:36px;height:4px;margin:8px auto;border-radius:2px;background:var(--omm-outline);flex:0 0 auto}dialog.bottom-sheet .content{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}\n"] }]
-        }], propDecorators: { ariaLabel: [{ type: i0.Input, args: [{ isSignal: true, alias: "ariaLabel", required: false }] }], closed: [{ type: i0.Output, args: ["closed"] }], dlg: [{ type: i0.ViewChild, args: ['dlg', { isSignal: true }] }] } });
+            args: [{ selector: 'omm-bottom-sheet', imports: [], changeDetection: ChangeDetectionStrategy.OnPush, template: "<dialog\r\n    #dlg\r\n    class=\"bottom-sheet\"\r\n    [class.panel-on-wide]=\"panelOnWide()\"\r\n    [attr.aria-label]=\"ariaLabel()\"\r\n    (close)=\"onClose()\"\r\n    (click)=\"onBackdropClick($event)\">\r\n    <div class=\"sheet\">\r\n        <div class=\"grabber\" aria-hidden=\"true\"></div>\r\n        <div class=\"content\">\r\n            <ng-content></ng-content>\r\n        </div>\r\n    </div>\r\n</dialog>\r\n", styles: [":host{display:contents}dialog.bottom-sheet{inset:auto 0 0;margin:0;padding:0;width:100%;max-width:100vw;min-width:0;background:transparent;border:0;outline:0;box-shadow:none;border-radius:0;overflow:visible;opacity:0;transform:translateY(100%);transition:opacity .25s ease-out,transform .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]{opacity:1;transform:translateY(0)}@starting-style{dialog.bottom-sheet[open]{opacity:0;transform:translateY(100%)}}@media(prefers-reduced-motion:reduce){dialog.bottom-sheet{transform:none}dialog.bottom-sheet[open]{transform:none}@starting-style{dialog.bottom-sheet[open]{transform:none}}}dialog.bottom-sheet::backdrop{background-color:transparent;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:background-color .25s ease-out,overlay .25s allow-discrete,display .25s allow-discrete}dialog.bottom-sheet[open]::backdrop{background-color:color-mix(in srgb,var(--omm-surface) 40%,transparent)}@starting-style{dialog.bottom-sheet[open]::backdrop{background-color:transparent}}dialog.bottom-sheet .sheet{padding-block-end:var(--omm-safe-area-bottom);background:var(--omm-pane-surface);color:var(--omm-text);border-top-left-radius:var(--omm-spacing-l);border-top-right-radius:var(--omm-spacing-l);max-height:85vh;display:flex;flex-direction:column;overflow:hidden}dialog.bottom-sheet .grabber{width:36px;height:4px;margin:8px auto;border-radius:2px;background:var(--omm-outline);flex:0 0 auto}dialog.bottom-sheet .content{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}@media(min-width:600px){dialog.bottom-sheet.panel-on-wide{inset:0;margin:auto;width:min(36rem,100vw - 2 * var(--omm-spacing-l));height:fit-content;transform:translateY(var(--omm-spacing-l))}dialog.bottom-sheet.panel-on-wide[open]{transform:translateY(0)}@starting-style{dialog.bottom-sheet.panel-on-wide[open]{transform:translateY(var(--omm-spacing-l))}}dialog.bottom-sheet.panel-on-wide .sheet{padding-block-end:0;border-radius:var(--omm-spacing-l)}dialog.bottom-sheet.panel-on-wide .grabber{display:none}}\n"] }]
+        }], propDecorators: { ariaLabel: [{ type: i0.Input, args: [{ isSignal: true, alias: "ariaLabel", required: false }] }], panelOnWide: [{ type: i0.Input, args: [{ isSignal: true, alias: "panelOnWide", required: false }] }], closed: [{ type: i0.Output, args: ["closed"] }], dlg: [{ type: i0.ViewChild, args: ['dlg', { isSignal: true }] }] } });
 
 /**
  * Checkbox wrapping a native `<input type="checkbox">`, styled to match the
@@ -391,7 +395,7 @@ class PinPad {
                 useExisting: forwardRef(() => PinPad),
                 multi: true,
             },
-        ], ngImport: i0, template: "<div class=\"pin-display\" [class.verifying]=\"verifying()\" aria-hidden=\"true\">\r\n  @for (i of slots(); track i) {\r\n  <span class=\"pin-dot\" [class.filled]=\"i < value().length\" [style.--i]=\"i\"></span>\r\n  }\r\n</div>\r\n\r\n<div class=\"pin-keys\">\r\n  @for (k of keys; track k) {\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press(k)\" [disabled]=\"disabled()\" [attr.aria-label]=\"k\">\r\n    {{ k }}\r\n  </button>\r\n  }\r\n  <span class=\"pin-key-spacer\" aria-hidden=\"true\"></span>\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press('0')\" [disabled]=\"disabled()\" aria-label=\"0\">\r\n    0\r\n  </button>\r\n  <button type=\"button\" class=\"pin-key pin-backspace\" (click)=\"backspace()\" [disabled]=\"disabled()\" aria-label=\"Delete\">\r\n    <lucide-icon [img]=\"resetIcon\" [size]=\"32\" />\r\n  </button>\r\n</div>", styles: [":host{display:flex;flex-direction:column;gap:var(--omm-spacing-xl);outline:none}.pin-display{display:flex;align-items:center;justify-content:space-around;padding-inline:var(--omm-spacing);min-height:1.25rem}.pin-dot{width:1rem;height:1rem;border-radius:50%;border:2px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;transition:background-color .12s ease,border-color .12s ease}.pin-dot.filled{background:var(--omm-accent, currentColor);border-color:var(--omm-accent, currentColor);animation:pin-dot-fill .15s ease-out}@keyframes pin-dot-fill{0%{transform:scale(.55)}to{transform:scale(1)}}.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify{0%,to{transform:scale(1);opacity:1}40%{transform:scale(1.25);opacity:.65}}@media(prefers-reduced-motion:reduce){.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify-reduced .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify-reduced{0%,to{opacity:1}50%{opacity:.6}}}.pin-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--omm-spacing)}.pin-key{display:flex;align-items:center;justify-content:center;line-height:1;font-size:var(--h2);background:none;border:none;padding:var(--omm-spacing) calc(var(--omm-spacing) * 1.5);cursor:pointer;transition:background-color .12s ease}.pin-key:hover:not(:disabled){background:color-mix(in srgb,currentColor 10%,transparent)}.pin-key:active:not(:disabled){background:color-mix(in srgb,currentColor 18%,transparent)}.pin-key:disabled{opacity:.4;cursor:default}.pin-key-spacer{pointer-events:none}.pin-backspace{color:var(--omm-text-muted)}\n"], dependencies: [{ kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }] });
+        ], ngImport: i0, template: "<div class=\"pin-display\" [class.verifying]=\"verifying()\" aria-hidden=\"true\">\r\n  @for (i of slots(); track i) {\r\n  <span class=\"pin-dot\" [class.filled]=\"i < value().length\" [style.--i]=\"i\"></span>\r\n  }\r\n</div>\r\n\r\n<div class=\"pin-keys\">\r\n  @for (k of keys; track k) {\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press(k)\" [disabled]=\"disabled()\" [attr.aria-label]=\"k\">\r\n    {{ k }}\r\n  </button>\r\n  }\r\n  <span class=\"pin-key-spacer\" aria-hidden=\"true\"></span>\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press('0')\" [disabled]=\"disabled()\" aria-label=\"0\">\r\n    0\r\n  </button>\r\n  <button type=\"button\" class=\"pin-key pin-backspace\" (click)=\"backspace()\" [disabled]=\"disabled()\" aria-label=\"Delete\">\r\n    <lucide-icon [img]=\"resetIcon\" [size]=\"32\" />\r\n  </button>\r\n</div>", styles: [":host{display:flex;flex-direction:column;gap:var(--omm-spacing-xl);outline:none}.pin-display{display:flex;align-items:center;justify-content:space-around;padding-inline:var(--omm-spacing);min-height:1.25rem}.pin-dot{width:1rem;height:1rem;border-radius:50%;border:2px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;transition:background-color .12s ease,border-color .12s ease}.pin-dot.filled{background:var(--omm-accent, currentColor);border-color:var(--omm-accent, currentColor);animation:pin-dot-fill .15s ease-out}@keyframes pin-dot-fill{0%{transform:scale(.55)}to{transform:scale(1)}}.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify{0%,to{transform:scale(1);opacity:1}40%{transform:scale(.25);opacity:.65}}@media(prefers-reduced-motion:reduce){.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify-reduced .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify-reduced{0%,to{opacity:1}50%{opacity:.6}}}.pin-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--omm-spacing)}.pin-key{display:flex;align-items:center;-webkit-user-select:none;user-select:none;justify-content:center;line-height:1;font-size:var(--h2);background:none;border:none;border-radius:999px;padding:var(--omm-spacing) calc(var(--omm-spacing) * 1.5);cursor:pointer;transition:background-color .12s ease}.pin-key:hover:not(:disabled){background:color-mix(in srgb,currentColor 10%,transparent)}.pin-key:active:not(:disabled){background:color-mix(in srgb,currentColor 18%,transparent)}.pin-key:disabled{opacity:.4;cursor:default}.pin-key-spacer{pointer-events:none}.pin-backspace{color:var(--omm-text-muted)}\n"], dependencies: [{ kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PinPad, decorators: [{
             type: Component,
@@ -408,7 +412,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
                         '[attr.aria-label]': 'ariaLabel()',
                         '[attr.aria-disabled]': 'disabled()',
                         '(keydown)': 'onKeydown($event)',
-                    }, template: "<div class=\"pin-display\" [class.verifying]=\"verifying()\" aria-hidden=\"true\">\r\n  @for (i of slots(); track i) {\r\n  <span class=\"pin-dot\" [class.filled]=\"i < value().length\" [style.--i]=\"i\"></span>\r\n  }\r\n</div>\r\n\r\n<div class=\"pin-keys\">\r\n  @for (k of keys; track k) {\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press(k)\" [disabled]=\"disabled()\" [attr.aria-label]=\"k\">\r\n    {{ k }}\r\n  </button>\r\n  }\r\n  <span class=\"pin-key-spacer\" aria-hidden=\"true\"></span>\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press('0')\" [disabled]=\"disabled()\" aria-label=\"0\">\r\n    0\r\n  </button>\r\n  <button type=\"button\" class=\"pin-key pin-backspace\" (click)=\"backspace()\" [disabled]=\"disabled()\" aria-label=\"Delete\">\r\n    <lucide-icon [img]=\"resetIcon\" [size]=\"32\" />\r\n  </button>\r\n</div>", styles: [":host{display:flex;flex-direction:column;gap:var(--omm-spacing-xl);outline:none}.pin-display{display:flex;align-items:center;justify-content:space-around;padding-inline:var(--omm-spacing);min-height:1.25rem}.pin-dot{width:1rem;height:1rem;border-radius:50%;border:2px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;transition:background-color .12s ease,border-color .12s ease}.pin-dot.filled{background:var(--omm-accent, currentColor);border-color:var(--omm-accent, currentColor);animation:pin-dot-fill .15s ease-out}@keyframes pin-dot-fill{0%{transform:scale(.55)}to{transform:scale(1)}}.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify{0%,to{transform:scale(1);opacity:1}40%{transform:scale(1.25);opacity:.65}}@media(prefers-reduced-motion:reduce){.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify-reduced .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify-reduced{0%,to{opacity:1}50%{opacity:.6}}}.pin-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--omm-spacing)}.pin-key{display:flex;align-items:center;justify-content:center;line-height:1;font-size:var(--h2);background:none;border:none;padding:var(--omm-spacing) calc(var(--omm-spacing) * 1.5);cursor:pointer;transition:background-color .12s ease}.pin-key:hover:not(:disabled){background:color-mix(in srgb,currentColor 10%,transparent)}.pin-key:active:not(:disabled){background:color-mix(in srgb,currentColor 18%,transparent)}.pin-key:disabled{opacity:.4;cursor:default}.pin-key-spacer{pointer-events:none}.pin-backspace{color:var(--omm-text-muted)}\n"] }]
+                    }, template: "<div class=\"pin-display\" [class.verifying]=\"verifying()\" aria-hidden=\"true\">\r\n  @for (i of slots(); track i) {\r\n  <span class=\"pin-dot\" [class.filled]=\"i < value().length\" [style.--i]=\"i\"></span>\r\n  }\r\n</div>\r\n\r\n<div class=\"pin-keys\">\r\n  @for (k of keys; track k) {\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press(k)\" [disabled]=\"disabled()\" [attr.aria-label]=\"k\">\r\n    {{ k }}\r\n  </button>\r\n  }\r\n  <span class=\"pin-key-spacer\" aria-hidden=\"true\"></span>\r\n  <button type=\"button\" class=\"pin-key\" (click)=\"press('0')\" [disabled]=\"disabled()\" aria-label=\"0\">\r\n    0\r\n  </button>\r\n  <button type=\"button\" class=\"pin-key pin-backspace\" (click)=\"backspace()\" [disabled]=\"disabled()\" aria-label=\"Delete\">\r\n    <lucide-icon [img]=\"resetIcon\" [size]=\"32\" />\r\n  </button>\r\n</div>", styles: [":host{display:flex;flex-direction:column;gap:var(--omm-spacing-xl);outline:none}.pin-display{display:flex;align-items:center;justify-content:space-around;padding-inline:var(--omm-spacing);min-height:1.25rem}.pin-dot{width:1rem;height:1rem;border-radius:50%;border:2px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;transition:background-color .12s ease,border-color .12s ease}.pin-dot.filled{background:var(--omm-accent, currentColor);border-color:var(--omm-accent, currentColor);animation:pin-dot-fill .15s ease-out}@keyframes pin-dot-fill{0%{transform:scale(.55)}to{transform:scale(1)}}.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify{0%,to{transform:scale(1);opacity:1}40%{transform:scale(.25);opacity:.65}}@media(prefers-reduced-motion:reduce){.pin-display.verifying .pin-dot.filled{animation:pin-dot-verify-reduced .9s ease-in-out infinite;animation-delay:calc(var(--i, 0) * .12s)}@keyframes pin-dot-verify-reduced{0%,to{opacity:1}50%{opacity:.6}}}.pin-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--omm-spacing)}.pin-key{display:flex;align-items:center;-webkit-user-select:none;user-select:none;justify-content:center;line-height:1;font-size:var(--h2);background:none;border:none;border-radius:999px;padding:var(--omm-spacing) calc(var(--omm-spacing) * 1.5);cursor:pointer;transition:background-color .12s ease}.pin-key:hover:not(:disabled){background:color-mix(in srgb,currentColor 10%,transparent)}.pin-key:active:not(:disabled){background:color-mix(in srgb,currentColor 18%,transparent)}.pin-key:disabled{opacity:.4;cursor:default}.pin-key-spacer{pointer-events:none}.pin-backspace{color:var(--omm-text-muted)}\n"] }]
         }], ctorParameters: () => [], propDecorators: { length: [{ type: i0.Input, args: [{ isSignal: true, alias: "length", required: false }] }], ariaLabel: [{ type: i0.Input, args: [{ isSignal: true, alias: "ariaLabel", required: false }] }], autofocus: [{ type: i0.Input, args: [{ isSignal: true, alias: "autofocus", required: false }] }], verifying: [{ type: i0.Input, args: [{ isSignal: true, alias: "verifying", required: false }] }], filled: [{ type: i0.Output, args: ["filled"] }], submitted: [{ type: i0.Output, args: ["submitted"] }] } });
 
 /**
@@ -947,16 +951,21 @@ class DragSelect {
         if (this.yuvDragSelect()?.disabled || event.target.tagName === 'BUTTON')
             return;
         event.preventDefault();
-        this.#selectStartX = event.pageX;
-        this.#selectStartY = event.pageY;
+        this.#selectStartX = event.clientX;
+        this.#selectStartY = event.clientY;
+        // Fixed + topmost so no positioned/stacked app content can paint over it,
+        // and click-through so it never becomes the pointer target itself.
         const div = document.createElement('div');
-        div.style.position = 'absolute';
+        div.style.position = 'fixed';
+        div.style.zIndex = '2147483647';
+        div.style.pointerEvents = 'none';
         div.style.width = '0';
         div.style.height = '0';
         div.style.left = this.#selectStartX + 'px';
         div.style.top = this.#selectStartY + 'px';
-        div.style.background = 'rgb(from var(--omm-accent) r g b / .2)';
-        div.style.outline = '1px solid rgb(from var(--omm-accent) r g b / .6)';
+        const color = this.yuvDragSelect()?.selectorColor || 'var(--omm-accent)';
+        div.style.background = `rgb(from ${color} r g b / .2)`;
+        div.style.outline = `1px solid rgb(from ${color} r g b / .6)`;
         div.style.outlineOffset = '-1px';
         div.classList.add('drag-select');
         this.#selector = div;
@@ -976,15 +985,14 @@ class DragSelect {
     #resize = (event) => {
         if (!this.#selector)
             return;
-        const diffX = event.pageX - this.#selectStartX;
-        const diffY = event.pageY - this.#selectStartY;
+        const diffX = event.clientX - this.#selectStartX;
+        const diffY = event.clientY - this.#selectStartY;
         this.#selector.style.left =
             diffX < 0 ? this.#selectStartX + diffX + 'px' : this.#selectStartX + 'px';
         this.#selector.style.top =
             diffY < 0 ? this.#selectStartY + diffY + 'px' : this.#selectStartY + 'px';
         this.#selector.style.height = Math.abs(diffY) + 'px';
         this.#selector.style.width = Math.abs(diffX) + 'px';
-        this.#selector.style.border = `1px solid ${this.yuvDragSelect()?.selectorColor || 'var(--ymt-primary'}`;
         this.#checkSelected();
     };
     #checkSelected = () => {
@@ -996,7 +1004,7 @@ class DragSelect {
             return;
         const currSelectionLength = this.#selection.length;
         this.#selectables().forEach((selectable, idx) => {
-            const r1 = { x: x + window.scrollX, y: y + window.scrollY, height, width };
+            const r1 = { x, y, height, width };
             const r2 = selectable.getBoundingClientRect();
             this.#selection = this.#selection.filter((s) => s !== idx);
             if (this.#checkRectIntersection(r1, r2)) {
@@ -1127,6 +1135,9 @@ class ListItem {
             return;
         if (this.list.selectionMode())
             return;
+        // The click already activated the item; don't open it twice.
+        if (this.list.activateOnClick() || !this.selectable())
+            return;
         this.list.handleItemActivate(this.index());
     }
     onFocus() {
@@ -1179,7 +1190,7 @@ class ListItem {
         }
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: ListItem, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.2.7", type: ListItem, isStandalone: true, selector: "[ommListItem]", inputs: { value: { classPropertyName: "value", publicName: "ommListItem", isSignal: true, isRequired: true, transformFunction: null }, disabledInput: { classPropertyName: "disabledInput", publicName: "disabled", isSignal: true, isRequired: false, transformFunction: null }, selectable: { classPropertyName: "selectable", publicName: "selectable", isSignal: true, isRequired: false, transformFunction: null } }, host: { attributes: { "role": "option" }, listeners: { "click": "onClick($event)", "dblclick": "onDblClick($event)", "focus": "onFocus()", "pointerdown": "onPointerDown($event)", "pointermove": "onPointerMove($event)", "pointerup": "onPointerEnd()", "pointercancel": "onPointerEnd()", "pointerleave": "onPointerEnd()" }, properties: { "attr.tabindex": "isActive() ? 0 : -1", "attr.aria-selected": "list.multi() ? isSelected() : null", "attr.aria-disabled": "disabled || null", "attr.data-active": "isActive() || null", "attr.data-selected": "isSelected() || null", "attr.data-selection-mode": "list.selectionMode() || null", "attr.data-selectable": "selectable() ? null : \"false\"" } }, exportAs: ["ommListItem"], hostDirectives: [{ directive: DragSelectItemDirective }], ngImport: i0 });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.2.7", type: ListItem, isStandalone: true, selector: "[ommListItem]", inputs: { value: { classPropertyName: "value", publicName: "ommListItem", isSignal: true, isRequired: true, transformFunction: null }, disabledInput: { classPropertyName: "disabledInput", publicName: "disabled", isSignal: true, isRequired: false, transformFunction: null }, selectable: { classPropertyName: "selectable", publicName: "selectable", isSignal: true, isRequired: false, transformFunction: null } }, host: { attributes: { "role": "option" }, listeners: { "click": "onClick($event)", "dblclick": "onDblClick($event)", "focus": "onFocus()", "pointerdown": "onPointerDown($event)", "pointermove": "onPointerMove($event)", "pointerup": "onPointerEnd()", "pointercancel": "onPointerEnd()", "pointerleave": "onPointerEnd()" }, properties: { "attr.tabindex": "isActive() ? 0 : -1", "attr.aria-selected": "list.multi() ? isSelected() : null", "attr.aria-disabled": "disabled || null", "attr.data-active": "isActive() || null", "attr.data-selected": "isSelected() || null", "attr.data-selection-mode": "list.selectionMode() || null", "attr.data-list-has-selection": "list.selection().size > 0 || null", "attr.data-selectable": "selectable() ? null : \"false\"" } }, exportAs: ["ommListItem"], hostDirectives: [{ directive: DragSelectItemDirective }], ngImport: i0 });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: ListItem, decorators: [{
             type: Directive,
@@ -1195,6 +1206,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
                         '[attr.data-active]': 'isActive() || null',
                         '[attr.data-selected]': 'isSelected() || null',
                         '[attr.data-selection-mode]': 'list.selectionMode() || null',
+                        '[attr.data-list-has-selection]': 'list.selection().size > 0 || null',
                         '[attr.data-selectable]': 'selectable() ? null : "false"',
                         '(click)': 'onClick($event)',
                         '(dblclick)': 'onDblClick($event)',
@@ -1431,6 +1443,27 @@ class List {
         this.activeIndex.set(index);
         this.#emitSelection();
     }
+    /**
+     * Click on a row's `ommListItemToggle`: toggles the row, or with shift adds
+     * the range from the anchor. Leaves the rest of the selection untouched.
+     */
+    handleToggleClick(index, event) {
+        if (!this.multi() || !this.#isSelectable(index))
+            return;
+        if (event.shiftKey && this.#anchorIndex >= 0) {
+            const [a, b] = [this.#anchorIndex, index].sort((x, y) => x - y);
+            const next = new Set(this.selection());
+            for (let i = a; i <= b; i++)
+                if (this.#isSelectable(i))
+                    next.add(i);
+            this.selection.set(next);
+            this.#emitSelection();
+        }
+        else {
+            this.#toggleAt(index);
+        }
+        this.activeIndex.set(index);
+    }
     handleItemActivate(index) {
         const value = this.items()[index]?.value();
         if (value === undefined)
@@ -1508,7 +1541,7 @@ class List {
         this.selectionChange.emit([...this.selection()].map((i) => items[i].value()).filter((v) => v !== undefined));
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: List, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.2.0", version: "21.2.7", type: List, isStandalone: true, selector: "omm-list", inputs: { multi: { classPropertyName: "multi", publicName: "multi", isSignal: true, isRequired: false, transformFunction: null }, activateOnClick: { classPropertyName: "activateOnClick", publicName: "activateOnClick", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { itemActivate: "itemActivate", selectionChange: "selectionChange", selectionModeChange: "selectionModeChange" }, host: { attributes: { "role": "listbox", "aria-orientation": "vertical" }, listeners: { "keydown": "onKeyDown($event)" }, properties: { "attr.aria-multiselectable": "multi() || null" } }, queries: [{ propertyName: "items", predicate: ListItem, isSignal: true }], ngImport: i0, template: "<div class=\"container\"\n     ommDragSelect\n     [selectables]=\"selectableEls()\"\n     [yuvDragSelect]=\"{ disabled: !multi() || isTouch() }\"\n     (dragSelectChange)=\"onDragSelectChange($event)\">\n    <ng-content></ng-content>\n</div>\n", styles: [":host{--bottom-offset: 0;display:block}:host .container{margin:0;padding:0;overflow-y:auto;max-height:100%;min-height:100%;padding-block-end:var(--bottom-offset);box-sizing:border-box}:host ::ng-deep [role=option]{--indicator-size: 3px;--indicator-inset: 2px;--indicator-color: var(--omm-accent);--omm-list-checkbox-size: 18px;--omm-list-checkbox-gap: 12px;display:flex;cursor:pointer;position:relative;outline:0;transition:background-color .2s ease-in-out,padding-inline-end .15s ease-in-out;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}:host ::ng-deep [role=option]:hover{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][data-active=true]{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][aria-selected=true],:host ::ng-deep [role=option][data-selected=true]{color:var(--omm-accent);background-color:var(--omm-selected-background)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]){padding-inline-end:calc(var(--omm-list-checkbox-size) + var(--omm-list-checkbox-gap) * 2)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]):after{content:\"\";position:absolute;inset-inline-end:var(--omm-list-checkbox-gap);top:50%;width:var(--omm-list-checkbox-size);height:var(--omm-list-checkbox-size);margin-top:calc(var(--omm-list-checkbox-size) / -2);border:1.5px solid currentColor;border-radius:4px;opacity:.6;box-sizing:border-box;transition:background-color .12s ease-in-out,opacity .12s ease-in-out}:host ::ng-deep [role=option][data-selection-mode=true][data-selected=true]:after{background-color:var(--omm-accent);border-color:var(--omm-accent);opacity:1;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:center;background-size:70% 70%}\n"], dependencies: [{ kind: "directive", type: DragSelect, selector: "[ommDragSelect]", inputs: ["selectables", "yuvDragSelect"], outputs: ["dragSelectChange", "dragSelect"] }] });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.2.0", version: "21.2.7", type: List, isStandalone: true, selector: "omm-list", inputs: { multi: { classPropertyName: "multi", publicName: "multi", isSignal: true, isRequired: false, transformFunction: null }, activateOnClick: { classPropertyName: "activateOnClick", publicName: "activateOnClick", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { itemActivate: "itemActivate", selectionChange: "selectionChange", selectionModeChange: "selectionModeChange" }, host: { attributes: { "role": "listbox", "aria-orientation": "vertical" }, listeners: { "keydown": "onKeyDown($event)" }, properties: { "attr.aria-multiselectable": "multi() || null" } }, queries: [{ propertyName: "items", predicate: ListItem, isSignal: true }], ngImport: i0, template: "<div class=\"container\"\r\n     ommDragSelect\r\n     [selectables]=\"selectableEls()\"\r\n     [yuvDragSelect]=\"{ disabled: !multi() || isTouch() }\"\r\n     (dragSelectChange)=\"onDragSelectChange($event)\">\r\n    <ng-content></ng-content>\r\n</div>\r\n", styles: [":host{--bottom-offset: 0;display:block}:host .container{margin:0;padding:0;overflow-y:auto;max-height:100%;min-height:100%;padding-block-end:var(--bottom-offset);box-sizing:border-box}:host ::ng-deep [role=option]{--indicator-size: 3px;--indicator-inset: 2px;--indicator-color: var(--omm-accent);--omm-list-checkbox-size: 18px;--omm-list-checkbox-gap: 12px;display:flex;cursor:pointer;position:relative;outline:0;transition:background-color .2s ease-in-out,padding-inline-end .15s ease-in-out;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}:host ::ng-deep [role=option]:hover{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][data-active=true]{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][aria-selected=true],:host ::ng-deep [role=option][data-selected=true]{color:var(--omm-accent);background-color:var(--omm-selected-background)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]){padding-inline-end:calc(var(--omm-list-checkbox-size) + var(--omm-list-checkbox-gap) * 2)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]):after{content:\"\";position:absolute;inset-inline-end:var(--omm-list-checkbox-gap);top:50%;width:var(--omm-list-checkbox-size);height:var(--omm-list-checkbox-size);margin-top:calc(var(--omm-list-checkbox-size) / -2);border:1.5px solid currentColor;border-radius:4px;opacity:.6;box-sizing:border-box;transition:background-color .12s ease-in-out,opacity .12s ease-in-out}:host ::ng-deep [role=option][data-selection-mode=true][data-selected=true]:after{background-color:var(--omm-accent);border-color:var(--omm-accent);opacity:1;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:center;background-size:70% 70%}:host ::ng-deep [role=option][data-selection-mode=true]:has(.omm-list-item-toggle){padding-inline-end:0}:host ::ng-deep [role=option][data-selection-mode=true]:has(.omm-list-item-toggle):after{display:none}:host ::ng-deep .omm-list-item-toggle{--omm-list-toggle-cover: var(--omm-surface);--omm-list-toggle-check: var(--omm-text-muted);position:relative;transition:border-color .12s ease-in-out;overflow:hidden}:host ::ng-deep .omm-list-item-toggle:before,:host ::ng-deep .omm-list-item-toggle:after{content:\"\";position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .12s ease-in-out,background-color .12s ease-in-out,transform .12s ease-in-out;outline:2px solid var(--omm-list-toggle-cover)}:host ::ng-deep .omm-list-item-toggle:before{background-color:var(--omm-list-toggle-cover)}:host ::ng-deep .omm-list-item-toggle:after{background-color:var(--omm-list-toggle-check);-webkit-mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='black' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") center/70% 70% no-repeat;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='black' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") center/70% 70% no-repeat;transform:scale(.6)}@media(hover:hover){:host ::ng-deep [role=option]:not([data-selectable=false]):hover .omm-list-item-toggle:before,:host ::ng-deep [role=option]:not([data-selectable=false]):hover .omm-list-item-toggle:after{opacity:1;transform:none}:host ::ng-deep [role=option]:not([data-selected=true]) .omm-list-item-toggle:hover{--omm-list-toggle-check: var(--omm-text)}}:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle{--omm-list-toggle-cover: var(--omm-accent);--omm-list-toggle-check: var(--omm-on-accent);border-color:var(--omm-accent)}:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle:before,:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle:after{opacity:1;transform:none}\n"], dependencies: [{ kind: "directive", type: DragSelect, selector: "[ommDragSelect]", inputs: ["selectables", "yuvDragSelect"], outputs: ["dragSelectChange", "dragSelect"] }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: List, decorators: [{
             type: Component,
@@ -1517,8 +1550,47 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
                         'aria-orientation': 'vertical',
                         '[attr.aria-multiselectable]': 'multi() || null',
                         '(keydown)': 'onKeyDown($event)',
-                    }, template: "<div class=\"container\"\n     ommDragSelect\n     [selectables]=\"selectableEls()\"\n     [yuvDragSelect]=\"{ disabled: !multi() || isTouch() }\"\n     (dragSelectChange)=\"onDragSelectChange($event)\">\n    <ng-content></ng-content>\n</div>\n", styles: [":host{--bottom-offset: 0;display:block}:host .container{margin:0;padding:0;overflow-y:auto;max-height:100%;min-height:100%;padding-block-end:var(--bottom-offset);box-sizing:border-box}:host ::ng-deep [role=option]{--indicator-size: 3px;--indicator-inset: 2px;--indicator-color: var(--omm-accent);--omm-list-checkbox-size: 18px;--omm-list-checkbox-gap: 12px;display:flex;cursor:pointer;position:relative;outline:0;transition:background-color .2s ease-in-out,padding-inline-end .15s ease-in-out;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}:host ::ng-deep [role=option]:hover{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][data-active=true]{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][aria-selected=true],:host ::ng-deep [role=option][data-selected=true]{color:var(--omm-accent);background-color:var(--omm-selected-background)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]){padding-inline-end:calc(var(--omm-list-checkbox-size) + var(--omm-list-checkbox-gap) * 2)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]):after{content:\"\";position:absolute;inset-inline-end:var(--omm-list-checkbox-gap);top:50%;width:var(--omm-list-checkbox-size);height:var(--omm-list-checkbox-size);margin-top:calc(var(--omm-list-checkbox-size) / -2);border:1.5px solid currentColor;border-radius:4px;opacity:.6;box-sizing:border-box;transition:background-color .12s ease-in-out,opacity .12s ease-in-out}:host ::ng-deep [role=option][data-selection-mode=true][data-selected=true]:after{background-color:var(--omm-accent);border-color:var(--omm-accent);opacity:1;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:center;background-size:70% 70%}\n"] }]
+                    }, template: "<div class=\"container\"\r\n     ommDragSelect\r\n     [selectables]=\"selectableEls()\"\r\n     [yuvDragSelect]=\"{ disabled: !multi() || isTouch() }\"\r\n     (dragSelectChange)=\"onDragSelectChange($event)\">\r\n    <ng-content></ng-content>\r\n</div>\r\n", styles: [":host{--bottom-offset: 0;display:block}:host .container{margin:0;padding:0;overflow-y:auto;max-height:100%;min-height:100%;padding-block-end:var(--bottom-offset);box-sizing:border-box}:host ::ng-deep [role=option]{--indicator-size: 3px;--indicator-inset: 2px;--indicator-color: var(--omm-accent);--omm-list-checkbox-size: 18px;--omm-list-checkbox-gap: 12px;display:flex;cursor:pointer;position:relative;outline:0;transition:background-color .2s ease-in-out,padding-inline-end .15s ease-in-out;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}:host ::ng-deep [role=option]:hover{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][data-active=true]{background-color:var(--omm-active-background)}:host ::ng-deep [role=option][aria-selected=true],:host ::ng-deep [role=option][data-selected=true]{color:var(--omm-accent);background-color:var(--omm-selected-background)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]){padding-inline-end:calc(var(--omm-list-checkbox-size) + var(--omm-list-checkbox-gap) * 2)}:host ::ng-deep [role=option][data-selection-mode=true]:not([data-selectable=false]):after{content:\"\";position:absolute;inset-inline-end:var(--omm-list-checkbox-gap);top:50%;width:var(--omm-list-checkbox-size);height:var(--omm-list-checkbox-size);margin-top:calc(var(--omm-list-checkbox-size) / -2);border:1.5px solid currentColor;border-radius:4px;opacity:.6;box-sizing:border-box;transition:background-color .12s ease-in-out,opacity .12s ease-in-out}:host ::ng-deep [role=option][data-selection-mode=true][data-selected=true]:after{background-color:var(--omm-accent);border-color:var(--omm-accent);opacity:1;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:center;background-size:70% 70%}:host ::ng-deep [role=option][data-selection-mode=true]:has(.omm-list-item-toggle){padding-inline-end:0}:host ::ng-deep [role=option][data-selection-mode=true]:has(.omm-list-item-toggle):after{display:none}:host ::ng-deep .omm-list-item-toggle{--omm-list-toggle-cover: var(--omm-surface);--omm-list-toggle-check: var(--omm-text-muted);position:relative;transition:border-color .12s ease-in-out;overflow:hidden}:host ::ng-deep .omm-list-item-toggle:before,:host ::ng-deep .omm-list-item-toggle:after{content:\"\";position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .12s ease-in-out,background-color .12s ease-in-out,transform .12s ease-in-out;outline:2px solid var(--omm-list-toggle-cover)}:host ::ng-deep .omm-list-item-toggle:before{background-color:var(--omm-list-toggle-cover)}:host ::ng-deep .omm-list-item-toggle:after{background-color:var(--omm-list-toggle-check);-webkit-mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='black' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") center/70% 70% no-repeat;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.5 2.5 5-5' stroke='black' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") center/70% 70% no-repeat;transform:scale(.6)}@media(hover:hover){:host ::ng-deep [role=option]:not([data-selectable=false]):hover .omm-list-item-toggle:before,:host ::ng-deep [role=option]:not([data-selectable=false]):hover .omm-list-item-toggle:after{opacity:1;transform:none}:host ::ng-deep [role=option]:not([data-selected=true]) .omm-list-item-toggle:hover{--omm-list-toggle-check: var(--omm-text)}}:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle{--omm-list-toggle-cover: var(--omm-accent);--omm-list-toggle-check: var(--omm-on-accent);border-color:var(--omm-accent)}:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle:before,:host ::ng-deep [role=option][data-selected=true] .omm-list-item-toggle:after{opacity:1;transform:none}\n"] }]
         }], propDecorators: { multi: [{ type: i0.Input, args: [{ isSignal: true, alias: "multi", required: false }] }], activateOnClick: [{ type: i0.Input, args: [{ isSignal: true, alias: "activateOnClick", required: false }] }], itemActivate: [{ type: i0.Output, args: ["itemActivate"] }], selectionChange: [{ type: i0.Output, args: ["selectionChange"] }], selectionModeChange: [{ type: i0.Output, args: ["selectionModeChange"] }], items: [{ type: i0.ContentChildren, args: [i0.forwardRef(() => ListItem), { isSignal: true }] }] } });
+
+/**
+ * Marks an element inside an `ommListItem` as the row's selection checkbox
+ * (e.g. a file-type badge). The list renders it as a checkbox when the row is
+ * hovered (pointer devices), selected, or the list has a selection / is in
+ * touch selection mode. Pair with `activateOnClick` on the list so a click on
+ * the rest of the row opens the item.
+ *
+ * Pointer: clicking the toggle toggles the row (shift extends a range).
+ * Touch: the toggle only reacts once long-press has entered selection mode, at
+ * which point the whole row toggles anyway — so the click just bubbles.
+ *
+ * Keyboard selection stays on the row (Space), so the toggle is not focusable
+ * and hidden from assistive tech; the row already exposes `aria-selected`.
+ */
+class ListItemToggle {
+    #item = inject(ListItem);
+    onClick(event) {
+        const list = this.#item.list;
+        if (list.isTouch() || !list.multi() || !this.#item.selectable() || this.#item.disabled)
+            return;
+        event.stopPropagation();
+        list.handleToggleClick(this.#item.index(), event);
+    }
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: ListItemToggle, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.2.7", type: ListItemToggle, isStandalone: true, selector: "[ommListItemToggle]", host: { attributes: { "aria-hidden": "true" }, listeners: { "click": "onClick($event)", "dblclick": "$event.stopPropagation()" }, classAttribute: "omm-list-item-toggle" }, ngImport: i0 });
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: ListItemToggle, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[ommListItemToggle]',
+                    host: {
+                        class: 'omm-list-item-toggle',
+                        'aria-hidden': 'true',
+                        '(click)': 'onClick($event)',
+                        '(dblclick)': '$event.stopPropagation()',
+                    },
+                }]
+        }] });
 
 let nextId$1 = 0;
 class Select {
@@ -1783,7 +1855,7 @@ class Select {
                 useExisting: forwardRef(() => Select),
                 multi: true,
             },
-        ], viewQueries: [{ propertyName: "triggerButton", first: true, predicate: ["triggerButton"], descendants: true, isSignal: true }, { propertyName: "dropdown", first: true, predicate: ["dropdown"], descendants: true, isSignal: true }], ngImport: i0, template: "\r\n@let value = selectedValue();\r\n<button #triggerButton type=\"button\" [id]=\"triggerButtonId\" class=\"select-trigger\"\r\n  [class.select-trigger--open]=\"isOpen()\" [class.select-trigger--disabled]=\"disabled()\"\r\n  [class.select-trigger--has-value]=\"!!value\" [disabled]=\"disabled()\" [attr.aria-expanded]=\"isOpen()\"\r\n  [attr.aria-haspopup]=\"'listbox'\" [attr.aria-controls]=\"listboxId\" (click)=\"onTriggerClick()\"\r\n  (keydown)=\"onTriggerKeydown($event)\">\r\n\r\n  <span class=\"select-value\" [class.select-value--placeholder]=\"!value\">\r\n    {{ displayValue() }}\r\n  </span>\r\n\r\n\r\n\r\n  <lucide-icon [img]=\"chevronIcon\" [size]=\"18\"></lucide-icon>\r\n\r\n</button>\r\n\r\n<dialog #dropdown [id]=\"dropdownId\" class=\"select-dropdown\" tabindex=\"-1\"\r\n  [attr.aria-labelledby]=\"triggerButtonId\" (keydown.escape)=\"closeDropdown()\">\r\n\r\n  <div [id]=\"listboxId\" class=\"select-options\" role=\"listbox\" (keydown)=\"onOptionKeydown($event)\"\r\n    [attr.aria-activedescendant]=\"highlightedIndex() >= 0 ? getOptionId(highlightedIndex()) : null\">\r\n\r\n    @if(options().length === 0){\r\n    <div class=\"select-no-options\">\r\n      ...\r\n    </div>\r\n    }\r\n\r\n    @for(item of options(); track $index){\r\n    @let isSelected = item.value === selectedValue();\r\n    <div class=\"select-option\" [class.select-option--selected]=\"isSelected\"\r\n      [class.select-option--highlighted]=\"isOptionHighlighted($index)\" [class.select-option--disabled]=\"item.disabled\"\r\n      role=\"option\" [attr.aria-selected]=\"isSelected\" [attr.aria-disabled]=\"item.disabled\" tabindex=\"-1\"\r\n      (click)=\"onOptionClick(item, $event)\">\r\n      {{ item.label }}\r\n    </div>\r\n    }\r\n  </div>\r\n</dialog>\r\n", styles: [":host{position:relative;width:100%}:host .select-trigger{outline:0;background-color:transparent;border:0;width:100%;display:flex;justify-content:space-between;padding:0;line-height:var(--line-height)}:host dialog.select-dropdown{position:fixed;margin:0;padding:0;overflow:hidden;max-width:none;box-shadow:none;outline:0}:host dialog.select-dropdown::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:transparent}:host .select-dropdown-content{display:flex;flex-direction:column;max-height:inherit;overflow:hidden}:host .select-options{max-height:inherit;overflow-y:auto;overscroll-behavior:contain}:host .select-options .select-option{padding:var(--omm-spacing) var(--omm-spacing)}:host .select-options .select-option:focus-visible{outline:none}:host .select-options .select-option[aria-selected=true]{background-color:var(--omm-selected-background)}:host .select-options .select-option:hover,:host .select-options .select-option.select-option--highlighted{background-color:var(--omm-active-background)}\n"], dependencies: [{ kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }, { kind: "ngmodule", type: OverlayModule }] });
+        ], viewQueries: [{ propertyName: "triggerButton", first: true, predicate: ["triggerButton"], descendants: true, isSignal: true }, { propertyName: "dropdown", first: true, predicate: ["dropdown"], descendants: true, isSignal: true }], ngImport: i0, template: "\r\n@let value = selectedValue();\r\n<button #triggerButton type=\"button\" [id]=\"triggerButtonId\" class=\"select-trigger\"\r\n  [class.select-trigger--open]=\"isOpen()\" [class.select-trigger--disabled]=\"disabled()\"\r\n  [class.select-trigger--has-value]=\"!!value\" [disabled]=\"disabled()\" [attr.aria-expanded]=\"isOpen()\"\r\n  [attr.aria-haspopup]=\"'listbox'\" [attr.aria-controls]=\"listboxId\" (click)=\"onTriggerClick()\"\r\n  (keydown)=\"onTriggerKeydown($event)\">\r\n\r\n  <span class=\"select-value\" [class.select-value--placeholder]=\"!value\">\r\n    {{ displayValue() }}\r\n  </span>\r\n\r\n\r\n\r\n  <lucide-icon [img]=\"chevronIcon\" [size]=\"18\"></lucide-icon>\r\n\r\n</button>\r\n\r\n<dialog #dropdown [id]=\"dropdownId\" class=\"select-dropdown\" tabindex=\"-1\"\r\n  [attr.aria-labelledby]=\"triggerButtonId\" (keydown.escape)=\"closeDropdown()\" (close)=\"closeDropdown()\">\r\n\r\n  <div [id]=\"listboxId\" class=\"select-options\" role=\"listbox\" (keydown)=\"onOptionKeydown($event)\"\r\n    [attr.aria-activedescendant]=\"highlightedIndex() >= 0 ? getOptionId(highlightedIndex()) : null\">\r\n\r\n    @if(options().length === 0){\r\n    <div class=\"select-no-options\">\r\n      ...\r\n    </div>\r\n    }\r\n\r\n    @for(item of options(); track $index){\r\n    @let isSelected = item.value === selectedValue();\r\n    <div class=\"select-option\" [class.select-option--selected]=\"isSelected\"\r\n      [class.select-option--highlighted]=\"isOptionHighlighted($index)\" [class.select-option--disabled]=\"item.disabled\"\r\n      role=\"option\" [attr.aria-selected]=\"isSelected\" [attr.aria-disabled]=\"item.disabled\" tabindex=\"-1\"\r\n      (click)=\"onOptionClick(item, $event)\">\r\n      {{ item.label }}\r\n    </div>\r\n    }\r\n  </div>\r\n</dialog>\r\n", styles: [":host{position:relative;width:100%}:host .select-trigger{outline:0;background-color:transparent;border:0;width:100%;display:flex;justify-content:space-between;padding:0;line-height:var(--line-height)}:host dialog.select-dropdown{position:fixed;margin:0;padding:0;overflow:hidden;max-width:none;box-shadow:none;outline:0}:host dialog.select-dropdown::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:transparent}:host .select-dropdown-content{display:flex;flex-direction:column;max-height:inherit;overflow:hidden}:host .select-options{max-height:inherit;overflow-y:auto;overscroll-behavior:contain}:host .select-options .select-option{padding:var(--omm-spacing) var(--omm-spacing)}:host .select-options .select-option:focus-visible{outline:none}:host .select-options .select-option[aria-selected=true]{background-color:var(--omm-selected-background)}:host .select-options .select-option:hover,:host .select-options .select-option.select-option--highlighted{background-color:var(--omm-active-background)}\n"], dependencies: [{ kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }, { kind: "ngmodule", type: OverlayModule }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: Select, decorators: [{
             type: Component,
@@ -1793,7 +1865,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
                             useExisting: forwardRef(() => Select),
                             multi: true,
                         },
-                    ], template: "\r\n@let value = selectedValue();\r\n<button #triggerButton type=\"button\" [id]=\"triggerButtonId\" class=\"select-trigger\"\r\n  [class.select-trigger--open]=\"isOpen()\" [class.select-trigger--disabled]=\"disabled()\"\r\n  [class.select-trigger--has-value]=\"!!value\" [disabled]=\"disabled()\" [attr.aria-expanded]=\"isOpen()\"\r\n  [attr.aria-haspopup]=\"'listbox'\" [attr.aria-controls]=\"listboxId\" (click)=\"onTriggerClick()\"\r\n  (keydown)=\"onTriggerKeydown($event)\">\r\n\r\n  <span class=\"select-value\" [class.select-value--placeholder]=\"!value\">\r\n    {{ displayValue() }}\r\n  </span>\r\n\r\n\r\n\r\n  <lucide-icon [img]=\"chevronIcon\" [size]=\"18\"></lucide-icon>\r\n\r\n</button>\r\n\r\n<dialog #dropdown [id]=\"dropdownId\" class=\"select-dropdown\" tabindex=\"-1\"\r\n  [attr.aria-labelledby]=\"triggerButtonId\" (keydown.escape)=\"closeDropdown()\">\r\n\r\n  <div [id]=\"listboxId\" class=\"select-options\" role=\"listbox\" (keydown)=\"onOptionKeydown($event)\"\r\n    [attr.aria-activedescendant]=\"highlightedIndex() >= 0 ? getOptionId(highlightedIndex()) : null\">\r\n\r\n    @if(options().length === 0){\r\n    <div class=\"select-no-options\">\r\n      ...\r\n    </div>\r\n    }\r\n\r\n    @for(item of options(); track $index){\r\n    @let isSelected = item.value === selectedValue();\r\n    <div class=\"select-option\" [class.select-option--selected]=\"isSelected\"\r\n      [class.select-option--highlighted]=\"isOptionHighlighted($index)\" [class.select-option--disabled]=\"item.disabled\"\r\n      role=\"option\" [attr.aria-selected]=\"isSelected\" [attr.aria-disabled]=\"item.disabled\" tabindex=\"-1\"\r\n      (click)=\"onOptionClick(item, $event)\">\r\n      {{ item.label }}\r\n    </div>\r\n    }\r\n  </div>\r\n</dialog>\r\n", styles: [":host{position:relative;width:100%}:host .select-trigger{outline:0;background-color:transparent;border:0;width:100%;display:flex;justify-content:space-between;padding:0;line-height:var(--line-height)}:host dialog.select-dropdown{position:fixed;margin:0;padding:0;overflow:hidden;max-width:none;box-shadow:none;outline:0}:host dialog.select-dropdown::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:transparent}:host .select-dropdown-content{display:flex;flex-direction:column;max-height:inherit;overflow:hidden}:host .select-options{max-height:inherit;overflow-y:auto;overscroll-behavior:contain}:host .select-options .select-option{padding:var(--omm-spacing) var(--omm-spacing)}:host .select-options .select-option:focus-visible{outline:none}:host .select-options .select-option[aria-selected=true]{background-color:var(--omm-selected-background)}:host .select-options .select-option:hover,:host .select-options .select-option.select-option--highlighted{background-color:var(--omm-active-background)}\n"] }]
+                    ], template: "\r\n@let value = selectedValue();\r\n<button #triggerButton type=\"button\" [id]=\"triggerButtonId\" class=\"select-trigger\"\r\n  [class.select-trigger--open]=\"isOpen()\" [class.select-trigger--disabled]=\"disabled()\"\r\n  [class.select-trigger--has-value]=\"!!value\" [disabled]=\"disabled()\" [attr.aria-expanded]=\"isOpen()\"\r\n  [attr.aria-haspopup]=\"'listbox'\" [attr.aria-controls]=\"listboxId\" (click)=\"onTriggerClick()\"\r\n  (keydown)=\"onTriggerKeydown($event)\">\r\n\r\n  <span class=\"select-value\" [class.select-value--placeholder]=\"!value\">\r\n    {{ displayValue() }}\r\n  </span>\r\n\r\n\r\n\r\n  <lucide-icon [img]=\"chevronIcon\" [size]=\"18\"></lucide-icon>\r\n\r\n</button>\r\n\r\n<dialog #dropdown [id]=\"dropdownId\" class=\"select-dropdown\" tabindex=\"-1\"\r\n  [attr.aria-labelledby]=\"triggerButtonId\" (keydown.escape)=\"closeDropdown()\" (close)=\"closeDropdown()\">\r\n\r\n  <div [id]=\"listboxId\" class=\"select-options\" role=\"listbox\" (keydown)=\"onOptionKeydown($event)\"\r\n    [attr.aria-activedescendant]=\"highlightedIndex() >= 0 ? getOptionId(highlightedIndex()) : null\">\r\n\r\n    @if(options().length === 0){\r\n    <div class=\"select-no-options\">\r\n      ...\r\n    </div>\r\n    }\r\n\r\n    @for(item of options(); track $index){\r\n    @let isSelected = item.value === selectedValue();\r\n    <div class=\"select-option\" [class.select-option--selected]=\"isSelected\"\r\n      [class.select-option--highlighted]=\"isOptionHighlighted($index)\" [class.select-option--disabled]=\"item.disabled\"\r\n      role=\"option\" [attr.aria-selected]=\"isSelected\" [attr.aria-disabled]=\"item.disabled\" tabindex=\"-1\"\r\n      (click)=\"onOptionClick(item, $event)\">\r\n      {{ item.label }}\r\n    </div>\r\n    }\r\n  </div>\r\n</dialog>\r\n", styles: [":host{position:relative;width:100%}:host .select-trigger{outline:0;background-color:transparent;border:0;width:100%;display:flex;justify-content:space-between;padding:0;line-height:var(--line-height)}:host dialog.select-dropdown{position:fixed;margin:0;padding:0;overflow:hidden;max-width:none;box-shadow:none;outline:0}:host dialog.select-dropdown::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:transparent}:host .select-dropdown-content{display:flex;flex-direction:column;max-height:inherit;overflow:hidden}:host .select-options{max-height:inherit;overflow-y:auto;overscroll-behavior:contain}:host .select-options .select-option{padding:var(--omm-spacing) var(--omm-spacing)}:host .select-options .select-option:focus-visible{outline:none}:host .select-options .select-option[aria-selected=true]{background-color:var(--omm-selected-background)}:host .select-options .select-option:hover,:host .select-options .select-option.select-option--highlighted{background-color:var(--omm-active-background)}\n"] }]
         }], ctorParameters: () => [], propDecorators: { options: [{ type: i0.Input, args: [{ isSignal: true, alias: "options", required: true }] }], required: [{ type: i0.Input, args: [{ isSignal: true, alias: "required", required: false }] }], disabled: [{ type: i0.Input, args: [{ isSignal: true, alias: "disabled", required: false }] }], placeholder: [{ type: i0.Input, args: [{ isSignal: true, alias: "placeholder", required: false }] }], selectionChange: [{ type: i0.Output, args: ["selectionChange"] }], triggerButton: [{ type: i0.ViewChild, args: ['triggerButton', { isSignal: true }] }], dropdown: [{ type: i0.ViewChild, args: ['dropdown', { isSignal: true }] }] } });
 
 /**
@@ -1836,7 +1908,7 @@ class ConfirmService {
           ${opts.title ? `<header><h2 id="${titleId}">${escape(opts.title)}</h2></header>` : ''}
           <main>${escape(message)}${optionHtml}</main>
           <footer>
-            <button value="cancel">${escape(rLabel)}</button>
+            <button class="tertiary" value="cancel">${escape(rLabel)}</button>
             <button value="confirm" class="primary">${escape(cLabel)}</button>
           </footer>
         </form>
@@ -2170,14 +2242,14 @@ class CollectionTree {
         return undefined;
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: CollectionTree, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "21.2.7", type: CollectionTree, isStandalone: true, selector: "omm-collection-tree", inputs: { nodes: { classPropertyName: "nodes", publicName: "nodes", isSignal: true, isRequired: true, transformFunction: null }, editable: { classPropertyName: "editable", publicName: "editable", isSignal: true, isRequired: false, transformFunction: null }, selectedId: { classPropertyName: "selectedId", publicName: "selectedId", isSignal: true, isRequired: false, transformFunction: null }, labels: { classPropertyName: "labels", publicName: "labels", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { selectedId: "selectedIdChange", addRequest: "addRequest", renameRequest: "renameRequest", deleteRequest: "deleteRequest" }, host: { attributes: { "role": "tree" }, listeners: { "keydown": "onHostKeydown($event)" } }, viewQueries: [{ propertyName: "rowEls", predicate: ["row"], descendants: true, isSignal: true }], ngImport: i0, template: "@let activeId_ = activeId() ?? flat()[0]?.node?.id;\r\n@let selectedId_ = selectedId();\r\n@let isEditable = editable();\r\n@let lbls = labels();\r\n\r\n<ul class=\"tree\">\r\n    @for (item of flat(); track item.node.id) {\r\n    <li #row class=\"row\" role=\"treeitem\" [attr.data-id]=\"item.node.id\" [attr.aria-level]=\"item.depth + 1\"\r\n        [attr.aria-expanded]=\"item.hasChildren ? item.expanded : null\"\r\n        [attr.aria-selected]=\"!isEditable ? selectedId_ === item.node.id : null\"\r\n        [attr.tabindex]=\"item.node.id === activeId_ ? 0 : -1\" [style.--depth]=\"item.depth\"\r\n        (click)=\"onRowClick(item.node)\">\r\n\r\n        <span class=\"indent\"></span>\r\n\r\n        @if (item.hasChildren) {\r\n            <span class=\"twisty\">\r\n                <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"toggleExpanded(item.node.id, $event)\"\r\n                [attr.aria-label]=\"item.expanded ? 'Collapse' : 'Expand'\">\r\n                <lucide-icon [img]=\"item.expanded ? chevronDownIcon : chevronRightIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        } @else {\r\n        <span class=\"twisty placeholder\"></span>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <input type=\"text\" class=\"name-input\" [value]=\"item.node.name\" (click)=\"onNameClick(item.node, $event)\"\r\n            (focus)=\"onNameInputFocus(item.node.id)\" (blur)=\"onNameInputCommit(item.node, $event)\"\r\n            (keydown)=\"onNameInputKeydown(item.node, $event)\" />\r\n        } @else {\r\n        <button type=\"button\" class=\"name-button\" (click)=\"onNameClick(item.node, $event)\">\r\n            {{ item.node.name }}\r\n        </button>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <span class=\"actions\">\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onAddChild(item.node.id, $event)\"\r\n                [attr.aria-label]=\"lbls.addChild ?? 'Add child'\">\r\n                <lucide-icon [img]=\"addIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onDeleteClick(item.node)\"\r\n                [attr.aria-label]=\"lbls.delete ?? 'Delete'\">\r\n                <lucide-icon [img]=\"deleteIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        }\r\n    </li>\r\n    }\r\n</ul>", styles: [":host{display:block}.tree{list-style:none;margin:0;padding:0}.row{display:flex;align-items:center;gap:var(--omm-spacing-xs);padding:var(--omm-spacing-xs) 0;border-radius:var(--omm-corner-xs);outline:0;cursor:default}.row:focus-visible{background-color:var(--omm-active-background)}.row:hover{background-color:var(--omm-active-background)}.row[aria-selected=true]{background-color:var(--omm-selected-background);color:var(--omm-accent)}.indent{flex:0 0 auto;width:calc(var(--depth, 0) * 1rem)}.twisty{flex:0 0 auto;width:1.25rem;height:1.25rem;display:inline-flex;align-items:center;justify-content:center}.name-input{flex:1 1 auto;min-width:0;border:1px solid transparent;background:transparent;padding:.1rem .35rem;align-self:stretch;border-radius:var(--omm-input-corner);font:inherit;color:inherit}.name-input:hover:not(:focus){border-color:var(--omm-input-outline)}.name-input:focus,.name-input:focus-visible{border-color:var(--omm-text);background-color:var(--omm-input)}.name-button{flex:1 1 auto;text-align:left;background:transparent;border:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);color:inherit;font:inherit;cursor:pointer;border-radius:var(--omm-input-corner);min-width:0}.row[aria-selected=true] .name-button{color:var(--omm-accent)}.actions{flex:0 0 auto;display:inline-flex;gap:.1rem;margin-left:auto;opacity:.3;transition:opacity .12s ease-in-out}.actions button.icon{color:var(--omm-text-muted)}.row:hover .actions,.row:focus-within .actions,.row.menu-open .actions{opacity:1}\n"], dependencies: [{ kind: "ngmodule", type: FormsModule }, { kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "21.2.7", type: CollectionTree, isStandalone: true, selector: "omm-collection-tree", inputs: { nodes: { classPropertyName: "nodes", publicName: "nodes", isSignal: true, isRequired: true, transformFunction: null }, editable: { classPropertyName: "editable", publicName: "editable", isSignal: true, isRequired: false, transformFunction: null }, selectedId: { classPropertyName: "selectedId", publicName: "selectedId", isSignal: true, isRequired: false, transformFunction: null }, labels: { classPropertyName: "labels", publicName: "labels", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { selectedId: "selectedIdChange", addRequest: "addRequest", renameRequest: "renameRequest", deleteRequest: "deleteRequest" }, host: { attributes: { "role": "tree" }, listeners: { "keydown": "onHostKeydown($event)" } }, viewQueries: [{ propertyName: "rowEls", predicate: ["row"], descendants: true, isSignal: true }], ngImport: i0, template: "@let activeId_ = activeId() ?? flat()[0]?.node?.id;\r\n@let selectedId_ = selectedId();\r\n@let isEditable = editable();\r\n@let lbls = labels();\r\n\r\n<ul class=\"tree\">\r\n    @for (item of flat(); track item.node.id) {\r\n    <li #row class=\"row\" role=\"treeitem\" [attr.data-id]=\"item.node.id\" [attr.aria-level]=\"item.depth + 1\"\r\n        [attr.aria-expanded]=\"item.hasChildren ? item.expanded : null\"\r\n        [attr.aria-selected]=\"!isEditable ? selectedId_ === item.node.id : null\"\r\n        [attr.tabindex]=\"item.node.id === activeId_ ? 0 : -1\" [style.--depth]=\"item.depth\"\r\n        (click)=\"onRowClick(item.node)\">\r\n\r\n        <span class=\"indent\"></span>\r\n\r\n        @if (item.hasChildren) {\r\n            <span class=\"twisty\">\r\n                <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"toggleExpanded(item.node.id, $event)\"\r\n                [attr.aria-label]=\"item.expanded ? 'Collapse' : 'Expand'\">\r\n                <lucide-icon [img]=\"item.expanded ? chevronDownIcon : chevronRightIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        } @else {\r\n        <span class=\"twisty placeholder\"></span>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <input type=\"text\" class=\"name-input\" [value]=\"item.node.name\" (click)=\"onNameClick(item.node, $event)\"\r\n            (focus)=\"onNameInputFocus(item.node.id)\" (blur)=\"onNameInputCommit(item.node, $event)\"\r\n            (keydown)=\"onNameInputKeydown(item.node, $event)\" />\r\n        } @else {\r\n        <button type=\"button\" class=\"name-button\" (click)=\"onNameClick(item.node, $event)\">\r\n            {{ item.node.name }}\r\n        </button>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <span class=\"actions\">\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onAddChild(item.node.id, $event)\"\r\n                [attr.aria-label]=\"lbls.addChild ?? 'Add child'\">\r\n                <lucide-icon [img]=\"addIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onDeleteClick(item.node)\"\r\n                [attr.aria-label]=\"lbls.delete ?? 'Delete'\">\r\n                <lucide-icon [img]=\"deleteIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        }\r\n    </li>\r\n    }\r\n</ul>", styles: [":host{display:block}.tree{list-style:none;margin:0;padding:var(--omm-spacing-s)}.row{display:flex;align-items:center;gap:var(--omm-spacing-xs);padding:var(--omm-spacing-xs) 0;border-radius:var(--omm-corner-xs);outline:0;cursor:default}.row:focus-visible{background-color:var(--omm-active-background)}.row:hover{background-color:var(--omm-active-background)}.row[aria-selected=true]{background-color:var(--omm-selected-background);color:var(--omm-accent)}.indent{flex:0 0 auto;width:calc(var(--depth, 0) * 1rem)}.twisty{flex:0 0 auto;width:1.25rem;height:1.25rem;display:inline-flex;align-items:center;justify-content:center}.name-input{flex:1 1 auto;min-width:0;border:1px solid transparent;background:transparent;padding:.1rem .35rem;align-self:stretch;border-radius:var(--omm-input-corner);font:inherit;color:inherit}.name-input:hover:not(:focus){border-color:var(--omm-input-outline)}.name-input:focus,.name-input:focus-visible{border-color:var(--omm-text);background-color:var(--omm-input)}.name-button{flex:1 1 auto;text-align:left;background:transparent;border:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);color:inherit;font:inherit;cursor:pointer;border-radius:var(--omm-input-corner);min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row[aria-selected=true] .name-button{color:var(--omm-accent)}.actions{flex:0 0 auto;display:inline-flex;gap:.1rem;margin-left:auto;opacity:.3;transition:opacity .12s ease-in-out}.actions button.icon{color:var(--omm-text-muted)}.row:hover .actions,.row:focus-within .actions,.row.menu-open .actions{opacity:1}\n"], dependencies: [{ kind: "ngmodule", type: FormsModule }, { kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: CollectionTree, decorators: [{
             type: Component,
             args: [{ selector: 'omm-collection-tree', imports: [FormsModule, LucideAngularModule], changeDetection: ChangeDetectionStrategy.OnPush, host: {
                         role: 'tree',
                         '(keydown)': 'onHostKeydown($event)',
-                    }, template: "@let activeId_ = activeId() ?? flat()[0]?.node?.id;\r\n@let selectedId_ = selectedId();\r\n@let isEditable = editable();\r\n@let lbls = labels();\r\n\r\n<ul class=\"tree\">\r\n    @for (item of flat(); track item.node.id) {\r\n    <li #row class=\"row\" role=\"treeitem\" [attr.data-id]=\"item.node.id\" [attr.aria-level]=\"item.depth + 1\"\r\n        [attr.aria-expanded]=\"item.hasChildren ? item.expanded : null\"\r\n        [attr.aria-selected]=\"!isEditable ? selectedId_ === item.node.id : null\"\r\n        [attr.tabindex]=\"item.node.id === activeId_ ? 0 : -1\" [style.--depth]=\"item.depth\"\r\n        (click)=\"onRowClick(item.node)\">\r\n\r\n        <span class=\"indent\"></span>\r\n\r\n        @if (item.hasChildren) {\r\n            <span class=\"twisty\">\r\n                <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"toggleExpanded(item.node.id, $event)\"\r\n                [attr.aria-label]=\"item.expanded ? 'Collapse' : 'Expand'\">\r\n                <lucide-icon [img]=\"item.expanded ? chevronDownIcon : chevronRightIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        } @else {\r\n        <span class=\"twisty placeholder\"></span>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <input type=\"text\" class=\"name-input\" [value]=\"item.node.name\" (click)=\"onNameClick(item.node, $event)\"\r\n            (focus)=\"onNameInputFocus(item.node.id)\" (blur)=\"onNameInputCommit(item.node, $event)\"\r\n            (keydown)=\"onNameInputKeydown(item.node, $event)\" />\r\n        } @else {\r\n        <button type=\"button\" class=\"name-button\" (click)=\"onNameClick(item.node, $event)\">\r\n            {{ item.node.name }}\r\n        </button>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <span class=\"actions\">\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onAddChild(item.node.id, $event)\"\r\n                [attr.aria-label]=\"lbls.addChild ?? 'Add child'\">\r\n                <lucide-icon [img]=\"addIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onDeleteClick(item.node)\"\r\n                [attr.aria-label]=\"lbls.delete ?? 'Delete'\">\r\n                <lucide-icon [img]=\"deleteIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        }\r\n    </li>\r\n    }\r\n</ul>", styles: [":host{display:block}.tree{list-style:none;margin:0;padding:0}.row{display:flex;align-items:center;gap:var(--omm-spacing-xs);padding:var(--omm-spacing-xs) 0;border-radius:var(--omm-corner-xs);outline:0;cursor:default}.row:focus-visible{background-color:var(--omm-active-background)}.row:hover{background-color:var(--omm-active-background)}.row[aria-selected=true]{background-color:var(--omm-selected-background);color:var(--omm-accent)}.indent{flex:0 0 auto;width:calc(var(--depth, 0) * 1rem)}.twisty{flex:0 0 auto;width:1.25rem;height:1.25rem;display:inline-flex;align-items:center;justify-content:center}.name-input{flex:1 1 auto;min-width:0;border:1px solid transparent;background:transparent;padding:.1rem .35rem;align-self:stretch;border-radius:var(--omm-input-corner);font:inherit;color:inherit}.name-input:hover:not(:focus){border-color:var(--omm-input-outline)}.name-input:focus,.name-input:focus-visible{border-color:var(--omm-text);background-color:var(--omm-input)}.name-button{flex:1 1 auto;text-align:left;background:transparent;border:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);color:inherit;font:inherit;cursor:pointer;border-radius:var(--omm-input-corner);min-width:0}.row[aria-selected=true] .name-button{color:var(--omm-accent)}.actions{flex:0 0 auto;display:inline-flex;gap:.1rem;margin-left:auto;opacity:.3;transition:opacity .12s ease-in-out}.actions button.icon{color:var(--omm-text-muted)}.row:hover .actions,.row:focus-within .actions,.row.menu-open .actions{opacity:1}\n"] }]
+                    }, template: "@let activeId_ = activeId() ?? flat()[0]?.node?.id;\r\n@let selectedId_ = selectedId();\r\n@let isEditable = editable();\r\n@let lbls = labels();\r\n\r\n<ul class=\"tree\">\r\n    @for (item of flat(); track item.node.id) {\r\n    <li #row class=\"row\" role=\"treeitem\" [attr.data-id]=\"item.node.id\" [attr.aria-level]=\"item.depth + 1\"\r\n        [attr.aria-expanded]=\"item.hasChildren ? item.expanded : null\"\r\n        [attr.aria-selected]=\"!isEditable ? selectedId_ === item.node.id : null\"\r\n        [attr.tabindex]=\"item.node.id === activeId_ ? 0 : -1\" [style.--depth]=\"item.depth\"\r\n        (click)=\"onRowClick(item.node)\">\r\n\r\n        <span class=\"indent\"></span>\r\n\r\n        @if (item.hasChildren) {\r\n            <span class=\"twisty\">\r\n                <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"toggleExpanded(item.node.id, $event)\"\r\n                [attr.aria-label]=\"item.expanded ? 'Collapse' : 'Expand'\">\r\n                <lucide-icon [img]=\"item.expanded ? chevronDownIcon : chevronRightIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        } @else {\r\n        <span class=\"twisty placeholder\"></span>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <input type=\"text\" class=\"name-input\" [value]=\"item.node.name\" (click)=\"onNameClick(item.node, $event)\"\r\n            (focus)=\"onNameInputFocus(item.node.id)\" (blur)=\"onNameInputCommit(item.node, $event)\"\r\n            (keydown)=\"onNameInputKeydown(item.node, $event)\" />\r\n        } @else {\r\n        <button type=\"button\" class=\"name-button\" (click)=\"onNameClick(item.node, $event)\">\r\n            {{ item.node.name }}\r\n        </button>\r\n        }\r\n\r\n        @if (isEditable) {\r\n        <span class=\"actions\">\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onAddChild(item.node.id, $event)\"\r\n                [attr.aria-label]=\"lbls.addChild ?? 'Add child'\">\r\n                <lucide-icon [img]=\"addIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"icon\" tabindex=\"-1\" (click)=\"onDeleteClick(item.node)\"\r\n                [attr.aria-label]=\"lbls.delete ?? 'Delete'\">\r\n                <lucide-icon [img]=\"deleteIcon\" [size]=\"18\"></lucide-icon>\r\n            </button>\r\n        </span>\r\n        }\r\n    </li>\r\n    }\r\n</ul>", styles: [":host{display:block}.tree{list-style:none;margin:0;padding:var(--omm-spacing-s)}.row{display:flex;align-items:center;gap:var(--omm-spacing-xs);padding:var(--omm-spacing-xs) 0;border-radius:var(--omm-corner-xs);outline:0;cursor:default}.row:focus-visible{background-color:var(--omm-active-background)}.row:hover{background-color:var(--omm-active-background)}.row[aria-selected=true]{background-color:var(--omm-selected-background);color:var(--omm-accent)}.indent{flex:0 0 auto;width:calc(var(--depth, 0) * 1rem)}.twisty{flex:0 0 auto;width:1.25rem;height:1.25rem;display:inline-flex;align-items:center;justify-content:center}.name-input{flex:1 1 auto;min-width:0;border:1px solid transparent;background:transparent;padding:.1rem .35rem;align-self:stretch;border-radius:var(--omm-input-corner);font:inherit;color:inherit}.name-input:hover:not(:focus){border-color:var(--omm-input-outline)}.name-input:focus,.name-input:focus-visible{border-color:var(--omm-text);background-color:var(--omm-input)}.name-button{flex:1 1 auto;text-align:left;background:transparent;border:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);color:inherit;font:inherit;cursor:pointer;border-radius:var(--omm-input-corner);min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row[aria-selected=true] .name-button{color:var(--omm-accent)}.actions{flex:0 0 auto;display:inline-flex;gap:.1rem;margin-left:auto;opacity:.3;transition:opacity .12s ease-in-out}.actions button.icon{color:var(--omm-text-muted)}.row:hover .actions,.row:focus-within .actions,.row.menu-open .actions{opacity:1}\n"] }]
         }], propDecorators: { nodes: [{ type: i0.Input, args: [{ isSignal: true, alias: "nodes", required: true }] }], editable: [{ type: i0.Input, args: [{ isSignal: true, alias: "editable", required: false }] }], selectedId: [{ type: i0.Input, args: [{ isSignal: true, alias: "selectedId", required: false }] }, { type: i0.Output, args: ["selectedIdChange"] }], labels: [{ type: i0.Input, args: [{ isSignal: true, alias: "labels", required: false }] }], addRequest: [{ type: i0.Output, args: ["addRequest"] }], renameRequest: [{ type: i0.Output, args: ["renameRequest"] }], deleteRequest: [{ type: i0.Output, args: ["deleteRequest"] }], rowEls: [{ type: i0.ViewChildren, args: ['row', { isSignal: true }] }] } });
 
 class TagsInput {
@@ -2379,2106 +2451,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
         }], propDecorators: { labels: [{ type: i0.Input, args: [{ isSignal: true, alias: "labels", required: false }] }] } });
 
 /**
- * Engine boundary for the PDF viewer.
- *
- * Chrome's viewer talks to PDFium through a postMessage protocol across a
- * MimeHandlerView IPC boundary (see `chrome-viewer-spec.md` §2). Our viewer
- * collapses that into a synchronous in-process interface. Method names and
- * payload shapes loosely mirror Chrome's protocol where it makes sense, so
- * cross-referencing Chromium source stays straightforward.
- *
- * Phase 2: pdf.js is the only impl (via `PdfRenderService`). Phase 4 swaps
- * the underlying engine to PDFium WASM; consumers of `PdfEngine` should not
- * need to change.
- *
- * The shape of `PdfDocumentHandle` is intentionally aligned with the pre-
- * existing pdf.js-backed handle (Phase 1) so this interface lifts the
- * existing API into a contract rather than introducing a new shape.
- */
-/**
- * Fit-mode state. Mirrors Chrome's `FittingType` enum
- * (`chrome/browser/resources/pdf/constants.ts`). v1 uses the first three
- * only; bounding-box variants reserved.
- *
- * - `NONE`: free zoom; user's manual zoom value applies as-is.
- * - `FIT_TO_PAGE`: page fits entirely within viewport (whichever dimension
- *   constrains).
- * - `FIT_TO_WIDTH`: page width equals viewport width; vertical scroll.
- */
-const FittingType = {
-    NONE: 'none',
-    FIT_TO_PAGE: 'fit-to-page',
-    FIT_TO_WIDTH: 'fit-to-width',
-    FIT_TO_HEIGHT: 'fit-to-height',
-};
-/**
- * Discrete zoom presets used by Ctrl+= / Ctrl+- and the toolbar +/− buttons.
- * Wheel zoom (Ctrl+scroll) is continuous with a 1.25 step (see
- * `chrome-viewer-spec.md` §4.2 — confirmed via probe).
- *
- * Values match Chrome's traditional list (spec §4.1). Adjust here to change
- * step behaviour globally.
- */
-const ZOOM_PRESETS = [
-    0.5, 0.66, 0.75, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0, 3.0, 5.0, 10.0,
-];
-/**
- * Rejection from `renderPage` when the surrounding render was dropped by
- * `cancelActiveRender()` before it reached the engine. The viewer
- * recognises this name and treats it as a no-op (no error log, no
- * spinner-down event) so cancellation looks like nothing happened.
- *
- * Class is used in preference to a sentinel string so callers can pattern
- * match with `instanceof` from outside the omm-ui package.
- */
-class RenderCancelledError extends Error {
-    constructor(message = 'PDF render was cancelled') {
-        super(message);
-        this.name = 'RenderCancelledError';
-    }
-}
-
-/**
- * Raw PDFium WASM bindings for the `FPDFText_*` family.
- *
- * `@hyzyla/pdfium`'s high-level wrapper does not expose char-level text APIs.
- * Its bundled WASM module DOES contain them (verified by greping the JS
- * shim for `FPDFText_GetCharBox` etc.). We reach past the wrapper to call
- * them directly.
- *
- * This is the only place where we type-assert into the wrapper's private
- * `module` field. Everything else in the codebase stays type-safe.
- *
- * Safety: the wrapper marks `module` as `readonly private` in TypeScript,
- * but JS has no enforcement — runtime access works. Risk: package updates
- * may rename or remove these exports. If that happens, this file fails
- * fast at construction (see `assertSupported`) rather than mysteriously.
- */
-/** Flag values for `FPDFText_FindStart`. */
-const FPDFText_FindFlag = {
-    MATCH_CASE: 0x00000001,
-    MATCH_WHOLE_WORD: 0x00000002,
-    CONSECUTIVE: 0x00000004,
-};
-/**
- * Reach past the wrapper's `private readonly module` and verify the symbols
- * we need are actually present. Throws fast with an informative error if a
- * future `@hyzyla/pdfium` release changes the underlying exports.
- */
-function getRawModule(library) {
-    // `module` is private in TypeScript; access it at runtime.
-    const module = library.module;
-    assertSupported(module);
-    return module;
-}
-function assertSupported(module) {
-    const required = [
-        '_FPDFText_LoadPage',
-        '_FPDFText_ClosePage',
-        '_FPDFText_CountChars',
-        '_FPDFText_GetUnicode',
-        '_FPDFText_GetCharBox',
-        '_FPDFText_FindStart',
-        '_FPDFText_FindNext',
-        '_FPDFText_FindClose',
-        '_FPDFText_GetSchResultIndex',
-        '_FPDFText_GetSchCount',
-    ];
-    for (const name of required) {
-        if (typeof module[name] !== 'function') {
-            throw new Error(`PDFium WASM module is missing required export "${name}". ` +
-                `This usually means @hyzyla/pdfium changed its bundled WASM ` +
-                `surface. Pin the package version or update pdfium-text-bindings.ts.`);
-        }
-    }
-}
-/**
- * Extract every character of a page with its CSS-pixel bounding box.
- *
- * PDFium coordinates are in points (1/72 inch), origin bottom-left.
- * CSS coordinates are in pixels at our render scale, origin top-left.
- * Conversion (for points → CSS px at scale s, given page height H in points):
- *
- *   css_x      = pdf_x      * s
- *   css_y_top  = (H - pdf_y_top) * s
- *   css_height = (pdf_y_top - pdf_y_bottom) * s
- *
- * The caller must have already called `_FPDFText_LoadPage(page)` to obtain
- * `textPage`, and is responsible for `_FPDFText_ClosePage(textPage)` when
- * done.
- */
-function extractChars(module, textPage, pageHeightPts, scale) {
-    const count = module._FPDFText_CountChars(textPage);
-    if (count <= 0)
-        return [];
-    // Allocate 4 doubles (32 bytes) once, reused for every char.
-    const ptr = module.wasmExports.malloc(32);
-    if (!ptr)
-        throw new Error('PDFium: malloc(32) returned NULL');
-    const leftPtr = ptr;
-    const rightPtr = ptr + 8;
-    const bottomPtr = ptr + 16;
-    const topPtr = ptr + 24;
-    try {
-        const chars = new Array(count);
-        for (let i = 0; i < count; i++) {
-            const ok = module._FPDFText_GetCharBox(textPage, i, leftPtr, rightPtr, bottomPtr, topPtr);
-            const unicode = module._FPDFText_GetUnicode(textPage, i);
-            const generated = module._FPDFText_IsGenerated(textPage, i) !== 0;
-            if (!ok) {
-                // PDFium couldn't compute a box (e.g. invisible glyph). Emit a zero
-                // box so indexing stays aligned with the underlying char index — the
-                // text-layer renderer skips zero-size boxes.
-                chars[i] = { unicode, left: 0, top: 0, width: 0, height: 0, generated };
-                continue;
-            }
-            // HEAPF64 is indexed by *double*, not byte → divide by 8.
-            const left = module.HEAPF64[leftPtr >> 3];
-            const right = module.HEAPF64[rightPtr >> 3];
-            const bottom = module.HEAPF64[bottomPtr >> 3];
-            const top = module.HEAPF64[topPtr >> 3];
-            chars[i] = {
-                unicode,
-                left: left * scale,
-                // Flip Y: PDF origin bottom-left → CSS origin top-left.
-                top: (pageHeightPts - top) * scale,
-                width: (right - left) * scale,
-                height: (top - bottom) * scale,
-                generated,
-            };
-        }
-        return chars;
-    }
-    finally {
-        module.wasmExports.free(ptr);
-    }
-}
-/**
- * Find every occurrence of `query` in the page's text. Mirrors Chrome's
- * `FPDFText_FindStart` + `FindNext` loop.
- *
- * Returns char-index ranges; the caller maps those to text-layer span
- * indices (the grouping pass in `pdfium-engine.service.ts`).
- */
-function findAllInPage(module, textPage, query, options = {}) {
-    if (!query)
-        return [];
-    const flags = options.caseSensitive ? FPDFText_FindFlag.MATCH_CASE : 0;
-    // Encode query as UTF-16LE null-terminated wide-string.
-    const queryPtr = encodeUtf16NullTerminated(module, query);
-    const handle = module._FPDFText_FindStart(textPage, queryPtr, flags, 0);
-    if (!handle) {
-        module.wasmExports.free(queryPtr);
-        return [];
-    }
-    const matches = [];
-    try {
-        // Hard upper bound to prevent runaway loops if PDFium misbehaves.
-        const MAX_MATCHES = 100_000;
-        while (matches.length < MAX_MATCHES) {
-            const found = module._FPDFText_FindNext(handle);
-            if (!found)
-                break;
-            const startIndex = module._FPDFText_GetSchResultIndex(handle);
-            const count = module._FPDFText_GetSchCount(handle);
-            if (count <= 0)
-                break;
-            matches.push({ startIndex, count });
-        }
-    }
-    finally {
-        module._FPDFText_FindClose(handle);
-        module.wasmExports.free(queryPtr);
-    }
-    return matches;
-}
-/**
- * Encode a JS string as UTF-16LE bytes into newly-malloc'd WASM memory and
- * append a null terminator. Returns the heap pointer. Caller frees.
- *
- * PDFium's `FPDF_WIDESTRING` expects UTF-16LE wchar_t* with a trailing 0.
- */
-function encodeUtf16NullTerminated(module, text) {
-    const byteLen = (text.length + 1) * 2;
-    const ptr = module.wasmExports.malloc(byteLen);
-    if (!ptr)
-        throw new Error(`PDFium: malloc(${byteLen}) returned NULL`);
-    const heap = module.HEAPU8;
-    for (let i = 0; i < text.length; i++) {
-        const code = text.charCodeAt(i);
-        heap[ptr + i * 2] = code & 0xff;
-        heap[ptr + i * 2 + 1] = (code >> 8) & 0xff;
-    }
-    heap[ptr + text.length * 2] = 0;
-    heap[ptr + text.length * 2 + 1] = 0;
-    return ptr;
-}
-
-/**
- * Pure text-layer helpers shared between the main-thread engine and the
- * worker engine. Splitting this out (rather than duplicating) means the
- * grouping heuristic in `chrome-viewer-spec.md` open risks #1 has exactly
- * one implementation: the worker computes items, the main thread renders
- * them as DOM.
- *
- * The DOM helper at the bottom is the only piece that touches `document`;
- * everything else here is callable from a Web Worker.
- */
-/**
- * Tunables for the char-to-item grouping pass that builds the text-layer.
- * Empirically chosen against the four research-corpus PDFs; revisit if
- * text-layer alignment looks off on a new doc.
- */
-const TEXT_GROUPING = {
-    /** Max vertical centre-to-centre distance (relative to line height) for
-     *  two chars to be on the "same line". */
-    sameLineYTolerance: 0.5,
-    /** Max horizontal gap (relative to char width) before splitting items. */
-    newItemXGap: 1.5,
-};
-/**
- * Group consecutive chars into text items by line + horizontal gap.
- * Algorithm (per `chrome-viewer-spec.md` open risks #1 — heuristic):
- *
- *  - Skip generated chars and zero-size chars (selection-unfriendly).
- *  - Walk chars in PDFium's natural order (reading order for LTR scripts).
- *  - Break to a new item when:
- *      * vertical centre differs from previous by > sameLineYTolerance × height, OR
- *      * horizontal gap from previous's right edge > newItemXGap × char width.
- */
-function groupCharsIntoItems(chars) {
-    const items = [];
-    let current = null;
-    for (let i = 0; i < chars.length; i++) {
-        const c = chars[i];
-        if (c.width === 0 || c.height === 0)
-            continue;
-        if (c.generated)
-            continue;
-        const text = c.unicode === 0 ? '' : String.fromCharCode(c.unicode);
-        if (!text)
-            continue;
-        if (current) {
-            const lc = current.lastChar;
-            const sameLine = Math.abs((c.top + c.height / 2) - (lc.top + lc.height / 2)) <
-                TEXT_GROUPING.sameLineYTolerance * lc.height;
-            const horizontalGap = c.left - (lc.left + lc.width);
-            const smallGap = horizontalGap < TEXT_GROUPING.newItemXGap * lc.width;
-            if (sameLine && smallGap) {
-                current.item.text += text;
-                const newRight = c.left + c.width;
-                const oldRight = current.item.left + current.item.width;
-                current.item.width = Math.max(oldRight, newRight) - current.item.left;
-                current.item.charEnd = i + 1;
-                current.lastChar = c;
-                continue;
-            }
-            items.push(current.item);
-        }
-        current = {
-            item: {
-                text,
-                left: c.left,
-                top: c.top,
-                width: c.width,
-                height: c.height,
-                charStart: i,
-                charEnd: i + 1,
-            },
-            lastChar: c,
-        };
-    }
-    if (current)
-        items.push(current.item);
-    return items;
-}
-/**
- * Map a PDFium char-range search result to text-layer item indices. Every
- * item that overlaps the char range is included so the highlight CSS
- * covers the full match span across line breaks.
- */
-function charRangeToItemIndices(match, items) {
-    const matchEnd = match.startIndex + match.count;
-    const indices = [];
-    for (let i = 0; i < items.length; i++) {
-        const it = items[i];
-        if (it.charStart < matchEnd && it.charEnd > match.startIndex) {
-            indices.push(i);
-        }
-    }
-    return indices;
-}
-/**
- * Font family used for every text-layer span. Fixing this lets us measure
- * each span's natural rendered width with a single canvas configured to
- * the same family — without it, the browser would pick whatever the page
- * default is and our measurer would be off.
- *
- * The spans are invisible (`color: transparent`); the family choice only
- * affects glyph metrics, which feed back into the `scaleX` adjustment
- * that aligns selection with the rasterised canvas.
- */
-const TEXT_LAYER_FONT_FAMILY = 'sans-serif';
-/**
- * Populate the text-layer container with one absolutely-positioned `<span>`
- * per text item. Selection works because the spans contain real text;
- * `color: transparent` + `forced-color-adjust: none` keeps it invisible
- * over the rendered canvas.
- *
- * Each span receives a `transform: scaleX(targetWidth / measuredWidth)`
- * so that selection bounding boxes line up with what PDFium actually
- * rasterised. Without it, narrow fonts (condensed digits, monospace runs)
- * over-extend the selection rect, and wide fonts under-extend it.
- *
- * Main-thread only — touches `document` + a measurement canvas.
- */
-function renderTextLayerDom(container, items, pageWidth, pageHeight) {
-    container.style.width = `${pageWidth}px`;
-    container.style.height = `${pageHeight}px`;
-    const measure = makeTextMeasurer();
-    const frag = document.createDocumentFragment();
-    for (const it of items) {
-        const span = document.createElement('span');
-        span.textContent = it.text;
-        span.style.left = `${it.left}px`;
-        span.style.top = `${it.top}px`;
-        span.style.fontSize = `${it.height}px`;
-        // Pin the family so the browser renders with the same font we
-        // measured against.
-        span.style.fontFamily = TEXT_LAYER_FONT_FAMILY;
-        span.style.transformOrigin = '0 0';
-        const measured = measure(it.text, it.height);
-        if (measured > 0 && it.width > 0) {
-            span.style.transform = `scaleX(${it.width / measured})`;
-        }
-        frag.appendChild(span);
-    }
-    container.replaceChildren(frag);
-}
-/**
- * Build a measurer that returns the rendered width of `text` at `fontSize`
- * using the text-layer's pinned font family. One canvas + context is
- * reused across the whole page; `ctx.font` is only re-set when the size
- * changes (a render pass typically only uses a handful of distinct sizes).
- *
- * Returns 0 if a 2D context is unavailable (jsdom, some test runners) so
- * callers can fall back to leaving `scaleX` unset.
- */
-function makeTextMeasurer() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx)
-        return () => 0;
-    let currentSize = -1;
-    return (text, fontSize) => {
-        if (fontSize !== currentSize) {
-            ctx.font = `${fontSize}px ${TEXT_LAYER_FONT_FAMILY}`;
-            currentSize = fontSize;
-        }
-        return ctx.measureText(text).width;
-    };
-}
-
-/**
- * `PdfEngine` impl backed by PDFium WASM (@hyzyla/pdfium), running on the
- * main thread. Kept as the fallback for environments where `Worker` is
- * unavailable (SSR, jsdom tests); the worker-backed `PdfiumWorkerEngine`
- * is the default. PDFium WASM blocks while rendering, so on big PDFs the
- * main-thread variant produces visible jank — use the worker variant when
- * you can.
- *
- *  - Uses `@hyzyla/pdfium`'s high-level API for document/page lifecycle
- *    and raster rendering, then reaches past the wrapper for char-level
- *    text extraction and search (see `pdfium-text-bindings.ts`).
- *  - Text-layer grouping + DOM rendering live in `pdfium-text-layer.ts`,
- *    so this engine and the worker engine produce identical text layers.
- *
- * WASM file: served from `/assets/pdfium.wasm` by default. Consumers can
- * override via the `PDFIUM_WASM_URL` provider token (see end of file).
- */
-/** URL of the bundled `pdfium.wasm` asset. Override via provider in tests. */
-const PDFIUM_WASM_URL = new InjectionToken('PDFIUM_WASM_URL', {
-    providedIn: 'root',
-    factory: () => 'assets/pdfium.wasm',
-});
-class PdfiumEngine {
-    #libPromise;
-    #wasmUrl = inject(PDFIUM_WASM_URL);
-    async load(bytes, password) {
-        const lib = await this.#getLib();
-        // PDFium owns the bytes; pass a copy so the caller's buffer is free to be reused.
-        const data = bytes.slice();
-        const doc = await lib.loadDocument(data, password);
-        return this.#wrap(lib, doc);
-    }
-    async #getLib() {
-        if (!this.#libPromise) {
-            this.#libPromise = import('@hyzyla/pdfium').then(({ PDFiumLibrary }) => PDFiumLibrary.init({ wasmUrl: this.#wasmUrl }));
-        }
-        return this.#libPromise;
-    }
-    #wrap(lib, doc) {
-        const pageCount = doc.getPageCount();
-        /**
-         * Cache of extracted char data + grouped text items per page. Computed
-         * on first text-layer or search access; held for the doc's lifetime.
-         * The `textPage` handle is independent of the page handle that produced
-         * it, so it stays valid even after the page handle is closed.
-         */
-        const textCache = new Map();
-        let closed = false;
-        /**
-         * Note on lifecycle: `@hyzyla/pdfium`'s `page.render()` calls
-         * `_FPDF_ClosePage(pageIdx)` in its `finally` block (see their TODO at
-         * line ~465 of `index.esm.browser.js`). Every PDFiumPage we obtain via
-         * `doc.getPage()` is therefore single-use for render. We get a fresh
-         * page object for each operation and either let render() close it OR
-         * close it manually for text-only operations.
-         */
-        const module = getRawModule(lib);
-        const closePage = (pagePtr) => {
-            try {
-                module._FPDF_ClosePage(pagePtr);
-            }
-            catch { /* ignore */ }
-        };
-        const closeTextPage = (cache) => {
-            try {
-                cache.module._FPDFText_ClosePage(cache.textPage);
-            }
-            catch { /* ignore */ }
-        };
-        /**
-         * Extract chars + text-layer items from a freshly-loaded page. Caller
-         * is responsible for the lifecycle of `pagePtr` (we don't close it
-         * here — render() may still need it).
-         */
-        const buildTextCache = (pageIndex, pagePtr, pageHeightPts, scale) => {
-            const existing = textCache.get(pageIndex);
-            if (existing && existing.scale === scale)
-                return existing;
-            if (existing)
-                closeTextPage(existing);
-            const textPage = module._FPDFText_LoadPage(pagePtr);
-            const chars = extractChars(module, textPage, pageHeightPts, scale);
-            const items = groupCharsIntoItems(chars);
-            const cache = { scale, chars, items, textPage, module };
-            textCache.set(pageIndex, cache);
-            return cache;
-        };
-        return {
-            pageCount,
-            async getPageSize(pageIndex, scale) {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                const page = doc.getPage(pageIndex);
-                const pagePtr = page.pageIdx;
-                const { originalWidth, originalHeight } = page.getOriginalSize();
-                // Page is single-use for render; close it since this call doesn't render.
-                closePage(pagePtr);
-                return { width: originalWidth * scale, height: originalHeight * scale };
-            },
-            async renderPage(pageIndex, scale, canvas) {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                const page = doc.getPage(pageIndex);
-                const pagePtr = page.pageIdx;
-                const { originalWidth, originalHeight } = page.getOriginalSize();
-                const w = Math.floor(originalWidth * scale);
-                const h = Math.floor(originalHeight * scale);
-                // Pre-extract text BEFORE page.render() — render() closes the page
-                // handle in its finally block, after which any pagePtr-based call
-                // (including _FPDFText_LoadPage) WASM-traps with "null function".
-                // The textPage handle returned here is independent of pagePtr and
-                // stays valid for the document's lifetime.
-                buildTextCache(pageIndex, pagePtr, originalHeight, scale);
-                // Use the wrapper's render() with a custom render function that
-                // receives BGRA pixel data and a width/height. We convert BGRA→RGBA
-                // for the visible canvas. Note: render() closes pagePtr internally.
-                const result = await page.render({
-                    scale,
-                    render: async ({ data }) => {
-                        const rgba = new Uint8ClampedArray(data.length);
-                        for (let i = 0; i < data.length; i += 4) {
-                            rgba[i] = data[i + 2]; // R ← B
-                            rgba[i + 1] = data[i + 1]; // G ← G
-                            rgba[i + 2] = data[i]; // B ← R
-                            rgba[i + 3] = data[i + 3]; // A
-                        }
-                        return rgba;
-                    },
-                });
-                canvas.width = w;
-                canvas.height = h;
-                const ctx = canvas.getContext('2d');
-                if (!ctx)
-                    throw new Error('Could not acquire 2D canvas context');
-                // result.data is RGBA from our render callback above. ImageData
-                // requires an ArrayBuffer-backed Uint8ClampedArray; copy to be safe.
-                const clamped = new Uint8ClampedArray(result.data.length);
-                clamped.set(result.data);
-                const imgData = new ImageData(clamped, result.width, result.height);
-                ctx.putImageData(imgData, 0, 0);
-                return {
-                    renderTextLayer: async (container) => {
-                        const cache = textCache.get(pageIndex);
-                        if (!cache)
-                            return;
-                        renderTextLayerDom(container, cache.items, w, h);
-                    },
-                };
-            },
-            async searchAll(query, opts) {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                if (!query)
-                    return [];
-                const matches = [];
-                for (let p = 0; p < pageCount; p++) {
-                    if (closed)
-                        return [];
-                    let cache = textCache.get(p);
-                    if (!cache) {
-                        // Lazily extract for un-rendered pages. Load a fresh page,
-                        // extract, then close — search doesn't need the page handle
-                        // to persist.
-                        const page = doc.getPage(p);
-                        const pagePtr = page.pageIdx;
-                        const { originalHeight } = page.getOriginalSize();
-                        cache = buildTextCache(p, pagePtr, originalHeight, 1);
-                        closePage(pagePtr);
-                    }
-                    const charMatches = findAllInPage(cache.module, cache.textPage, query, {
-                        caseSensitive: opts?.caseSensitive ?? false,
-                    });
-                    for (const m of charMatches) {
-                        matches.push({
-                            pageIndex: p,
-                            itemIndices: charRangeToItemIndices(m, cache.items),
-                        });
-                    }
-                }
-                return matches;
-            },
-            cancelActiveRender() {
-                // @hyzyla/pdfium's render() returns a Promise; no cancellation API.
-                // Worker-migration follow-up unblocks this via worker.terminate().
-            },
-            close() {
-                if (closed)
-                    return;
-                closed = true;
-                for (const cache of textCache.values())
-                    closeTextPage(cache);
-                textCache.clear();
-                try {
-                    doc.destroy();
-                }
-                catch { /* ignore */ }
-            },
-        };
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumEngine, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-    static ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumEngine, providedIn: 'root' });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumEngine, decorators: [{
-            type: Injectable,
-            args: [{ providedIn: 'root' }]
-        }] });
-
-/**
- * `PdfEngine` impl that drives PDFium WASM inside a Web Worker, so render
- * work stays off the main thread. This is the default engine — see
- * `PdfiumEngine` for the main-thread fallback used when `Worker` is
- * unavailable (SSR, jsdom test runners).
- *
- * Architecture:
- *  - One worker per service instance (the engine is `providedIn: 'root'`,
- *    so one per app). The worker holds the PDFium library and at most one
- *    open document; loading a new document closes the previous one inside
- *    the worker.
- *  - Render returns a transferable `ImageBitmap`, drawn onto the caller's
- *    canvas with a single `drawImage` call. The bitmap data lives in GPU
- *    memory; we never copy raw pixels across the worker boundary.
- *  - Text-layer items are computed in the worker and posted back as plain
- *    JSON. The main thread renders them as DOM via the shared
- *    `renderTextLayerDom` helper, so the text-layer shape matches the
- *    main-thread engine exactly.
- *  - WASM bytes are fetched on the main thread and posted to the worker
- *    once, on first `load()`. This avoids URL-resolution gymnastics
- *    inside the worker (the worker chunk URL is build-tool-dependent).
- */
-class PdfiumWorkerEngine {
-    #wasmUrl = inject(PDFIUM_WASM_URL);
-    #worker;
-    #initPromise;
-    /**
-     * Single shared document handle — the worker can only hold one open
-     * doc, so loading a new one invalidates any previously-issued handle.
-     * Callers must `close()` before loading another doc.
-     */
-    #currentDocToken = 0;
-    #pending = new Map();
-    #nextId = 1;
-    async load(bytes, password) {
-        await this.#ensureInit();
-        // Take ownership of a copy we can transfer — the caller's buffer must
-        // remain valid even after this call resolves.
-        const buffer = bytes.slice().buffer;
-        const result = await this.#call({ type: 'load', bytes: buffer, password }, [buffer]);
-        return this.#wrap(result.pageCount);
-    }
-    // -------------------------------------------------------------------------
-    // Worker bootstrap
-    // -------------------------------------------------------------------------
-    async #ensureInit() {
-        if (!this.#initPromise) {
-            this.#initPromise = this.#init();
-        }
-        return this.#initPromise;
-    }
-    async #init() {
-        // esbuild (under @angular/build) statically analyses this pattern and
-        // emits the worker as its own chunk; the `.ts` extension is recognised
-        // and stripped at build time.
-        this.#worker = new Worker(new URL('./pdfium.worker.ts', import.meta.url), {
-            type: 'module',
-        });
-        this.#worker.addEventListener('message', (event) => this.#onMessage(event.data));
-        this.#worker.addEventListener('error', (event) => {
-            console.error('PDFium worker error', event.message);
-        });
-        // Fetch the WASM binary on the main thread (where relative URL
-        // resolution is well-defined) and ship it to the worker so it doesn't
-        // have to know its own base URL.
-        const response = await fetch(this.#wasmUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch PDFium WASM: ${response.status} ${response.statusText}`);
-        }
-        const wasmBinary = await response.arrayBuffer();
-        await this.#call({ type: 'init', wasmBinary }, [wasmBinary]);
-    }
-    // -------------------------------------------------------------------------
-    // RPC plumbing
-    // -------------------------------------------------------------------------
-    #call(request, transfer = []) {
-        const worker = this.#worker;
-        if (!worker)
-            throw new Error('PDFium worker not initialised');
-        const id = this.#nextId++;
-        return new Promise((resolve, reject) => {
-            this.#pending.set(id, { resolve: resolve, reject });
-            const message = { ...request, id };
-            worker.postMessage(message, transfer);
-        });
-    }
-    #onMessage(response) {
-        const pending = this.#pending.get(response.id);
-        if (!pending)
-            return;
-        this.#pending.delete(response.id);
-        if (response.ok)
-            pending.resolve(response.result);
-        else
-            pending.reject(new Error(response.error));
-    }
-    // -------------------------------------------------------------------------
-    // Document handle
-    // -------------------------------------------------------------------------
-    #wrap(pageCount) {
-        const docToken = ++this.#currentDocToken;
-        /**
-         * Per-page text-item cache, populated by the worker as a side effect
-         * of `renderPage`. Held here so `renderTextLayer(container)` can map
-         * a page back to its items without another worker round-trip.
-         *
-         * Pages that have only been searched (not rendered) won't appear here
-         * — that's fine, the text-layer is only requested for rendered pages.
-         */
-        const itemsByPage = new Map();
-        let closed = false;
-        const renderQueue = [];
-        let renderInFlight = false;
-        const pumpRenderQueue = () => {
-            if (renderInFlight || closed)
-                return;
-            const next = renderQueue.shift();
-            if (!next)
-                return;
-            renderInFlight = true;
-            next.send().then((result) => {
-                renderInFlight = false;
-                next.resolve(result);
-                pumpRenderQueue();
-            }, (err) => {
-                renderInFlight = false;
-                next.reject(err instanceof Error ? err : new Error(String(err)));
-                pumpRenderQueue();
-            });
-        };
-        const queueRender = (send) => new Promise((resolve, reject) => {
-            renderQueue.push({ send, resolve, reject });
-            pumpRenderQueue();
-        });
-        const ensureLive = () => {
-            if (closed || docToken !== this.#currentDocToken) {
-                throw new Error('PDF document is closed');
-            }
-        };
-        return {
-            pageCount,
-            getPageSize: async (pageIndex, scale) => {
-                ensureLive();
-                return this.#call({ type: 'getPageSize', pageIndex, scale });
-            },
-            renderPage: async (pageIndex, scale, canvas) => {
-                ensureLive();
-                const result = await queueRender(() => this.#call({ type: 'renderPage', pageIndex, scale }));
-                if (closed || docToken !== this.#currentDocToken) {
-                    // Doc closed while we were waiting; release the bitmap.
-                    result.bitmap.close();
-                    throw new Error('PDF document is closed');
-                }
-                const { bitmap, width, height, textItems } = result;
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                if (!ctx) {
-                    bitmap.close();
-                    throw new Error('Could not acquire 2D canvas context');
-                }
-                ctx.drawImage(bitmap, 0, 0);
-                bitmap.close();
-                itemsByPage.set(pageIndex, textItems);
-                return {
-                    renderTextLayer: async (container) => {
-                        const items = itemsByPage.get(pageIndex);
-                        if (!items)
-                            return;
-                        renderTextLayerDom(container, items, width, height);
-                    },
-                };
-            },
-            searchAll: async (query, opts) => {
-                ensureLive();
-                const result = await this.#call({
-                    type: 'searchAll',
-                    query,
-                    caseSensitive: opts?.caseSensitive ?? false,
-                });
-                return result.matches;
-            },
-            cancelActiveRender: () => {
-                // Drop renders that haven't been sent to the worker yet. The
-                // in-flight one (if any) still completes — PDFium's
-                // `_FPDF_RenderPageBitmap` is a blocking C call with no abort
-                // signal — but its result is harmless: the viewer's render-token
-                // check throws it away, and the bitmap is `.close()`d in
-                // `renderPage`'s `.then` path either way.
-                if (renderQueue.length === 0)
-                    return;
-                const dropped = renderQueue.splice(0, renderQueue.length);
-                for (const r of dropped)
-                    r.reject(new RenderCancelledError());
-            },
-            close: () => {
-                if (closed)
-                    return;
-                closed = true;
-                // Reject queued renders first so they never hit the worker.
-                const queued = renderQueue.splice(0, renderQueue.length);
-                for (const r of queued) {
-                    r.reject(new RenderCancelledError('PDF document is closed'));
-                }
-                // Reject any pending requests against this doc — they can't
-                // complete meaningfully and the caller stopped caring.
-                for (const [id, pending] of this.#pending) {
-                    this.#pending.delete(id);
-                    pending.reject(new Error('PDF document is closed'));
-                }
-                // Best-effort close inside the worker; we don't await it because
-                // by the time this returns the caller has moved on.
-                if (this.#worker) {
-                    void this.#call({ type: 'close' }).catch(() => { });
-                }
-            },
-        };
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumWorkerEngine, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-    static ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumWorkerEngine, providedIn: 'root' });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfiumWorkerEngine, decorators: [{
-            type: Injectable,
-            args: [{ providedIn: 'root' }]
-        }] });
-
-/**
- * Injection token the `PdfViewer` component reads to obtain its engine.
- *
- * Default factory picks `PdfiumWorkerEngine` when the host can spawn Web
- * Workers (real browsers) and falls back to the main-thread
- * `PdfiumEngine` otherwise — that covers SSR, jsdom, and the unit-test
- * Karma run where instantiating a real worker would try to fetch the
- * ~4 MB WASM binary.
- *
- * Tests that want to inject a mock engine override the same token:
- *   `{ provide: PDF_ENGINE, useValue: makeFakeEngine() }`.
- */
-const PDF_ENGINE = new InjectionToken('PDF_ENGINE', {
-    providedIn: 'root',
-    factory: () => {
-        if (typeof Worker !== 'undefined') {
-            return inject(PdfiumWorkerEngine);
-        }
-        return inject(PdfiumEngine);
-    },
-});
-
-class FindBar {
-    query = input('', ...(ngDevMode ? [{ debugName: "query" }] : /* istanbul ignore next */ []));
-    current = input(0, ...(ngDevMode ? [{ debugName: "current" }] : /* istanbul ignore next */ []));
-    total = input(0, ...(ngDevMode ? [{ debugName: "total" }] : /* istanbul ignore next */ []));
-    queryChange = output();
-    prev = output();
-    next = output();
-    closed = output();
-    icon = { prev: ChevronUp, next: ChevronDown, close: X };
-    input = viewChild.required('input');
-    hasQuery = computed(() => this.query().length > 0, ...(ngDevMode ? [{ debugName: "hasQuery" }] : /* istanbul ignore next */ []));
-    noResults = computed(() => this.hasQuery() && this.total() === 0, ...(ngDevMode ? [{ debugName: "noResults" }] : /* istanbul ignore next */ []));
-    countLabel = computed(() => {
-        if (!this.hasQuery())
-            return '';
-        if (this.total() === 0)
-            return '0';
-        return `${this.current() + 1} / ${this.total()}`;
-    }, ...(ngDevMode ? [{ debugName: "countLabel" }] : /* istanbul ignore next */ []));
-    focus() {
-        const el = this.input().nativeElement;
-        el.focus();
-        el.select();
-    }
-    onInput(value) {
-        this.queryChange.emit(value);
-    }
-    onKeydown(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (e.shiftKey)
-                this.prev.emit();
-            else
-                this.next.emit();
-        }
-        else if (e.key === 'Escape') {
-            e.preventDefault();
-            this.closed.emit();
-        }
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: FindBar, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "21.2.7", type: FindBar, isStandalone: true, selector: "omm-pdf-find-bar", inputs: { query: { classPropertyName: "query", publicName: "query", isSignal: true, isRequired: false, transformFunction: null }, current: { classPropertyName: "current", publicName: "current", isSignal: true, isRequired: false, transformFunction: null }, total: { classPropertyName: "total", publicName: "total", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { queryChange: "queryChange", prev: "prev", next: "next", closed: "closed" }, viewQueries: [{ propertyName: "input", first: true, predicate: ["input"], descendants: true, isSignal: true }], ngImport: i0, template: "<div class=\"find-bar\" role=\"search\">\r\n    <input #input\r\n        type=\"text\"\r\n        [ngModel]=\"query()\"\r\n        (ngModelChange)=\"onInput($event)\"\r\n        (keydown)=\"onKeydown($event)\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.placeholder' | translate\"\r\n        [placeholder]=\"'omm.ui.pdf-viewer.find.placeholder' | translate\"\r\n        [class.no-results]=\"noResults()\" />\r\n    <span class=\"count\" aria-live=\"polite\">\r\n        @if (noResults()) {\r\n            {{ 'omm.ui.pdf-viewer.find.no-results' | translate }}\r\n        } @else {\r\n            {{ countLabel() }}\r\n        }\r\n    </span>\r\n    <button type=\"button\" class=\"secondary\"\r\n        [disabled]=\"total() === 0\"\r\n        (click)=\"prev.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.prev' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.prev' | translate\">\r\n        <lucide-icon [img]=\"icon.prev\" size=\"16\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\"\r\n        [disabled]=\"total() === 0\"\r\n        (click)=\"next.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.next' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.next' | translate\">\r\n        <lucide-icon [img]=\"icon.next\" size=\"16\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\"\r\n        (click)=\"closed.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.close' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.close' | translate\">\r\n        <lucide-icon [img]=\"icon.close\" size=\"16\"></lucide-icon>\r\n    </button>\r\n</div>\r\n", styles: [":host{display:block}.find-bar{display:flex;align-items:center;gap:var(--omm-spacing-s);padding:var(--omm-spacing-s) var(--omm-spacing);border-block-end:1px solid var(--omm-divider);background-color:var(--omm-surface)}.find-bar input{flex:1;min-width:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);border:1px solid var(--omm-divider);border-radius:var(--omm-radius-s, 4px);background-color:var(--omm-surface);color:inherit;font-size:inherit}.find-bar input:focus{outline:2px solid var(--omm-accent);outline-offset:-1px}.find-bar input.no-results{border-color:var(--omm-on-surface-error)}.find-bar .count{font-size:var(--omm-font-size-muted);color:var(--omm-text-muted);min-width:4rem;text-align:center}.find-bar button{display:inline-flex;align-items:center;justify-content:center}.find-bar button[disabled]{opacity:.4;cursor:not-allowed}\n"], dependencies: [{ kind: "ngmodule", type: FormsModule }, { kind: "directive", type: i1$1.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$1.NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: ["name", "disabled", "ngModel", "ngModelOptions"], outputs: ["ngModelChange"], exportAs: ["ngModel"] }, { kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }, { kind: "pipe", type: TranslatePipe, name: "translate" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: FindBar, decorators: [{
-            type: Component,
-            args: [{ selector: 'omm-pdf-find-bar', imports: [FormsModule, LucideAngularModule, TranslatePipe], changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"find-bar\" role=\"search\">\r\n    <input #input\r\n        type=\"text\"\r\n        [ngModel]=\"query()\"\r\n        (ngModelChange)=\"onInput($event)\"\r\n        (keydown)=\"onKeydown($event)\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.placeholder' | translate\"\r\n        [placeholder]=\"'omm.ui.pdf-viewer.find.placeholder' | translate\"\r\n        [class.no-results]=\"noResults()\" />\r\n    <span class=\"count\" aria-live=\"polite\">\r\n        @if (noResults()) {\r\n            {{ 'omm.ui.pdf-viewer.find.no-results' | translate }}\r\n        } @else {\r\n            {{ countLabel() }}\r\n        }\r\n    </span>\r\n    <button type=\"button\" class=\"secondary\"\r\n        [disabled]=\"total() === 0\"\r\n        (click)=\"prev.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.prev' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.prev' | translate\">\r\n        <lucide-icon [img]=\"icon.prev\" size=\"16\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\"\r\n        [disabled]=\"total() === 0\"\r\n        (click)=\"next.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.next' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.next' | translate\">\r\n        <lucide-icon [img]=\"icon.next\" size=\"16\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\"\r\n        (click)=\"closed.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.find.close' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.find.close' | translate\">\r\n        <lucide-icon [img]=\"icon.close\" size=\"16\"></lucide-icon>\r\n    </button>\r\n</div>\r\n", styles: [":host{display:block}.find-bar{display:flex;align-items:center;gap:var(--omm-spacing-s);padding:var(--omm-spacing-s) var(--omm-spacing);border-block-end:1px solid var(--omm-divider);background-color:var(--omm-surface)}.find-bar input{flex:1;min-width:0;padding:var(--omm-spacing-xs) var(--omm-spacing-s);border:1px solid var(--omm-divider);border-radius:var(--omm-radius-s, 4px);background-color:var(--omm-surface);color:inherit;font-size:inherit}.find-bar input:focus{outline:2px solid var(--omm-accent);outline-offset:-1px}.find-bar input.no-results{border-color:var(--omm-on-surface-error)}.find-bar .count{font-size:var(--omm-font-size-muted);color:var(--omm-text-muted);min-width:4rem;text-align:center}.find-bar button{display:inline-flex;align-items:center;justify-content:center}.find-bar button[disabled]{opacity:.4;cursor:not-allowed}\n"] }]
-        }], propDecorators: { query: [{ type: i0.Input, args: [{ isSignal: true, alias: "query", required: false }] }], current: [{ type: i0.Input, args: [{ isSignal: true, alias: "current", required: false }] }], total: [{ type: i0.Input, args: [{ isSignal: true, alias: "total", required: false }] }], queryChange: [{ type: i0.Output, args: ["queryChange"] }], prev: [{ type: i0.Output, args: ["prev"] }], next: [{ type: i0.Output, args: ["next"] }], closed: [{ type: i0.Output, args: ["closed"] }], input: [{ type: i0.ViewChild, args: ['input', { isSignal: true }] }] } });
-
-// Mark the dynamic fit-button title keys for ngx-translate-extract --clean.
-// The template builds the key as `'omm.ui.pdf-viewer.' + fitTitleKey()`;
-// extract can't infer the runtime value, so we list each possibility here.
-marker('omm.ui.pdf-viewer.fit-to-page');
-marker('omm.ui.pdf-viewer.fit-to-width');
-marker('omm.ui.pdf-viewer.fit-clear');
-/**
- * The viewer's top toolbar. Mirrors Chrome's `<viewer-toolbar>` (see
- * `chrome-viewer-spec.md` §7). Phase 3 ships page counter, zoom controls,
- * fit toggle. Page selector input (Chrome's `<viewer-page-selector>`) and
- * the sidenav/more-menu slots are reserved for later phases.
- *
- * Event names match Chrome's CustomEvent dispatches where it makes sense:
- *   Chrome `'zoom-in'`        → our `zoomIn` output
- *   Chrome `'zoom-out'`       → our `zoomOut` output
- *   Chrome `'fit-to-changed'` → our `fitToggle` output (we emit on every cycle press;
- *                                parent decides what state to advance to)
- *   Chrome `Ctrl+F` (top-level) → our `openFind` output (parent owns find state)
- */
-class PdfToolbar {
-    zoomPercent = input.required(...(ngDevMode ? [{ debugName: "zoomPercent" }] : /* istanbul ignore next */ []));
-    fittingType = input.required(...(ngDevMode ? [{ debugName: "fittingType" }] : /* istanbul ignore next */ []));
-    currentPage = input.required(...(ngDevMode ? [{ debugName: "currentPage" }] : /* istanbul ignore next */ []));
-    pageCount = input.required(...(ngDevMode ? [{ debugName: "pageCount" }] : /* istanbul ignore next */ []));
-    zoomIn = output();
-    zoomOut = output();
-    fitToggle = output();
-    openFind = output();
-    /**
-     * Icon for the fit button mirrors Chrome's behaviour: shows the icon for
-     * the mode the user would switch *to* next press. Cycle: NONE → page →
-     * width → NONE (`PdfViewer.cycleFitMode`).
-     */
-    fitIcon = computed(() => {
-        switch (this.fittingType()) {
-            case FittingType.NONE: return Maximize2; // → fit-to-page
-            case FittingType.FIT_TO_PAGE: return MoveHorizontal; // → fit-to-width
-            case FittingType.FIT_TO_WIDTH: return RectangleHorizontal; // → free zoom
-            default: return Maximize2;
-        }
-    }, ...(ngDevMode ? [{ debugName: "fitIcon" }] : /* istanbul ignore next */ []));
-    /** Translate-key suffix for the fit button's title/aria-label. */
-    fitTitleKey = computed(() => {
-        switch (this.fittingType()) {
-            case FittingType.NONE: return 'fit-to-page';
-            case FittingType.FIT_TO_PAGE: return 'fit-to-width';
-            case FittingType.FIT_TO_WIDTH: return 'fit-clear';
-            default: return 'fit-to-page';
-        }
-    }, ...(ngDevMode ? [{ debugName: "fitTitleKey" }] : /* istanbul ignore next */ []));
-    /** Mirrors Chrome's pressed state on the fit button when a fit mode is active. */
-    fitActive = computed(() => this.fittingType() !== FittingType.NONE, ...(ngDevMode ? [{ debugName: "fitActive" }] : /* istanbul ignore next */ []));
-    icon = {
-        zoomIn: Plus,
-        zoomOut: Minus,
-        find: SearchIcon,
-    };
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfToolbar, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "21.2.7", type: PdfToolbar, isStandalone: true, selector: "omm-pdf-toolbar", inputs: { zoomPercent: { classPropertyName: "zoomPercent", publicName: "zoomPercent", isSignal: true, isRequired: true, transformFunction: null }, fittingType: { classPropertyName: "fittingType", publicName: "fittingType", isSignal: true, isRequired: true, transformFunction: null }, currentPage: { classPropertyName: "currentPage", publicName: "currentPage", isSignal: true, isRequired: true, transformFunction: null }, pageCount: { classPropertyName: "pageCount", publicName: "pageCount", isSignal: true, isRequired: true, transformFunction: null } }, outputs: { zoomIn: "zoomIn", zoomOut: "zoomOut", fitToggle: "fitToggle", openFind: "openFind" }, ngImport: i0, template: "<div class=\"toolbar\">\r\n    <!-- Page counter \u2014 mirrors Chrome's <viewer-page-selector> layout\r\n         (spec \u00A77). A real CVA-backed input is reserved for the Phase 3\r\n         polish pass; v1 displays current/total only. -->\r\n    @if (pageCount() > 0) {\r\n        <span class=\"counter\" aria-live=\"polite\">{{ currentPage() }} / {{ pageCount() }}</span>\r\n    }\r\n    <span class=\"spacer\"></span>\r\n    <!-- Find button reserved for Phase 5 (find-bar wire-up); the\r\n         (openFind) output is exposed but the trigger is not yet wired\r\n         since the find-bar itself is not toggled on. -->\r\n    <button type=\"button\" class=\"secondary\" (click)=\"zoomOut.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.zoom-out' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.zoom-out' | translate\">\r\n        <lucide-icon [img]=\"icon.zoomOut\" size=\"18\"></lucide-icon>\r\n    </button>\r\n    <span class=\"zoom\" aria-live=\"polite\">{{ zoomPercent() }}%</span>\r\n    <button type=\"button\" class=\"secondary\" (click)=\"zoomIn.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.zoom-in' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.zoom-in' | translate\">\r\n        <lucide-icon [img]=\"icon.zoomIn\" size=\"18\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\" [class.active]=\"fitActive()\" (click)=\"fitToggle.emit()\"\r\n        [attr.aria-pressed]=\"fitActive()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.' + fitTitleKey() | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.' + fitTitleKey() | translate\">\r\n        <lucide-icon [img]=\"fitIcon()\" size=\"18\"></lucide-icon>\r\n    </button>\r\n</div>\r\n", styles: [":host{display:block;flex:0 0 auto}.toolbar{display:flex;align-items:center;gap:var(--omm-spacing-s);padding:var(--omm-spacing-s) var(--omm-spacing);border-block-end:1px solid var(--omm-divider)}.toolbar .counter,.toolbar .zoom{font-size:var(--omm-font-size-muted);color:var(--omm-text-muted);min-width:3rem;text-align:center}.toolbar .spacer{flex:1}.toolbar button{display:inline-flex;align-items:center;justify-content:center}.toolbar button.active{color:var(--omm-accent)}.toolbar button[disabled]{opacity:.4;cursor:not-allowed}\n"], dependencies: [{ kind: "ngmodule", type: LucideAngularModule }, { kind: "component", type: i1.LucideAngularComponent, selector: "lucide-angular, lucide-icon, i-lucide, span-lucide", inputs: ["class", "name", "img", "color", "absoluteStrokeWidth", "size", "strokeWidth"] }, { kind: "pipe", type: TranslatePipe, name: "translate" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfToolbar, decorators: [{
-            type: Component,
-            args: [{ selector: 'omm-pdf-toolbar', imports: [TranslatePipe, LucideAngularModule], changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"toolbar\">\r\n    <!-- Page counter \u2014 mirrors Chrome's <viewer-page-selector> layout\r\n         (spec \u00A77). A real CVA-backed input is reserved for the Phase 3\r\n         polish pass; v1 displays current/total only. -->\r\n    @if (pageCount() > 0) {\r\n        <span class=\"counter\" aria-live=\"polite\">{{ currentPage() }} / {{ pageCount() }}</span>\r\n    }\r\n    <span class=\"spacer\"></span>\r\n    <!-- Find button reserved for Phase 5 (find-bar wire-up); the\r\n         (openFind) output is exposed but the trigger is not yet wired\r\n         since the find-bar itself is not toggled on. -->\r\n    <button type=\"button\" class=\"secondary\" (click)=\"zoomOut.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.zoom-out' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.zoom-out' | translate\">\r\n        <lucide-icon [img]=\"icon.zoomOut\" size=\"18\"></lucide-icon>\r\n    </button>\r\n    <span class=\"zoom\" aria-live=\"polite\">{{ zoomPercent() }}%</span>\r\n    <button type=\"button\" class=\"secondary\" (click)=\"zoomIn.emit()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.zoom-in' | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.zoom-in' | translate\">\r\n        <lucide-icon [img]=\"icon.zoomIn\" size=\"18\"></lucide-icon>\r\n    </button>\r\n    <button type=\"button\" class=\"secondary\" [class.active]=\"fitActive()\" (click)=\"fitToggle.emit()\"\r\n        [attr.aria-pressed]=\"fitActive()\"\r\n        [attr.aria-label]=\"'omm.ui.pdf-viewer.' + fitTitleKey() | translate\"\r\n        [title]=\"'omm.ui.pdf-viewer.' + fitTitleKey() | translate\">\r\n        <lucide-icon [img]=\"fitIcon()\" size=\"18\"></lucide-icon>\r\n    </button>\r\n</div>\r\n", styles: [":host{display:block;flex:0 0 auto}.toolbar{display:flex;align-items:center;gap:var(--omm-spacing-s);padding:var(--omm-spacing-s) var(--omm-spacing);border-block-end:1px solid var(--omm-divider)}.toolbar .counter,.toolbar .zoom{font-size:var(--omm-font-size-muted);color:var(--omm-text-muted);min-width:3rem;text-align:center}.toolbar .spacer{flex:1}.toolbar button{display:inline-flex;align-items:center;justify-content:center}.toolbar button.active{color:var(--omm-accent)}.toolbar button[disabled]{opacity:.4;cursor:not-allowed}\n"] }]
-        }], propDecorators: { zoomPercent: [{ type: i0.Input, args: [{ isSignal: true, alias: "zoomPercent", required: true }] }], fittingType: [{ type: i0.Input, args: [{ isSignal: true, alias: "fittingType", required: true }] }], currentPage: [{ type: i0.Input, args: [{ isSignal: true, alias: "currentPage", required: true }] }], pageCount: [{ type: i0.Input, args: [{ isSignal: true, alias: "pageCount", required: true }] }], zoomIn: [{ type: i0.Output, args: ["zoomIn"] }], zoomOut: [{ type: i0.Output, args: ["zoomOut"] }], fitToggle: [{ type: i0.Output, args: ["fitToggle"] }], openFind: [{ type: i0.Output, args: ["openFind"] }] } });
-
-const MIN_SCALE = ZOOM_PRESETS[0];
-const MAX_SCALE = ZOOM_PRESETS[ZOOM_PRESETS.length - 1];
-/** Step ratio for continuous wheel/pinch zoom (Chrome-confirmed via probe 04). */
-const WHEEL_ZOOM_STEP = 1.25;
-const DEFAULT_PAGE_WIDTH = 612;
-const RENDER_MARGIN = '200px 0px';
-const VISIBILITY_THRESHOLDS = [0, 0.1, 0.25, 0.5, 0.75, 1];
-/** Chrome's `SCROLL_INCREMENT` from viewport.ts. */
-const SCROLL_INCREMENT = 40;
-/** Chrome's `MIN_FRACTION_TO_STEP_WHEN_PAGING` from viewport.ts. */
-const PAGING_SCROLL_FRACTION = 0.875;
-/**
- * Soft cap on cached rendered pages. Off-screen pages above this count are
- * cleared (canvas zeroed) to free GPU memory. Visible pages are exempt —
- * evicting one would just trigger a re-render on the next observer tick.
- * Matches the size pdf.js's old impl kept around (6); a re-tuneable knob
- * once we have profile data from a real reading session.
- */
-const BITMAP_CACHE_LIMIT = 6;
-class PdfViewer {
-    #engine = inject(PDF_ENGINE);
-    #destroyRef = inject(DestroyRef);
-    data = input.required(...(ngDevMode ? [{ debugName: "data" }] : /* istanbul ignore next */ []));
-    stage = viewChild.required('stage');
-    pagesColumn = viewChild('pagesColumn', ...(ngDevMode ? [{ debugName: "pagesColumn" }] : /* istanbul ignore next */ []));
-    pageEls = viewChildren('pageEl', ...(ngDevMode ? [{ debugName: "pageEls" }] : /* istanbul ignore next */ []));
-    findBar = viewChild('findBar', ...(ngDevMode ? [{ debugName: "findBar" }] : /* istanbul ignore next */ []));
-    #doc = signal(undefined, ...(ngDevMode ? [{ debugName: "#doc" }] : /* istanbul ignore next */ []));
-    pageCount = computed(() => this.#doc()?.pageCount ?? 0, ...(ngDevMode ? [{ debugName: "pageCount" }] : /* istanbul ignore next */ []));
-    #manualZoom = signal(1, ...(ngDevMode ? [{ debugName: "#manualZoom" }] : /* istanbul ignore next */ []));
-    fittingType = signal(FittingType.NONE, ...(ngDevMode ? [{ debugName: "fittingType" }] : /* istanbul ignore next */ []));
-    rendering = signal(false, ...(ngDevMode ? [{ debugName: "rendering" }] : /* istanbul ignore next */ []));
-    error = signal(undefined, ...(ngDevMode ? [{ debugName: "error" }] : /* istanbul ignore next */ []));
-    firstRendered = signal(false, ...(ngDevMode ? [{ debugName: "firstRendered" }] : /* istanbul ignore next */ []));
-    #stageWidth = signal(0, ...(ngDevMode ? [{ debugName: "#stageWidth" }] : /* istanbul ignore next */ []));
-    #pageSizes = signal([], ...(ngDevMode ? [{ debugName: "#pageSizes" }] : /* istanbul ignore next */ []));
-    #pageVisibility = signal(new Map(), ...(ngDevMode ? [{ debugName: "#pageVisibility" }] : /* istanbul ignore next */ []));
-    #renderTokens = new Map();
-    #renderedScale = new Map();
-    /**
-     * Page indices that currently hold a rendered bitmap, most-recently-used
-     * first. Walked tail-to-head during eviction so we drop the coldest
-     * cached page. See `BITMAP_CACHE_LIMIT`.
-     */
-    #renderedMru = [];
-    #activeRenders = 0;
-    #observer;
-    #resizeObserver;
-    #docToken = 0;
-    #zoomRaf = 0;
-    #pendingFactor = 1;
-    #pendingPinchTarget;
-    #pendingAnchor = null;
-    #zoomSettleTimer;
-    #zooming = false;
-    findOpen = signal(false, ...(ngDevMode ? [{ debugName: "findOpen" }] : /* istanbul ignore next */ []));
-    findQuery = signal('', ...(ngDevMode ? [{ debugName: "findQuery" }] : /* istanbul ignore next */ []));
-    findResults = signal([], ...(ngDevMode ? [{ debugName: "findResults" }] : /* istanbul ignore next */ []));
-    findIndex = signal(0, ...(ngDevMode ? [{ debugName: "findIndex" }] : /* istanbul ignore next */ []));
-    #findDebounce;
-    #searchToken = 0;
-    dragging = signal(false, ...(ngDevMode ? [{ debugName: "dragging" }] : /* istanbul ignore next */ []));
-    #dragStart;
-    #pointers = new Map();
-    #pinchStart;
-    currentPage = computed(() => {
-        const visibility = this.#pageVisibility();
-        if (visibility.size === 0)
-            return 1;
-        let bestIdx = -1;
-        let bestRatio = -1;
-        for (const [idx, ratio] of visibility) {
-            if (ratio > bestRatio || (ratio === bestRatio && idx < bestIdx)) {
-                bestIdx = idx;
-                bestRatio = ratio;
-            }
-        }
-        return bestIdx >= 0 ? bestIdx + 1 : 1;
-    }, ...(ngDevMode ? [{ debugName: "currentPage" }] : /* istanbul ignore next */ []));
-    #effectiveScale = computed(() => {
-        const fit = this.fittingType();
-        const stageWidth = this.#stageWidth();
-        const idx = this.currentPage() - 1;
-        const pageSize = this.#pageSizes()[idx];
-        if (fit === FittingType.FIT_TO_WIDTH && pageSize && stageWidth > 0) {
-            return clamp(stageWidth / pageSize.width, MIN_SCALE, MAX_SCALE);
-        }
-        if (fit === FittingType.FIT_TO_PAGE && pageSize && stageWidth > 0) {
-            const stage = this.stage().nativeElement;
-            const stageHeight = stage.clientHeight;
-            if (stageHeight > 0) {
-                const widthScale = stageWidth / pageSize.width;
-                const heightScale = stageHeight / pageSize.height;
-                return clamp(Math.min(widthScale, heightScale), MIN_SCALE, MAX_SCALE);
-            }
-        }
-        return clamp(this.#manualZoom(), MIN_SCALE, MAX_SCALE);
-    }, ...(ngDevMode ? [{ debugName: "#effectiveScale" }] : /* istanbul ignore next */ []));
-    pages = computed(() => {
-        const sizes = this.#pageSizes();
-        const scale = this.#effectiveScale();
-        return sizes.map((size, index) => ({
-            index,
-            width: Math.floor(size.width * scale),
-            height: Math.floor(size.height * scale),
-        }));
-    }, ...(ngDevMode ? [{ debugName: "pages" }] : /* istanbul ignore next */ []));
-    zoomPercent = computed(() => Math.round(this.#effectiveScale() * 100), ...(ngDevMode ? [{ debugName: "zoomPercent" }] : /* istanbul ignore next */ []));
-    canPrev = computed(() => this.currentPage() > 1, ...(ngDevMode ? [{ debugName: "canPrev" }] : /* istanbul ignore next */ []));
-    canNext = computed(() => this.currentPage() < this.pageCount(), ...(ngDevMode ? [{ debugName: "canNext" }] : /* istanbul ignore next */ []));
-    constructor() {
-        effect((onCleanup) => {
-            const bytes = this.data();
-            untracked(() => this.#loadDocument(bytes));
-            onCleanup(() => untracked(() => this.#closeDocument()));
-        });
-        effect(() => {
-            const elements = this.pageEls();
-            untracked(() => this.#refreshObserver(elements));
-        });
-        effect(() => {
-            const scale = this.#effectiveScale();
-            untracked(() => this.#onScaleChanged(scale));
-        });
-        effect(() => {
-            if (!this.#doc())
-                return;
-            const results = this.findResults();
-            const index = this.findIndex();
-            untracked(() => this.#applyHighlights(results, index));
-        });
-        afterNextRender(() => {
-            this.#observeResize();
-            this.#createIntersectionObserver();
-            this.#refreshObserver(this.pageEls());
-        });
-        this.#destroyRef.onDestroy(() => {
-            this.#observer?.disconnect();
-            this.#resizeObserver?.disconnect();
-            if (this.#findDebounce)
-                clearTimeout(this.#findDebounce);
-            if (this.#zoomSettleTimer)
-                clearTimeout(this.#zoomSettleTimer);
-            if (this.#zoomRaf)
-                cancelAnimationFrame(this.#zoomRaf);
-            this.#closeDocument();
-        });
-    }
-    onWheel(e) {
-        if (!(e.ctrlKey || e.metaKey))
-            return;
-        e.preventDefault();
-        // Continuous zoom: `WHEEL_ZOOM_STEP` per notch (Chrome-confirmed via probe 04).
-        // exp(-deltaY * k) yields ~1.25 for a single 100-unit notch when k ≈ 0.00223.
-        const factor = Math.exp(-e.deltaY * Math.log(WHEEL_ZOOM_STEP) / 100);
-        this.#zoomAt(factor, e.clientX, e.clientY);
-    }
-    onPointerDown(e) {
-        if (e.button !== 0 && e.pointerType === 'mouse')
-            return;
-        const target = e.target;
-        if (!target)
-            return;
-        if (target.closest('.toolbar') || target.closest('omm-pdf-find-bar'))
-            return;
-        if (target.closest('button') || target.closest('input') || target.closest('a'))
-            return;
-        if (this.#pointers.size >= 2)
-            return;
-        // Always track the pointer so a second finger can begin a pinch even when
-        // the gesture starts on the text layer (whose <span>s cover the page). A
-        // lone press on a span is left to native text selection — it neither pans
-        // nor preventDefaults — while any other lone press starts a pan.
-        this.#pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (this.#pointers.size === 2) {
-            this.#endDrag();
-            this.#beginPinch();
-            e.preventDefault();
-        }
-        else if (target.tagName !== 'SPAN') {
-            this.#beginDrag(e.pointerId, e.clientX, e.clientY);
-            e.preventDefault();
-        }
-    }
-    onPointerMove(e) {
-        if (!this.#pointers.has(e.pointerId))
-            return;
-        this.#pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (this.#pinchStart && this.#pointers.size === 2) {
-            this.#updatePinch();
-        }
-        else if (this.#dragStart && this.#dragStart.pointerId === e.pointerId) {
-            const dx = e.clientX - this.#dragStart.x;
-            const dy = e.clientY - this.#dragStart.y;
-            const stage = this.stage().nativeElement;
-            stage.scrollLeft = this.#dragStart.scrollLeft - dx;
-            stage.scrollTop = this.#dragStart.scrollTop - dy;
-        }
-    }
-    onPointerUp(e) {
-        if (!this.#pointers.has(e.pointerId))
-            return;
-        this.#pointers.delete(e.pointerId);
-        if (this.#pinchStart && this.#pointers.size < 2) {
-            this.#pinchStart = undefined;
-            if (this.#pointers.size === 1) {
-                const [[id, p]] = this.#pointers;
-                this.#beginDrag(id, p.x, p.y);
-            }
-        }
-        else if (this.#pointers.size === 0) {
-            this.#endDrag();
-        }
-    }
-    #beginDrag(pointerId, clientX, clientY) {
-        const stage = this.stage().nativeElement;
-        this.#dragStart = {
-            pointerId,
-            x: clientX,
-            y: clientY,
-            scrollLeft: stage.scrollLeft,
-            scrollTop: stage.scrollTop,
-        };
-        this.dragging.set(true);
-    }
-    #endDrag() {
-        if (!this.#dragStart)
-            return;
-        this.#dragStart = undefined;
-        this.dragging.set(false);
-    }
-    #beginPinch() {
-        const column = this.pagesColumn();
-        if (!column)
-            return;
-        const [p1, p2] = [...this.#pointers.values()];
-        const colRect = column.nativeElement.getBoundingClientRect();
-        const midX = (p1.x + p2.x) / 2;
-        const midY = (p1.y + p2.y) / 2;
-        const distance = Math.max(Math.hypot(p2.x - p1.x, p2.y - p1.y), 1);
-        const oldScale = this.#effectiveScale();
-        this.#pinchStart = {
-            startScale: oldScale,
-            startDistance: distance,
-            docX: (midX - colRect.left) / oldScale,
-            docY: (midY - colRect.top) / oldScale,
-        };
-        this.fittingType.set(FittingType.NONE);
-    }
-    #updatePinch() {
-        const start = this.#pinchStart;
-        if (!start)
-            return;
-        const [p1, p2] = [...this.#pointers.values()];
-        const distance = Math.max(Math.hypot(p2.x - p1.x, p2.y - p1.y), 1);
-        const target = clamp(start.startScale * (distance / start.startDistance), MIN_SCALE, MAX_SCALE);
-        const midX = (p1.x + p2.x) / 2;
-        const midY = (p1.y + p2.y) / 2;
-        // Coalesce raw pointer events into one zoom commit per frame. Pointer
-        // events fire at 60-120Hz; committing every one cascades through CD,
-        // page resize, and render cancellation — appearing as lag and jumps.
-        // Pinch sets an absolute target; pending wheel factor is discarded.
-        this.#pendingPinchTarget = target;
-        this.#pendingFactor = 1;
-        this.#pendingAnchor = {
-            cursorX: midX,
-            cursorY: midY,
-            docX: start.docX,
-            docY: start.docY,
-        };
-        if (this.#zoomRaf)
-            return;
-        this.#zoomRaf = requestAnimationFrame(() => this.#commitZoomFrame());
-    }
-    #commitZoomFrame() {
-        this.#zoomRaf = 0;
-        const current = this.#effectiveScale();
-        let target;
-        if (this.#pendingPinchTarget !== undefined) {
-            target = this.#pendingPinchTarget;
-            this.#pendingPinchTarget = undefined;
-        }
-        else {
-            target = clamp(current * this.#pendingFactor, MIN_SCALE, MAX_SCALE);
-            this.#pendingFactor = 1;
-        }
-        if (target === current) {
-            this.#pendingAnchor = null;
-            return;
-        }
-        this.fittingType.set(FittingType.NONE);
-        this.#manualZoom.set(target);
-    }
-    /**
-     * Keyboard handling. Mirrors `chrome-viewer-spec.md §3` (Chrome's
-     * `viewport.handleDirectionalKeyEvent` + top-level `pdf_viewer.ts`).
-     *
-     * Page-step keys (`PageUp`/`PageDown`, `Home`/`End`) always navigate by
-     * page. Arrow keys scroll by `SCROLL_INCREMENT` (40px); ArrowLeft/Right
-     * additionally jump pages when there is no horizontal scrollbar. Space
-     * scrolls by `PAGING_SCROLL_FRACTION` (87.5%) of viewport height.
-     */
-    onKeydown(e) {
-        const target = e.target;
-        const findInput = this.findBar()?.input().nativeElement;
-        const inFindInput = target === findInput;
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
-            if (!inFindInput && isEditable(target))
-                return;
-            e.preventDefault();
-            this.openFind();
-            return;
-        }
-        if (e.key === 'Escape' && this.findOpen()) {
-            e.preventDefault();
-            this.closeFind();
-            return;
-        }
-        // Ctrl+G / Ctrl+Shift+G — next/previous match. Works regardless of
-        // whether the find bar is open, matching Chrome (spec §3.3).
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'g') {
-            e.preventDefault();
-            if (e.shiftKey)
-                this.findPrev();
-            else
-                this.findNext();
-            return;
-        }
-        if (isEditable(target))
-            return;
-        // Zoom shortcuts — Chrome's Ctrl+= / Ctrl+- / Ctrl+0.
-        if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
-            e.preventDefault();
-            this.zoomIn();
-            return;
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === '-') {
-            e.preventDefault();
-            this.zoomOut();
-            return;
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === '0') {
-            // Chrome: Ctrl+0 resets to the previously-selected fit mode
-            // (spec §3.2). If no fit mode is active, fall through to fit-to-page.
-            e.preventDefault();
-            const current = this.fittingType();
-            if (current === FittingType.NONE) {
-                this.fittingType.set(FittingType.FIT_TO_PAGE);
-            }
-            this.#manualZoom.set(1);
-            return;
-        }
-        // Page-step navigation.
-        if (e.key === 'PageUp') {
-            if (!this.canPrev())
-                return;
-            e.preventDefault();
-            this.prev();
-            return;
-        }
-        if (e.key === 'PageDown') {
-            if (!this.canNext())
-                return;
-            e.preventDefault();
-            this.next();
-            return;
-        }
-        if (e.key === 'Home') {
-            e.preventDefault();
-            this.#scrollToPageIndex(0);
-            return;
-        }
-        if (e.key === 'End') {
-            e.preventDefault();
-            this.#scrollToPageIndex(this.pageCount() - 1);
-            return;
-        }
-        // Space / Shift+Space — scroll by 87.5% of viewport height.
-        if (e.key === ' ' || e.code === 'Space') {
-            e.preventDefault();
-            const stage = this.stage().nativeElement;
-            const delta = stage.clientHeight * PAGING_SCROLL_FRACTION;
-            stage.scrollBy({ top: e.shiftKey ? -delta : delta, behavior: 'auto' });
-            return;
-        }
-        // Arrow keys — 40px scroll. Left/Right jump pages if no h-scrollbar.
-        const stage = this.stage().nativeElement;
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            stage.scrollBy({ top: SCROLL_INCREMENT, behavior: 'auto' });
-            return;
-        }
-        if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            stage.scrollBy({ top: -SCROLL_INCREMENT, behavior: 'auto' });
-            return;
-        }
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            if (stage.scrollWidth > stage.clientWidth) {
-                stage.scrollBy({ left: -SCROLL_INCREMENT, behavior: 'auto' });
-            }
-            else if (this.canPrev()) {
-                this.prev();
-            }
-            return;
-        }
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            if (stage.scrollWidth > stage.clientWidth) {
-                stage.scrollBy({ left: SCROLL_INCREMENT, behavior: 'auto' });
-            }
-            else if (this.canNext()) {
-                this.next();
-            }
-            return;
-        }
-    }
-    /** Open the find bar and move focus into its input. */
-    openFind() {
-        this.findOpen.set(true);
-        queueMicrotask(() => this.findBar()?.focus());
-    }
-    closeFind() {
-        this.findOpen.set(false);
-        this.findQuery.set('');
-        this.findResults.set([]);
-        this.findIndex.set(0);
-    }
-    onFindQueryChange(value) {
-        this.findQuery.set(value);
-        if (this.#findDebounce)
-            clearTimeout(this.#findDebounce);
-        if (!value) {
-            this.findResults.set([]);
-            this.findIndex.set(0);
-            return;
-        }
-        const token = ++this.#searchToken;
-        this.#findDebounce = setTimeout(() => this.#runSearch(value, token), 150);
-    }
-    findNext() {
-        const total = this.findResults().length;
-        if (total === 0)
-            return;
-        const next = (this.findIndex() + 1) % total;
-        this.#goToMatch(next);
-    }
-    findPrev() {
-        const total = this.findResults().length;
-        if (total === 0)
-            return;
-        const next = (this.findIndex() - 1 + total) % total;
-        this.#goToMatch(next);
-    }
-    async #runSearch(query, token) {
-        const doc = this.#doc();
-        if (!doc)
-            return;
-        try {
-            const results = await doc.searchAll(query);
-            if (token !== this.#searchToken)
-                return;
-            this.findResults.set(results);
-            this.findIndex.set(0);
-            if (results.length > 0)
-                this.#goToMatch(0);
-        }
-        catch (e) {
-            if (token === this.#searchToken) {
-                console.error('Search failed', e);
-                this.findResults.set([]);
-            }
-        }
-    }
-    #goToMatch(index) {
-        const results = this.findResults();
-        const match = results[index];
-        if (!match)
-            return;
-        this.findIndex.set(index);
-        this.#scrollToPageIndex(match.pageIndex);
-    }
-    #applyHighlights(results, activeIndex) {
-        const elements = this.pageEls();
-        for (const ref of elements) {
-            const el = ref.nativeElement;
-            const idx = this.#pageIndexFromEl(el);
-            if (idx === null)
-                continue;
-            const textLayer = el.querySelector('.text-layer');
-            if (!textLayer)
-                continue;
-            this.#applyHighlightsToPage(idx, textLayer, results, activeIndex);
-        }
-    }
-    #applyHighlightsToPage(idx, textLayer, results = this.findResults(), activeIndex = this.findIndex()) {
-        const spans = textLayer.querySelectorAll('span');
-        if (spans.length === 0)
-            return;
-        const onPage = new Set();
-        const active = new Set();
-        results.forEach((m, i) => {
-            if (m.pageIndex !== idx)
-                return;
-            const target = i === activeIndex ? active : onPage;
-            for (const ii of m.itemIndices)
-                target.add(ii);
-        });
-        spans.forEach((span, i) => {
-            const isActive = active.has(i);
-            const isMatch = isActive || onPage.has(i);
-            span.classList.toggle('match', isMatch && !isActive);
-            span.classList.toggle('match-active', isActive);
-        });
-    }
-    prev() {
-        if (this.canPrev())
-            this.#scrollToPageIndex(this.currentPage() - 2);
-    }
-    next() {
-        if (this.canNext())
-            this.#scrollToPageIndex(this.currentPage());
-    }
-    /**
-     * Step to the next-higher preset zoom level. Mirrors Chrome's
-     * `viewport.zoomIn()` — iterates `ZOOM_PRESETS` rather than multiplying
-     * by a fixed factor (see `chrome-viewer-spec.md §4.1`).
-     */
-    zoomIn() {
-        this.fittingType.set(FittingType.NONE);
-        const current = this.#effectiveScale();
-        const next = ZOOM_PRESETS.find((p) => p > current) ?? MAX_SCALE;
-        this.#manualZoom.set(next);
-    }
-    /** Step to the next-lower preset zoom level. */
-    zoomOut() {
-        this.fittingType.set(FittingType.NONE);
-        const current = this.#effectiveScale();
-        let next = MIN_SCALE;
-        for (const p of ZOOM_PRESETS) {
-            if (p < current)
-                next = p;
-        }
-        this.#manualZoom.set(next);
-    }
-    /**
-     * Cycle the fit mode. Mirrors Chrome's toolbar `#fit` button which toggles
-     * fit-to-page ↔ fit-to-width (spec §1, §5). We treat NONE as a third
-     * cycle state so users can return to free zoom.
-     */
-    cycleFitMode() {
-        this.fittingType.update((current) => {
-            switch (current) {
-                case FittingType.NONE: return FittingType.FIT_TO_PAGE;
-                case FittingType.FIT_TO_PAGE: return FittingType.FIT_TO_WIDTH;
-                case FittingType.FIT_TO_WIDTH: return FittingType.NONE;
-                default: return FittingType.NONE;
-            }
-        });
-    }
-    #scrollToPageIndex(idx) {
-        const target = this.pageEls()[idx]?.nativeElement;
-        if (!target)
-            return;
-        target.scrollIntoView({ block: 'start', behavior: 'auto' });
-    }
-    #zoomAt(factor, clientX, clientY) {
-        const column = this.pagesColumn();
-        if (!column)
-            return;
-        const colRect = column.nativeElement.getBoundingClientRect();
-        const oldScale = this.#effectiveScale();
-        this.#pendingAnchor = {
-            cursorX: clientX,
-            cursorY: clientY,
-            docX: (clientX - colRect.left) / oldScale,
-            docY: (clientY - colRect.top) / oldScale,
-        };
-        this.#pendingFactor *= factor;
-        if (this.#zoomRaf)
-            return;
-        this.#zoomRaf = requestAnimationFrame(() => this.#commitZoomFrame());
-    }
-    #applyAnchorScroll() {
-        const anchor = this.#pendingAnchor;
-        if (!anchor)
-            return;
-        this.#pendingAnchor = null;
-        const column = this.pagesColumn();
-        if (!column)
-            return;
-        const stage = this.stage().nativeElement;
-        const colRect = column.nativeElement.getBoundingClientRect();
-        const newScale = this.#effectiveScale();
-        // Where the anchored doc point sits within the (freshly reflowed) column,
-        // and where we want it — under the cursor/pinch-midpoint. Reading colRect
-        // *after* reflow means these deltas resolve to an absolute scroll target,
-        // so the correction is robust to the reflow and to any scroll-anchoring
-        // nudge the browser applied in between.
-        const desiredX = anchor.docX * newScale;
-        const desiredY = anchor.docY * newScale;
-        const currentX = anchor.cursorX - colRect.left;
-        const currentY = anchor.cursorY - colRect.top;
-        // Shift the doc point from its current offset (desired*) to under the
-        // cursor (current*): scrollTop += desired − current.
-        stage.scrollLeft += desiredX - currentX;
-        stage.scrollTop += desiredY - currentY;
-    }
-    async #loadDocument(bytes) {
-        this.#closeDocument();
-        this.error.set(undefined);
-        this.#pageSizes.set([]);
-        this.#pageVisibility.set(new Map());
-        this.#renderedScale.clear();
-        this.#renderedMru = [];
-        this.#renderTokens.clear();
-        this.findResults.set([]);
-        this.findIndex.set(0);
-        this.findQuery.set('');
-        this.#searchToken++;
-        this.firstRendered.set(false);
-        const token = ++this.#docToken;
-        try {
-            const doc = await this.#engine.load(bytes);
-            if (token !== this.#docToken) {
-                doc.close();
-                return;
-            }
-            const sizes = await Promise.all(Array.from({ length: doc.pageCount }, (_, i) => doc.getPageSize(i, 1)));
-            if (token !== this.#docToken) {
-                doc.close();
-                return;
-            }
-            this.#pageSizes.set(sizes);
-            this.#doc.set(doc);
-        }
-        catch (e) {
-            if (token === this.#docToken) {
-                console.error('Failed to load PDF', e);
-                this.error.set('Failed to load PDF');
-            }
-        }
-    }
-    #closeDocument() {
-        const doc = this.#doc();
-        if (doc) {
-            doc.close();
-            this.#doc.set(undefined);
-        }
-        this.#renderedScale.clear();
-        this.#renderedMru = [];
-        this.#renderTokens.clear();
-        this.#pageVisibility.set(new Map());
-        this.#activeRenders = 0;
-        this.rendering.set(false);
-        if (this.#zoomSettleTimer) {
-            clearTimeout(this.#zoomSettleTimer);
-            this.#zoomSettleTimer = undefined;
-        }
-        this.#zooming = false;
-    }
-    #createIntersectionObserver() {
-        this.#observer = new IntersectionObserver((entries) => this.#onIntersect(entries), {
-            root: this.stage().nativeElement,
-            rootMargin: RENDER_MARGIN,
-            threshold: VISIBILITY_THRESHOLDS,
-        });
-    }
-    #refreshObserver(elements) {
-        if (!this.#observer)
-            return;
-        this.#observer.disconnect();
-        for (const ref of elements) {
-            this.#observer.observe(ref.nativeElement);
-        }
-    }
-    #onIntersect(entries) {
-        const visibility = new Map(this.#pageVisibility());
-        const toRender = [];
-        for (const entry of entries) {
-            const idx = this.#pageIndexFromEl(entry.target);
-            if (idx === null)
-                continue;
-            if (entry.isIntersecting) {
-                visibility.set(idx, entry.intersectionRatio);
-                toRender.push(idx);
-            }
-            else {
-                visibility.delete(idx);
-                // Keep the bitmap cached — LRU eviction in `#renderPageIfNeeded`
-                // decides when off-screen pages release their GPU memory. The user
-                // scrolling back gets an instant repaint, no re-render.
-            }
-        }
-        this.#pageVisibility.set(visibility);
-        if (this.#zooming)
-            return;
-        for (const idx of toRender)
-            this.#renderPageIfNeeded(idx);
-    }
-    /**
-     * Move `idx` to the head of the MRU list. No-op if it's already at the
-     * head (the common case once a page is rendered and the user is
-     * scrolling within it).
-     */
-    #touchMru(idx) {
-        const pos = this.#renderedMru.indexOf(idx);
-        if (pos === 0)
-            return;
-        if (pos > 0)
-            this.#renderedMru.splice(pos, 1);
-        this.#renderedMru.unshift(idx);
-    }
-    /**
-     * Trim the MRU to `BITMAP_CACHE_LIMIT`, evicting from the tail and
-     * skipping pages that are currently visible — evicting a visible page
-     * would only trigger an immediate re-render. If every entry is visible
-     * (more pages on screen than the cache limit), we leave the list
-     * oversized and let it shrink naturally as pages scroll out.
-     */
-    #evictOverflow() {
-        if (this.#renderedMru.length <= BITMAP_CACHE_LIMIT)
-            return;
-        const visibility = this.#pageVisibility();
-        for (let i = this.#renderedMru.length - 1; i >= 0; i--) {
-            if (this.#renderedMru.length <= BITMAP_CACHE_LIMIT)
-                return;
-            const idx = this.#renderedMru[i];
-            if (visibility.has(idx))
-                continue;
-            this.#renderedMru.splice(i, 1);
-            this.#evictPage(idx);
-        }
-    }
-    /** Drop a cached page's bitmap + scale entry. Text-layer DOM stays. */
-    #evictPage(idx) {
-        const el = this.pageEls()[idx]?.nativeElement;
-        if (!el)
-            return;
-        const canvas = el.querySelector('canvas');
-        if (canvas && canvas.width > 0) {
-            canvas.width = 0;
-            canvas.height = 0;
-        }
-        this.#renderedScale.delete(idx);
-    }
-    #onScaleChanged(_scale) {
-        const doc = this.#doc();
-        if (!doc)
-            return;
-        // Drop renders queued at the previous scale so they don't tie up the
-        // engine (esp. the worker queue) while we wait for the new scale to
-        // settle. The viewer's render-token mechanism already discards stale
-        // results — this just stops the work from happening in the first place.
-        doc.cancelActiveRender();
-        this.#renderedScale.clear();
-        this.#renderedMru = [];
-        this.#clearAllTextLayers();
-        if (this.#pendingAnchor) {
-            requestAnimationFrame(() => this.#applyAnchorScroll());
-        }
-        this.#zooming = true;
-        if (this.#zoomSettleTimer)
-            clearTimeout(this.#zoomSettleTimer);
-        this.#zoomSettleTimer = setTimeout(() => {
-            this.#zoomSettleTimer = undefined;
-            this.#zooming = false;
-            for (const idx of this.#pageVisibility().keys()) {
-                this.#renderPageIfNeeded(idx);
-            }
-        }, 200);
-    }
-    #clearAllTextLayers() {
-        for (const ref of this.pageEls()) {
-            const textLayer = ref.nativeElement.querySelector('.text-layer');
-            if (textLayer && textLayer.childNodes.length > 0) {
-                textLayer.replaceChildren();
-            }
-        }
-    }
-    async #renderPageIfNeeded(idx) {
-        const doc = this.#doc();
-        if (!doc)
-            return;
-        const scale = this.#effectiveScale();
-        if (this.#renderedScale.get(idx) === scale) {
-            // Cache hit — promote so it doesn't get evicted on the next scroll.
-            this.#touchMru(idx);
-            return;
-        }
-        const pageEl = this.pageEls()[idx]?.nativeElement;
-        if (!pageEl)
-            return;
-        const canvas = pageEl.querySelector('canvas');
-        const textLayerEl = pageEl.querySelector('.text-layer');
-        if (!canvas || !textLayerEl)
-            return;
-        const token = (this.#renderTokens.get(idx) ?? 0) + 1;
-        this.#renderTokens.set(idx, token);
-        this.#activeRenders++;
-        this.rendering.set(true);
-        try {
-            const result = await doc.renderPage(idx, scale, canvas);
-            if (this.#renderTokens.get(idx) !== token)
-                return;
-            await result.renderTextLayer(textLayerEl);
-            if (this.#renderTokens.get(idx) !== token)
-                return;
-            this.#renderedScale.set(idx, scale);
-            this.#touchMru(idx);
-            this.#evictOverflow();
-            this.#applyHighlightsToPage(idx, textLayerEl);
-            this.firstRendered.set(true);
-        }
-        catch (e) {
-            if (this.#renderTokens.get(idx) === token && !isCancelled(e)) {
-                console.error('Failed to render PDF page', e);
-            }
-        }
-        finally {
-            this.#activeRenders = Math.max(0, this.#activeRenders - 1);
-            if (this.#activeRenders === 0)
-                this.rendering.set(false);
-        }
-    }
-    #pageIndexFromEl(el) {
-        const raw = el.dataset['pageIndex'];
-        if (raw === undefined)
-            return null;
-        const idx = Number(raw);
-        return Number.isInteger(idx) ? idx : null;
-    }
-    #observeResize() {
-        const stage = this.stage().nativeElement;
-        this.#stageWidth.set(stage.clientWidth);
-        this.#resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                this.#stageWidth.set(entry.contentRect.width);
-            }
-        });
-        this.#resizeObserver.observe(stage);
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfViewer, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "21.2.7", type: PdfViewer, isStandalone: true, selector: "omm-pdf-viewer", inputs: { data: { classPropertyName: "data", publicName: "data", isSignal: true, isRequired: true, transformFunction: null } }, host: { listeners: { "wheel": "onWheel($event)", "pointerdown": "onPointerDown($event)", "document:pointermove": "onPointerMove($event)", "document:pointerup": "onPointerUp($event)", "document:pointercancel": "onPointerUp($event)", "document:keydown": "onKeydown($event)" }, properties: { "class.dragging": "dragging()" } }, viewQueries: [{ propertyName: "stage", first: true, predicate: ["stage"], descendants: true, isSignal: true }, { propertyName: "pagesColumn", first: true, predicate: ["pagesColumn"], descendants: true, isSignal: true }, { propertyName: "pageEls", predicate: ["pageEl"], descendants: true, isSignal: true }, { propertyName: "findBar", first: true, predicate: ["findBar"], descendants: true, isSignal: true }], ngImport: i0, template: "<omm-pdf-toolbar\r\n    [zoomPercent]=\"zoomPercent()\"\r\n    [fittingType]=\"fittingType()\"\r\n    [currentPage]=\"currentPage()\"\r\n    [pageCount]=\"pageCount()\"\r\n    (zoomIn)=\"zoomIn()\"\r\n    (zoomOut)=\"zoomOut()\"\r\n    (fitToggle)=\"cycleFitMode()\"\r\n    (openFind)=\"openFind()\">\r\n</omm-pdf-toolbar>\r\n@if (findOpen()) {\r\n    <omm-pdf-find-bar #findBar\r\n        [query]=\"findQuery()\"\r\n        [current]=\"findIndex()\"\r\n        [total]=\"findResults().length\"\r\n        (queryChange)=\"onFindQueryChange($event)\"\r\n        (prev)=\"findPrev()\"\r\n        (next)=\"findNext()\"\r\n        (closed)=\"closeFind()\">\r\n    </omm-pdf-find-bar>\r\n}\r\n<div class=\"stage\" #stage>\r\n    @if (error(); as err) {\r\n        <div class=\"message\">{{ err }}</div>\r\n    } @else {\r\n        @if (!firstRendered()) {\r\n            <div class=\"message\">{{ 'omm.ui.pdf-viewer.loading' | translate }}</div>\r\n        }\r\n        <div class=\"pages-column\" #pagesColumn [class.invisible]=\"!firstRendered()\">\r\n            @for (page of pages(); track page.index) {\r\n                <div #pageEl class=\"page\" role=\"region\"\r\n                    [attr.data-page-index]=\"page.index\"\r\n                    [style.width.px]=\"page.width\"\r\n                    [style.height.px]=\"page.height\"\r\n                    [attr.aria-label]=\"'omm.ui.pdf-viewer.page' | translate: { current: page.index + 1, total: pageCount() || 1 }\">\r\n                    <canvas></canvas>\r\n                    <div class=\"text-layer\"></div>\r\n                </div>\r\n            }\r\n        </div>\r\n    }\r\n</div>\r\n", styles: [":host{display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden}:host .stage{flex:1;overflow:auto;display:flex;align-items:safe flex-start;justify-content:safe center;padding:var(--omm-spacing);background-color:var(--omm-pane-surface);touch-action:none;overflow-anchor:none}:host .stage .pages-column{display:flex;flex-direction:column;align-items:center;gap:var(--omm-spacing)}:host .stage .pages-column.invisible{visibility:hidden}:host .stage .page{position:relative;box-shadow:0 2px 8px var(--omm-pdf-page-shadow);background-color:var(--omm-pdf-page-surface);line-height:0;cursor:grab}:host .stage canvas{display:block;width:100%;height:100%}:host .stage .text-layer{position:absolute;inset:0;overflow:hidden;opacity:.25;line-height:1;-webkit-user-select:text;user-select:text;forced-color-adjust:none;transform-origin:0 0;caret-color:CanvasText}:host .stage .text-layer ::ng-deep span,:host .stage .text-layer ::ng-deep br{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%}:host .stage .text-layer ::selection{background:var(--omm-pdf-text-selection)}:host .stage .text-layer ::ng-deep span.match{background:var(--omm-pdf-search-match);border-radius:2px}:host .stage .text-layer ::ng-deep span.match-active{background:var(--omm-pdf-search-match-active);border-radius:2px}:host .stage .message{color:var(--omm-text-muted);padding:var(--omm-spacing-l)}:host.dragging .stage .page,:host.dragging .stage .page ::ng-deep span{cursor:grabbing}\n"], dependencies: [{ kind: "component", type: FindBar, selector: "omm-pdf-find-bar", inputs: ["query", "current", "total"], outputs: ["queryChange", "prev", "next", "closed"] }, { kind: "component", type: PdfToolbar, selector: "omm-pdf-toolbar", inputs: ["zoomPercent", "fittingType", "currentPage", "pageCount"], outputs: ["zoomIn", "zoomOut", "fitToggle", "openFind"] }, { kind: "pipe", type: TranslatePipe, name: "translate" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfViewer, decorators: [{
-            type: Component,
-            args: [{ selector: 'omm-pdf-viewer', imports: [TranslatePipe, FindBar, PdfToolbar], changeDetection: ChangeDetectionStrategy.OnPush, host: { '[class.dragging]': 'dragging()' }, template: "<omm-pdf-toolbar\r\n    [zoomPercent]=\"zoomPercent()\"\r\n    [fittingType]=\"fittingType()\"\r\n    [currentPage]=\"currentPage()\"\r\n    [pageCount]=\"pageCount()\"\r\n    (zoomIn)=\"zoomIn()\"\r\n    (zoomOut)=\"zoomOut()\"\r\n    (fitToggle)=\"cycleFitMode()\"\r\n    (openFind)=\"openFind()\">\r\n</omm-pdf-toolbar>\r\n@if (findOpen()) {\r\n    <omm-pdf-find-bar #findBar\r\n        [query]=\"findQuery()\"\r\n        [current]=\"findIndex()\"\r\n        [total]=\"findResults().length\"\r\n        (queryChange)=\"onFindQueryChange($event)\"\r\n        (prev)=\"findPrev()\"\r\n        (next)=\"findNext()\"\r\n        (closed)=\"closeFind()\">\r\n    </omm-pdf-find-bar>\r\n}\r\n<div class=\"stage\" #stage>\r\n    @if (error(); as err) {\r\n        <div class=\"message\">{{ err }}</div>\r\n    } @else {\r\n        @if (!firstRendered()) {\r\n            <div class=\"message\">{{ 'omm.ui.pdf-viewer.loading' | translate }}</div>\r\n        }\r\n        <div class=\"pages-column\" #pagesColumn [class.invisible]=\"!firstRendered()\">\r\n            @for (page of pages(); track page.index) {\r\n                <div #pageEl class=\"page\" role=\"region\"\r\n                    [attr.data-page-index]=\"page.index\"\r\n                    [style.width.px]=\"page.width\"\r\n                    [style.height.px]=\"page.height\"\r\n                    [attr.aria-label]=\"'omm.ui.pdf-viewer.page' | translate: { current: page.index + 1, total: pageCount() || 1 }\">\r\n                    <canvas></canvas>\r\n                    <div class=\"text-layer\"></div>\r\n                </div>\r\n            }\r\n        </div>\r\n    }\r\n</div>\r\n", styles: [":host{display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden}:host .stage{flex:1;overflow:auto;display:flex;align-items:safe flex-start;justify-content:safe center;padding:var(--omm-spacing);background-color:var(--omm-pane-surface);touch-action:none;overflow-anchor:none}:host .stage .pages-column{display:flex;flex-direction:column;align-items:center;gap:var(--omm-spacing)}:host .stage .pages-column.invisible{visibility:hidden}:host .stage .page{position:relative;box-shadow:0 2px 8px var(--omm-pdf-page-shadow);background-color:var(--omm-pdf-page-surface);line-height:0;cursor:grab}:host .stage canvas{display:block;width:100%;height:100%}:host .stage .text-layer{position:absolute;inset:0;overflow:hidden;opacity:.25;line-height:1;-webkit-user-select:text;user-select:text;forced-color-adjust:none;transform-origin:0 0;caret-color:CanvasText}:host .stage .text-layer ::ng-deep span,:host .stage .text-layer ::ng-deep br{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%}:host .stage .text-layer ::selection{background:var(--omm-pdf-text-selection)}:host .stage .text-layer ::ng-deep span.match{background:var(--omm-pdf-search-match);border-radius:2px}:host .stage .text-layer ::ng-deep span.match-active{background:var(--omm-pdf-search-match-active);border-radius:2px}:host .stage .message{color:var(--omm-text-muted);padding:var(--omm-spacing-l)}:host.dragging .stage .page,:host.dragging .stage .page ::ng-deep span{cursor:grabbing}\n"] }]
-        }], ctorParameters: () => [], propDecorators: { data: [{ type: i0.Input, args: [{ isSignal: true, alias: "data", required: true }] }], stage: [{ type: i0.ViewChild, args: ['stage', { isSignal: true }] }], pagesColumn: [{ type: i0.ViewChild, args: ['pagesColumn', { isSignal: true }] }], pageEls: [{ type: i0.ViewChildren, args: ['pageEl', { isSignal: true }] }], findBar: [{ type: i0.ViewChild, args: ['findBar', { isSignal: true }] }], onWheel: [{
-                type: HostListener,
-                args: ['wheel', ['$event']]
-            }], onPointerDown: [{
-                type: HostListener,
-                args: ['pointerdown', ['$event']]
-            }], onPointerMove: [{
-                type: HostListener,
-                args: ['document:pointermove', ['$event']]
-            }], onPointerUp: [{
-                type: HostListener,
-                args: ['document:pointerup', ['$event']]
-            }, {
-                type: HostListener,
-                args: ['document:pointercancel', ['$event']]
-            }], onKeydown: [{
-                type: HostListener,
-                args: ['document:keydown', ['$event']]
-            }] } });
-function clamp(value, min, max) {
-    return Math.min(max, Math.max(min, value));
-}
-function isCancelled(error) {
-    if (!error || typeof error !== 'object')
-        return false;
-    // `RenderingCancelledException` is pdf.js's name (retained while
-    // `PdfRenderService` is still the fallback engine); `RenderCancelledError`
-    // is the PDFium worker engine's drop-from-queue rejection.
-    const name = error.name;
-    return name === 'RenderingCancelledException' || name === 'RenderCancelledError';
-}
-function isEditable(target) {
-    if (!(target instanceof HTMLElement))
-        return false;
-    if (target.isContentEditable)
-        return true;
-    const tag = target.tagName;
-    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
-}
-
-const MAX_BITMAP_CACHE = 6;
-function makeRenderTextLayer(lib, getTextContent, index, viewport) {
-    return async (container) => {
-        const textContent = await getTextContent(index);
-        const temp = document.createElement('div');
-        temp.style.cssText = `position: absolute; left: -100000px; top: 0; width: ${viewport.width}px; height: ${viewport.height}px; visibility: hidden;`;
-        document.body.appendChild(temp);
-        try {
-            const textLayer = new lib.TextLayer({
-                textContentSource: textContent,
-                container: temp,
-                viewport,
-            });
-            await textLayer.render();
-            container.style.width = `${viewport.width}px`;
-            container.style.height = `${viewport.height}px`;
-            container.replaceChildren(...Array.from(temp.children));
-        }
-        finally {
-            temp.remove();
-        }
-    };
-}
-class PdfRenderService {
-    #libPromise;
-    /** Implements {@link PdfEngine.load}. */
-    async load(bytes) {
-        const lib = await this.#getLib();
-        const data = bytes.slice();
-        const loadingTask = lib.getDocument({ data });
-        const doc = await loadingTask.promise;
-        return this.#wrap(lib, loadingTask, doc);
-    }
-    #getLib() {
-        if (!this.#libPromise) {
-            this.#libPromise = import('pdfjs-dist').then((lib) => {
-                lib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
-                return lib;
-            });
-        }
-        return this.#libPromise;
-    }
-    #wrap(lib, loadingTask, doc) {
-        const pageCache = new Map();
-        const textContentCache = new Map();
-        const pageTextCache = new Map();
-        const bitmapCache = new Map();
-        const activeRenders = new Map();
-        let closed = false;
-        const cancelAllRenders = () => {
-            for (const task of activeRenders.values())
-                task.cancel();
-            activeRenders.clear();
-        };
-        const getPage = (index) => {
-            const cached = pageCache.get(index);
-            if (cached)
-                return cached;
-            const promise = doc.getPage(index + 1);
-            pageCache.set(index, promise);
-            return promise;
-        };
-        const getTextContent = (index) => {
-            const cached = textContentCache.get(index);
-            if (cached)
-                return cached;
-            const promise = getPage(index).then((page) => page.getTextContent());
-            textContentCache.set(index, promise);
-            return promise;
-        };
-        const getPageText = (index) => {
-            const cached = pageTextCache.get(index);
-            if (cached)
-                return cached;
-            const promise = getTextContent(index).then((tc) => {
-                let text = '';
-                const itemOffsets = [];
-                for (const item of tc.items) {
-                    itemOffsets.push(text.length);
-                    text += item.str ?? '';
-                    if (item.hasEOL)
-                        text += '\n';
-                }
-                itemOffsets.push(text.length);
-                return { text, itemOffsets };
-            });
-            pageTextCache.set(index, promise);
-            return promise;
-        };
-        const cacheKey = (index, scale) => `${index}@${scale.toFixed(3)}`;
-        const touch = (key) => {
-            const v = bitmapCache.get(key);
-            if (!v)
-                return;
-            bitmapCache.delete(key);
-            bitmapCache.set(key, v);
-        };
-        const evict = () => {
-            while (bitmapCache.size > MAX_BITMAP_CACHE) {
-                const oldestKey = bitmapCache.keys().next().value;
-                if (oldestKey === undefined)
-                    break;
-                const oldest = bitmapCache.get(oldestKey);
-                bitmapCache.delete(oldestKey);
-                oldest?.close();
-            }
-        };
-        const clearBitmapCache = () => {
-            for (const bm of bitmapCache.values())
-                bm.close();
-            bitmapCache.clear();
-        };
-        return {
-            pageCount: doc.numPages,
-            getPageSize: async (index, scale) => {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                const page = await getPage(index);
-                const viewport = page.getViewport({ scale });
-                return { width: viewport.width, height: viewport.height };
-            },
-            renderPage: async (index, scale, canvas) => {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                const page = await getPage(index);
-                const viewport = page.getViewport({ scale });
-                const w = Math.floor(viewport.width);
-                const h = Math.floor(viewport.height);
-                const swapToVisible = (source) => {
-                    canvas.width = w;
-                    canvas.height = h;
-                    const ctx = canvas.getContext('2d');
-                    if (!ctx)
-                        throw new Error('Could not acquire 2D canvas context');
-                    ctx.drawImage(source, 0, 0);
-                };
-                const key = cacheKey(index, scale);
-                const cached = bitmapCache.get(key);
-                if (cached) {
-                    swapToVisible(cached);
-                    touch(key);
-                    return {
-                        renderTextLayer: makeRenderTextLayer(lib, getTextContent, index, viewport),
-                    };
-                }
-                const offscreen = new OffscreenCanvas(w, h);
-                const offCtx = offscreen.getContext('2d');
-                if (!offCtx)
-                    throw new Error('Could not acquire offscreen 2D context');
-                activeRenders.get(index)?.cancel();
-                const task = page.render({
-                    canvasContext: offCtx,
-                    canvas: offscreen,
-                    viewport,
-                });
-                activeRenders.set(index, task);
-                try {
-                    await task.promise;
-                }
-                finally {
-                    if (activeRenders.get(index) === task)
-                        activeRenders.delete(index);
-                }
-                if (closed) {
-                    return {
-                        renderTextLayer: async () => { },
-                    };
-                }
-                swapToVisible(offscreen);
-                try {
-                    const bitmap = offscreen.transferToImageBitmap();
-                    if (closed) {
-                        bitmap.close();
-                    }
-                    else {
-                        bitmapCache.set(key, bitmap);
-                        evict();
-                    }
-                }
-                catch {
-                    // best-effort cache; ignore failures
-                }
-                return {
-                    renderTextLayer: makeRenderTextLayer(lib, getTextContent, index, viewport),
-                };
-            },
-            searchAll: async (query, opts) => {
-                if (closed)
-                    throw new Error('PDF document is closed');
-                if (!query)
-                    return [];
-                const caseSensitive = opts?.caseSensitive ?? false;
-                const needle = caseSensitive ? query : query.toLowerCase();
-                const matches = [];
-                for (let p = 0; p < doc.numPages; p++) {
-                    if (closed)
-                        return [];
-                    const { text, itemOffsets } = await getPageText(p);
-                    const haystack = caseSensitive ? text : text.toLowerCase();
-                    let pos = 0;
-                    while (true) {
-                        const idx = haystack.indexOf(needle, pos);
-                        if (idx < 0)
-                            break;
-                        const end = idx + needle.length;
-                        const itemIndices = [];
-                        for (let i = 0; i < itemOffsets.length - 1; i++) {
-                            const itemStart = itemOffsets[i];
-                            const itemEnd = itemOffsets[i + 1];
-                            if (itemStart < end && itemEnd > idx)
-                                itemIndices.push(i);
-                        }
-                        matches.push({ pageIndex: p, itemIndices });
-                        pos = end > idx ? end : idx + 1;
-                    }
-                }
-                return matches;
-            },
-            cancelActiveRender: () => {
-                cancelAllRenders();
-            },
-            close: () => {
-                if (closed)
-                    return;
-                closed = true;
-                cancelAllRenders();
-                pageCache.clear();
-                textContentCache.clear();
-                pageTextCache.clear();
-                clearBitmapCache();
-                loadingTask.destroy();
-            },
-        };
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfRenderService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-    static ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfRenderService, providedIn: 'root' });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImport: i0, type: PdfRenderService, decorators: [{
-            type: Injectable,
-            args: [{ providedIn: 'root' }]
-        }] });
-
-/**
  * Creates transient toast notifications by injecting DOM elements.
  * Supports info, warning, and error types with configurable duration or sticky dismissal.
  */
@@ -4493,10 +2465,16 @@ class ToastService {
         const { duration = 3000, sticky = false, hostElement = document.body } = options;
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
-        // toast.textContent = message;
-        toast.innerHTML = `
-    <p>${message}</p>${sticky ? `<button class="toast-close icon">×</button>` : ''}
-  `;
+        // Build via DOM APIs so the message is always treated as plain text (no HTML injection).
+        const text = document.createElement('p');
+        text.textContent = message;
+        toast.appendChild(text);
+        if (sticky) {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'toast-close icon';
+            closeBtn.textContent = '×';
+            toast.appendChild(closeBtn);
+        }
         hostElement.appendChild(toast);
         // allow CSS transition to kick in
         requestAnimationFrame(() => {
@@ -4950,5 +2928,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.2.7", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { BottomSheet, ButtonToggle, Calendar, Checkbox, CollectionTree, ConfirmService, CurrencyInput, CurrencyInputDirective, Datepicker, DatepickerService, DragSelect, DragSelectItemDirective, EnvironmentService, FileDrop, GrowingTextarea, List, ListItem, PDFIUM_WASM_URL, PDF_ENGINE, PdfRenderService, PdfViewer, PdfiumEngine, PdfiumWorkerEngine, PinPad, RenderCancelledError, Select, TagsInput, ThemeService, ThemeToggle, ToastService, Tooltip };
+export { BottomSheet, ButtonToggle, Calendar, Checkbox, CollectionTree, ConfirmService, CurrencyInput, CurrencyInputDirective, Datepicker, DatepickerService, DragSelect, DragSelectItemDirective, EnvironmentService, FileDrop, GrowingTextarea, List, ListItem, ListItemToggle, PinPad, Select, TagsInput, ThemeService, ThemeToggle, ToastService, Tooltip };
 //# sourceMappingURL=omm-ui.mjs.map

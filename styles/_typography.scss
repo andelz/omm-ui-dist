@@ -11,11 +11,13 @@
     --omm-font-size-muted: calc(var(--font-base-size) * 0.875);
     --omm-font-size-tiny: calc(var(--font-base-size) * 0.75);
 
+    // Override in the consuming app to change the UI font globally.
+    --omm-font-family: "Google Sans Code", monospace;
     --omm-font-monospace: normal 400 var(--font-base-size) "Google Sans Code", monospace;
 }
 
 * {
-    font-family: "Google Sans Code", monospace;
+    font-family: var(--omm-font-family);
     font-size: var(--omm-font-size);
 }
 

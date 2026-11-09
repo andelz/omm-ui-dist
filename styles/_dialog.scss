@@ -1,6 +1,5 @@
 // Dialogs
 dialog:not(.transparent) {
-
     --dialog-border-base: var(--omm-outline);
     --dialog-border-color: color-mix(in srgb, var(--dialog-border-base) 75%, transparent);
     --dialog-outline-color: color-mix(in srgb, var(--dialog-border-base) 30%, transparent);
@@ -25,9 +24,42 @@ dialog:not(.transparent) {
         .confirm-option {
             margin-top: var(--omm-spacing);
             gap: var(--omm-spacing);
-            display: flex; 
+            display: flex;
             flex-flow: row;
             align-items: center;
+        }
+    }
+
+    // full cover dialogs (solid backdrop & no outline)
+    &.cover {
+        border: 0;
+        background: transparent;
+        outline: 0;
+        box-shadow: none;
+        box-sizing: border-box;
+        // Top layer, so `app-root`'s safe-area padding doesn't reach it.
+        padding: var(--omm-safe-area-top) var(--omm-safe-area-right) var(--omm-safe-area-bottom)
+            var(--omm-safe-area-left);
+        height: 100dvh;
+        max-height: 100dvh;
+        max-width: 100dvw;
+
+        // Same split as `.fullscreen`: the dialog stays a plain block so its
+        // `display` can toggle for the open/close transition, and the column
+        // layout lives on an inner `.cover-content` wrapper.
+        > .cover-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            // shrink below its content so main scrolls, not the whole dialog
+            > main {
+                min-height: 0;
+            }
+        }
+
+        &::backdrop {
+            background-color: var(--omm-surface);
         }
     }
 
@@ -41,6 +73,7 @@ dialog:not(.transparent) {
         padding: var(--omm-safe-area-top) var(--omm-safe-area-right) var(--omm-safe-area-bottom)
             var(--omm-safe-area-left);
         border-radius: 0;
+        border: none;
 
         // The dialog itself stays a plain block so its `display` is free to
         // toggle block↔none for the open/close transition. The header/main/
@@ -55,14 +88,13 @@ dialog:not(.transparent) {
     }
 
     &.danger {
-    --dialog-border-base: var(--omm-color-error);
+        --dialog-border-base: var(--omm-color-error);
 
-    button.primary {
-        background-color: var(--omm-surface-error);
-        color: var(--omm-on-surface-error);
-        border-color: var(--omm-color-error);
-        
-    }
+        button.primary {
+            background-color: var(--omm-surface-error);
+            color: var(--omm-on-surface-error);
+            border-color: var(--omm-color-error);
+        }
     }
 
     &::backdrop {
@@ -104,6 +136,10 @@ dialog:not(.transparent) {
                 background-color: color-mix(in srgb, var(--omm-surface) 30%, transparent);
             }
 
+            &.cover[open]::backdrop {
+                background-color: var(--omm-surface);
+            }
+
             @starting-style {
                 &[open]::backdrop {
                     background-color: transparent;
@@ -121,7 +157,7 @@ dialog:not(.transparent) {
         }
     }
 
-    &:not(.fullscreen) > * {
+    &:not(.fullscreen, .cover) > * {
         padding: var(--omm-spacing);
         box-sizing: border-box;
     }
@@ -158,6 +194,13 @@ dialog:not(.transparent) {
     }
 }
 
+// Section padding for cover dialogs, kept at zero specificity so component
+// styles (e.g. an edge-to-edge `main`) still override it.
+:where(dialog.cover > .cover-content) > * {
+    padding: var(--omm-spacing);
+    box-sizing: border-box;
+}
+
 dialog.transparent {
     inset: 0;
     width: 100vw;
@@ -172,8 +215,7 @@ dialog.transparent {
     outline: 0;
     margin: 0;
     // Top layer, so `app-root`'s safe-area padding doesn't reach it.
-    padding: var(--omm-safe-area-top) var(--omm-safe-area-right) var(--omm-safe-area-bottom)
-        var(--omm-safe-area-left);
+    padding: var(--omm-safe-area-top) var(--omm-safe-area-right) var(--omm-safe-area-bottom) var(--omm-safe-area-left);
 
     &::backdrop {
         background: transparent;

@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { ElementRef, InjectionToken, OnInit } from '@angular/core';
+import { ElementRef, OnInit } from '@angular/core';
 import * as lucide_angular from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular';
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
@@ -25,6 +25,12 @@ declare class ButtonToggle<T = string> {
 
 declare class BottomSheet {
     ariaLabel: _angular_core.InputSignal<string | undefined>;
+    /**
+     * On a wide viewport, show a centred panel instead of a sheet along the
+     * bottom edge. A full-width strip suits a phone held in one hand; on a
+     * desktop window it stretches short content across the whole screen.
+     */
+    panelOnWide: _angular_core.InputSignalWithTransform<boolean, unknown>;
     closed: _angular_core.OutputEmitterRef<void>;
     private dlg;
     open(): void;
@@ -32,7 +38,7 @@ declare class BottomSheet {
     protected onClose(): void;
     protected onBackdropClick(e: MouseEvent): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<BottomSheet, never>;
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<BottomSheet, "omm-bottom-sheet", never, { "ariaLabel": { "alias": "ariaLabel"; "required": false; "isSignal": true; }; }, { "closed": "closed"; }, never, ["*"], true, never>;
+    static ɵcmp: _angular_core.ɵɵComponentDeclaration<BottomSheet, "omm-bottom-sheet", never, { "ariaLabel": { "alias": "ariaLabel"; "required": false; "isSignal": true; }; "panelOnWide": { "alias": "panelOnWide"; "required": false; "isSignal": true; }; }, { "closed": "closed"; }, never, ["*"], true, never>;
 }
 
 /**
@@ -353,6 +359,11 @@ declare class List<T> {
     isSelected(index: number): boolean;
     onKeyDown(event: KeyboardEvent): void;
     handleItemClick(index: number, event: MouseEvent): void;
+    /**
+     * Click on a row's `ommListItemToggle`: toggles the row, or with shift adds
+     * the range from the anchor. Leaves the rest of the selection untouched.
+     */
+    handleToggleClick(index: number, event: MouseEvent): void;
     handleItemActivate(index: number): void;
     selectItem(index: number): void;
     clearSelection(): void;
@@ -361,6 +372,27 @@ declare class List<T> {
     onDragSelectChange(indices: number[]): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<List<any>, never>;
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<List<any>, "omm-list", never, { "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "activateOnClick": { "alias": "activateOnClick"; "required": false; "isSignal": true; }; }, { "itemActivate": "itemActivate"; "selectionChange": "selectionChange"; "selectionModeChange": "selectionModeChange"; }, ["items"], ["*"], true, never>;
+}
+
+/**
+ * Marks an element inside an `ommListItem` as the row's selection checkbox
+ * (e.g. a file-type badge). The list renders it as a checkbox when the row is
+ * hovered (pointer devices), selected, or the list has a selection / is in
+ * touch selection mode. Pair with `activateOnClick` on the list so a click on
+ * the rest of the row opens the item.
+ *
+ * Pointer: clicking the toggle toggles the row (shift extends a range).
+ * Touch: the toggle only reacts once long-press has entered selection mode, at
+ * which point the whole row toggles anyway — so the click just bubbles.
+ *
+ * Keyboard selection stays on the row (Space), so the toggle is not focusable
+ * and hidden from assistive tech; the row already exposes `aria-selected`.
+ */
+declare class ListItemToggle {
+    #private;
+    onClick(event: MouseEvent): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ListItemToggle, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ListItemToggle, "[ommListItemToggle]", never, {}, {}, never, never, true, never>;
 }
 
 interface SelectOption<T> {
@@ -521,197 +553,6 @@ declare class ThemeToggle {
 }
 
 /**
- * Engine boundary for the PDF viewer.
- *
- * Chrome's viewer talks to PDFium through a postMessage protocol across a
- * MimeHandlerView IPC boundary (see `chrome-viewer-spec.md` §2). Our viewer
- * collapses that into a synchronous in-process interface. Method names and
- * payload shapes loosely mirror Chrome's protocol where it makes sense, so
- * cross-referencing Chromium source stays straightforward.
- *
- * Phase 2: pdf.js is the only impl (via `PdfRenderService`). Phase 4 swaps
- * the underlying engine to PDFium WASM; consumers of `PdfEngine` should not
- * need to change.
- *
- * The shape of `PdfDocumentHandle` is intentionally aligned with the pre-
- * existing pdf.js-backed handle (Phase 1) so this interface lifts the
- * existing API into a contract rather than introducing a new shape.
- */
-/** Per-page dimensions in CSS pixels at the requested scale. */
-interface PdfPageSize {
-    width: number;
-    height: number;
-}
-/**
- * Fit-mode state. Mirrors Chrome's `FittingType` enum
- * (`chrome/browser/resources/pdf/constants.ts`). v1 uses the first three
- * only; bounding-box variants reserved.
- *
- * - `NONE`: free zoom; user's manual zoom value applies as-is.
- * - `FIT_TO_PAGE`: page fits entirely within viewport (whichever dimension
- *   constrains).
- * - `FIT_TO_WIDTH`: page width equals viewport width; vertical scroll.
- */
-declare const FittingType: {
-    readonly NONE: "none";
-    readonly FIT_TO_PAGE: "fit-to-page";
-    readonly FIT_TO_WIDTH: "fit-to-width";
-    readonly FIT_TO_HEIGHT: "fit-to-height";
-};
-type FittingType = (typeof FittingType)[keyof typeof FittingType];
-interface PdfPageRenderResult {
-    /**
-     * Renders the text-selection overlay into the given container. The
-     * container is sized to match the page; text-layer DOM mirrors pdf.js's
-     * TextLayer output for selection compatibility.
-     */
-    renderTextLayer(container: HTMLElement): Promise<void>;
-}
-interface PdfSearchMatch {
-    pageIndex: number;
-    /**
-     * Indices into the page's text-layer span list, identifying which spans
-     * are part of this match. Used to apply highlight CSS classes.
-     */
-    itemIndices: number[];
-}
-interface PdfSearchOptions {
-    caseSensitive?: boolean;
-}
-/**
- * Handle to a loaded document. Roughly mirrors Chrome's `documentDimensions`
- * + on-demand requests sent via `pluginController_.postMessage(...)`.
- */
-interface PdfDocumentHandle {
-    readonly pageCount: number;
-    /** Page dimensions at the given scale; mirrors Chrome's `documentDimensions` per-page data. */
-    getPageSize(pageIndex: number, scale: number): Promise<PdfPageSize>;
-    /**
-     * Render one page to the given canvas; mirrors Chrome's `viewport`
-     * message round-trip. The engine sizes the canvas and rasterises into it.
-     */
-    renderPage(pageIndex: number, scale: number, canvas: HTMLCanvasElement): Promise<PdfPageRenderResult>;
-    /** Search across all pages; mirrors Chrome's `startedFindInPage` flow. */
-    searchAll(query: string, options?: PdfSearchOptions): Promise<PdfSearchMatch[]>;
-    /** Cancel any active render (e.g. when user is mid-zoom). */
-    cancelActiveRender(): void;
-    /** Releases engine resources. Mirrors no specific Chrome message — Chrome relies on tab close. */
-    close(): void;
-}
-/**
- * Engine factory. Phase 4 will add a PDFium-backed implementation; the v1
- * `PdfRenderService` (pdf.js) implements this interface so the component
- * stays engine-agnostic.
- */
-interface PdfEngine {
-    load(bytes: Uint8Array, password?: string): Promise<PdfDocumentHandle>;
-}
-/**
- * Rejection from `renderPage` when the surrounding render was dropped by
- * `cancelActiveRender()` before it reached the engine. The viewer
- * recognises this name and treats it as a no-op (no error log, no
- * spinner-down event) so cancellation looks like nothing happened.
- *
- * Class is used in preference to a sentinel string so callers can pattern
- * match with `instanceof` from outside the omm-ui package.
- */
-declare class RenderCancelledError extends Error {
-    constructor(message?: string);
-}
-
-declare class FindBar {
-    readonly query: _angular_core.InputSignal<string>;
-    readonly current: _angular_core.InputSignal<number>;
-    readonly total: _angular_core.InputSignal<number>;
-    readonly queryChange: _angular_core.OutputEmitterRef<string>;
-    readonly prev: _angular_core.OutputEmitterRef<void>;
-    readonly next: _angular_core.OutputEmitterRef<void>;
-    readonly closed: _angular_core.OutputEmitterRef<void>;
-    readonly icon: {
-        prev: lucide_angular.LucideIconData;
-        next: lucide_angular.LucideIconData;
-        close: lucide_angular.LucideIconData;
-    };
-    readonly input: _angular_core.Signal<ElementRef<HTMLInputElement>>;
-    readonly hasQuery: _angular_core.Signal<boolean>;
-    readonly noResults: _angular_core.Signal<boolean>;
-    readonly countLabel: _angular_core.Signal<string>;
-    focus(): void;
-    onInput(value: string): void;
-    onKeydown(e: KeyboardEvent): void;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<FindBar, never>;
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<FindBar, "omm-pdf-find-bar", never, { "query": { "alias": "query"; "required": false; "isSignal": true; }; "current": { "alias": "current"; "required": false; "isSignal": true; }; "total": { "alias": "total"; "required": false; "isSignal": true; }; }, { "queryChange": "queryChange"; "prev": "prev"; "next": "next"; "closed": "closed"; }, never, never, true, never>;
-}
-
-interface PageEntry {
-    index: number;
-    width: number;
-    height: number;
-}
-declare class PdfViewer {
-    #private;
-    readonly data: _angular_core.InputSignal<Uint8Array<ArrayBufferLike>>;
-    readonly stage: _angular_core.Signal<ElementRef<HTMLDivElement>>;
-    readonly pagesColumn: _angular_core.Signal<ElementRef<HTMLDivElement> | undefined>;
-    readonly pageEls: _angular_core.Signal<readonly ElementRef<HTMLDivElement>[]>;
-    readonly findBar: _angular_core.Signal<FindBar | undefined>;
-    readonly pageCount: _angular_core.Signal<number>;
-    readonly fittingType: _angular_core.WritableSignal<FittingType>;
-    readonly rendering: _angular_core.WritableSignal<boolean>;
-    readonly error: _angular_core.WritableSignal<string | undefined>;
-    readonly firstRendered: _angular_core.WritableSignal<boolean>;
-    readonly findOpen: _angular_core.WritableSignal<boolean>;
-    readonly findQuery: _angular_core.WritableSignal<string>;
-    readonly findResults: _angular_core.WritableSignal<PdfSearchMatch[]>;
-    readonly findIndex: _angular_core.WritableSignal<number>;
-    readonly dragging: _angular_core.WritableSignal<boolean>;
-    readonly currentPage: _angular_core.Signal<number>;
-    readonly pages: _angular_core.Signal<PageEntry[]>;
-    readonly zoomPercent: _angular_core.Signal<number>;
-    readonly canPrev: _angular_core.Signal<boolean>;
-    readonly canNext: _angular_core.Signal<boolean>;
-    constructor();
-    onWheel(e: WheelEvent): void;
-    onPointerDown(e: PointerEvent): void;
-    onPointerMove(e: PointerEvent): void;
-    onPointerUp(e: PointerEvent): void;
-    /**
-     * Keyboard handling. Mirrors `chrome-viewer-spec.md §3` (Chrome's
-     * `viewport.handleDirectionalKeyEvent` + top-level `pdf_viewer.ts`).
-     *
-     * Page-step keys (`PageUp`/`PageDown`, `Home`/`End`) always navigate by
-     * page. Arrow keys scroll by `SCROLL_INCREMENT` (40px); ArrowLeft/Right
-     * additionally jump pages when there is no horizontal scrollbar. Space
-     * scrolls by `PAGING_SCROLL_FRACTION` (87.5%) of viewport height.
-     */
-    onKeydown(e: KeyboardEvent): void;
-    /** Open the find bar and move focus into its input. */
-    openFind(): void;
-    closeFind(): void;
-    onFindQueryChange(value: string): void;
-    findNext(): void;
-    findPrev(): void;
-    prev(): void;
-    next(): void;
-    /**
-     * Step to the next-higher preset zoom level. Mirrors Chrome's
-     * `viewport.zoomIn()` — iterates `ZOOM_PRESETS` rather than multiplying
-     * by a fixed factor (see `chrome-viewer-spec.md §4.1`).
-     */
-    zoomIn(): void;
-    /** Step to the next-lower preset zoom level. */
-    zoomOut(): void;
-    /**
-     * Cycle the fit mode. Mirrors Chrome's toolbar `#fit` button which toggles
-     * fit-to-page ↔ fit-to-width (spec §1, §5). We treat NONE as a third
-     * cycle state so users can return to free zoom.
-     */
-    cycleFitMode(): void;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<PdfViewer, never>;
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<PdfViewer, "omm-pdf-viewer", never, { "data": { "alias": "data"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
-}
-
-/**
  * Displays a native HTML `<dialog>` confirmation prompt and resolves
  * a promise with the user's choice (`true` for confirm, `false` for reject).
  */
@@ -743,71 +584,6 @@ declare class ConfirmService {
     }>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ConfirmService, never>;
     static ɵprov: _angular_core.ɵɵInjectableDeclaration<ConfirmService>;
-}
-
-/**
- * Injection token the `PdfViewer` component reads to obtain its engine.
- *
- * Default factory picks `PdfiumWorkerEngine` when the host can spawn Web
- * Workers (real browsers) and falls back to the main-thread
- * `PdfiumEngine` otherwise — that covers SSR, jsdom, and the unit-test
- * Karma run where instantiating a real worker would try to fetch the
- * ~4 MB WASM binary.
- *
- * Tests that want to inject a mock engine override the same token:
- *   `{ provide: PDF_ENGINE, useValue: makeFakeEngine() }`.
- */
-
-declare const PDF_ENGINE: InjectionToken<PdfEngine>;
-
-/**
- * `PdfEngine` impl backed by PDFium WASM (@hyzyla/pdfium), running on the
- * main thread. Kept as the fallback for environments where `Worker` is
- * unavailable (SSR, jsdom tests); the worker-backed `PdfiumWorkerEngine`
- * is the default. PDFium WASM blocks while rendering, so on big PDFs the
- * main-thread variant produces visible jank — use the worker variant when
- * you can.
- *
- *  - Uses `@hyzyla/pdfium`'s high-level API for document/page lifecycle
- *    and raster rendering, then reaches past the wrapper for char-level
- *    text extraction and search (see `pdfium-text-bindings.ts`).
- *  - Text-layer grouping + DOM rendering live in `pdfium-text-layer.ts`,
- *    so this engine and the worker engine produce identical text layers.
- *
- * WASM file: served from `/assets/pdfium.wasm` by default. Consumers can
- * override via the `PDFIUM_WASM_URL` provider token (see end of file).
- */
-
-/** URL of the bundled `pdfium.wasm` asset. Override via provider in tests. */
-declare const PDFIUM_WASM_URL: InjectionToken<string>;
-declare class PdfiumEngine implements PdfEngine {
-    #private;
-    load(bytes: Uint8Array, password?: string): Promise<PdfDocumentHandle>;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<PdfiumEngine, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<PdfiumEngine>;
-}
-
-declare class PdfiumWorkerEngine implements PdfEngine {
-    #private;
-    load(bytes: Uint8Array, password?: string): Promise<PdfDocumentHandle>;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<PdfiumWorkerEngine, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<PdfiumWorkerEngine>;
-}
-
-/**
- * Backward-compat aliases for the pdf.js-era type names. They resolve to
- * the engine-agnostic types from `pdf-engine.interface`. Dropped in Phase 4
- * when pdf.js leaves the codebase.
- */
-type PdfJsRenderResult = PdfPageRenderResult;
-type PdfJsSearchMatch = PdfSearchMatch;
-type PdfJsDocumentHandle = PdfDocumentHandle;
-declare class PdfRenderService implements PdfEngine {
-    #private;
-    /** Implements {@link PdfEngine.load}. */
-    load(bytes: Uint8Array): Promise<PdfDocumentHandle>;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<PdfRenderService, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<PdfRenderService>;
 }
 
 type ToastType$1 = 'success' | 'error' | 'info' | 'warning';
@@ -882,5 +658,5 @@ declare class Tooltip {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tooltip, "[ommTooltip]", never, { "ommTooltip": { "alias": "ommTooltip"; "required": true; "isSignal": true; }; "tipPosition": { "alias": "tipPosition"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
-export { BottomSheet, ButtonToggle, Calendar, Checkbox, CollectionTree, ConfirmService, CurrencyInput, CurrencyInputDirective, Datepicker, DatepickerService, DragSelect, DragSelectItemDirective, EnvironmentService, FileDrop, FittingType, GrowingTextarea, List, ListItem, PDFIUM_WASM_URL, PDF_ENGINE, PdfRenderService, PdfViewer, PdfiumEngine, PdfiumWorkerEngine, PinPad, RenderCancelledError, Select, TagsInput, ThemeService, ThemeToggle, ToastService, Tooltip };
-export type { Breakpoint, ButtonToggleOption, CalendarDay, CollectionTreeLabels, DragSelectOptions, PdfDocumentHandle, PdfEngine, PdfJsDocumentHandle, PdfJsRenderResult, PdfJsSearchMatch, PdfPageRenderResult, PdfPageSize, PdfSearchMatch, PdfSearchOptions, SelectOption, ThemeMode, ThemeToggleLabels, ToastOptions, ToastType$1 as ToastType, TooltipPosition, TreeNode, WeekdayHeader };
+export { BottomSheet, ButtonToggle, Calendar, Checkbox, CollectionTree, ConfirmService, CurrencyInput, CurrencyInputDirective, Datepicker, DatepickerService, DragSelect, DragSelectItemDirective, EnvironmentService, FileDrop, GrowingTextarea, List, ListItem, ListItemToggle, PinPad, Select, TagsInput, ThemeService, ThemeToggle, ToastService, Tooltip };
+export type { Breakpoint, ButtonToggleOption, CalendarDay, CollectionTreeLabels, DragSelectOptions, SelectOption, ThemeMode, ThemeToggleLabels, ToastOptions, ToastType$1 as ToastType, TooltipPosition, TreeNode, WeekdayHeader };

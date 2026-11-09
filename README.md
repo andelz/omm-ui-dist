@@ -19,11 +19,11 @@ in the source repo. Always pin the tag — a branch reference re-resolves on eve
 Peer dependencies are not installed for you:
 
 ```bash
-npm i @angular/cdk @angular/aria @ngx-translate/core lucide-angular
-npm i pdfjs-dist @hyzyla/pdfium          # see "PDF viewer" below
+npm i @angular/cdk@^21 @angular/aria@^21 @ngx-translate/core lucide-angular
 ```
 
-The library targets **Angular 21** and `@ngx-translate/core` 17. There is no
+The library targets **Angular 21 and 22** (`@angular/cdk` / `@angular/aria` must
+stay on 21 — aria 22 renamed exports omm-ui uses) and `@ngx-translate/core` 17. There is no
 `@ngx-translate` fallback: components use `TranslatePipe` in their templates and
 `ConfirmService` injects `TranslateService`, so the provider must exist in the
 consuming app.
@@ -62,24 +62,8 @@ tooltip, pane, scrollbar, aria and responsive partials. Individual partials can
 be used on their own — `@use 'omm-ui/styles/tokens'` — when an app only needs the
 custom properties.
 
-## PDF viewer
-
-`PdfViewer` renders through PDFium in a Web Worker (`PdfiumWorkerEngine`, the
-default), with a main-thread PDFium engine and a pdf.js `PdfRenderService` as
-fallbacks. Both `@hyzyla/pdfium` and `pdfjs-dist` are declared as peers and must
-be installed even if the app never mounts the viewer: they are reached through
-dynamic `import()` inside the bundle, and the bundler resolves those specifiers
-whether or not the code path runs.
-
-Their runtime assets have to be served by the consuming app — copy them in
-`angular.json`:
-
-```jsonc
-"assets": [
-  { "glob": "pdf.worker.min.mjs", "input": "node_modules/pdfjs-dist/build", "output": "/assets/" },
-  { "glob": "pdfium.wasm", "input": "node_modules/@hyzyla/pdfium/dist", "output": "/assets/" }
-]
-```
+The UI font is set via `--omm-font-family` (default `"Google Sans Code", monospace`;
+the font itself is not bundled). Override it on `:root` in the consuming app.
 
 ## Translations
 
