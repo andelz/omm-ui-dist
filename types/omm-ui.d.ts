@@ -16,7 +16,7 @@ declare class ButtonToggle<T = string> {
     readonly options: _angular_core.InputSignal<ButtonToggleOption<T>[]>;
     readonly value: _angular_core.InputSignal<T>;
     readonly ariaLabel: _angular_core.InputSignal<string | undefined>;
-    readonly iconSize: _angular_core.InputSignal<number>;
+    readonly iconSize: _angular_core.InputSignal<"xs" | "sm" | "md" | "lg" | "xl">;
     readonly valueChange: _angular_core.OutputEmitterRef<T>;
     protected select(option: ButtonToggleOption<T>): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ButtonToggle<any>, never>;
@@ -270,6 +270,8 @@ declare class DatepickerService {
 
 declare class FileDrop {
     fileDrop: _angular_core.OutputEmitterRef<File[]>;
+    /** Overlay text; defaults to the translated "Upload and encrypt file". */
+    label: _angular_core.InputSignal<string | undefined>;
     readonly icon: {
         upload: lucide_angular.LucideIconData;
     };
@@ -281,12 +283,18 @@ declare class FileDrop {
     active: _angular_core.WritableSignal<boolean>;
     onFileDrop(event: DragEvent): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<FileDrop, never>;
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<FileDrop, "omm-file-drop", never, {}, { "fileDrop": "fileDrop"; }, never, never, true, never>;
+    static ɵcmp: _angular_core.ɵɵComponentDeclaration<FileDrop, "omm-file-drop", never, { "label": { "alias": "label"; "required": false; "isSignal": true; }; }, { "fileDrop": "fileDrop"; }, never, never, true, never>;
 }
 
 interface DragSelectOptions {
     disabled?: boolean;
     selectorColor?: string;
+}
+declare class DragSelectItemDirective {
+    #private;
+    el: HTMLElement;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<DragSelectItemDirective, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<DragSelectItemDirective, "[yuvDragSelectItem]", never, {}, {}, never, never, true, never>;
 }
 declare class DragSelect {
     #private;
@@ -298,12 +306,6 @@ declare class DragSelect {
     onPointerDown(event: PointerEvent): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<DragSelect, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<DragSelect, "[ommDragSelect]", never, { "selectables": { "alias": "selectables"; "required": false; "isSignal": true; }; "yuvDragSelect": { "alias": "yuvDragSelect"; "required": false; "isSignal": true; }; }, { "dragSelectChange": "dragSelectChange"; "dragSelect": "dragSelect"; }, ["items"], never, true, never>;
-}
-declare class DragSelectItemDirective {
-    #private;
-    el: HTMLElement;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<DragSelectItemDirective, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<DragSelectItemDirective, "[yuvDragSelectItem]", never, {}, {}, never, never, true, never>;
 }
 
 declare class ListItem<T> implements FocusableOption {

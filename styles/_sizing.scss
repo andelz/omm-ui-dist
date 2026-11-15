@@ -1,0 +1,61 @@
+// Device-aware sizing for icons and touch targets.
+//
+// CSS px are already device-independent (1px ≈ 1dp ≈ 1/160 inch), so nothing
+// here scales with screen density. What changes is the *input*: a finger needs
+// bigger targets and icons than a mouse pointer. `pointer: coarse` matches
+// phones and tablets, while desktops (and touch laptops with a mouse attached)
+// keep the dense layout.
+//
+// Icons: never hard-code `[size]` on <lucide-icon>. Use the default (md) or pick
+// a step with `data-size="xs|sm|lg|xl"`. Lucide writes width/height attributes
+// onto the <svg>; the CSS below wins over those attributes.
+
+:root {
+    --omm-icon-size-xs: 12px;
+    --omm-icon-size-sm: 16px;
+    --omm-icon-size-md: 18px;
+    --omm-icon-size-lg: 24px;
+    --omm-icon-size-xl: 32px;
+
+    // Minimum hit area for icon-only buttons.
+    --omm-touch-target: 0px;
+}
+
+@media (pointer: coarse) {
+    :root {
+        // The UI font is a narrow monospace and reads small at 16px on phones.
+        --font-base-size: 1.0625em;
+
+        --omm-icon-size-xs: 16px;
+        --omm-icon-size-sm: 20px;
+        --omm-icon-size-md: 24px;
+        --omm-icon-size-lg: 28px;
+        --omm-icon-size-xl: 40px;
+
+        // Material asks for 48dp and Apple for 44pt; 44px keeps dense toolbars intact.
+        --omm-touch-target: 44px;
+    }
+}
+
+lucide-icon,
+lucide-angular {
+    --omm-icon-size: var(--omm-icon-size-md);
+
+    &[data-size="xs"] { --omm-icon-size: var(--omm-icon-size-xs); }
+    &[data-size="sm"] { --omm-icon-size: var(--omm-icon-size-sm); }
+    &[data-size="lg"] { --omm-icon-size: var(--omm-icon-size-lg); }
+    &[data-size="xl"] { --omm-icon-size: var(--omm-icon-size-xl); }
+
+    > svg {
+        width: var(--omm-icon-size);
+        height: var(--omm-icon-size);
+    }
+}
+
+// Icon-only buttons get a finger-sized hit area on touch devices. Add `.compact`
+// where a button sits inside something small (e.g. a chip's remove "x").
+button.icon:not(.compact) {
+    min-width: var(--omm-touch-target);
+    min-height: var(--omm-touch-target);
+    justify-content: center;
+}

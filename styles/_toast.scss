@@ -4,12 +4,12 @@
 
     position: fixed;
     // Fixed to the viewport, so it clears the gesture bar itself.
+    inset-inline: var(--omm-spacing);
     inset-block-end: calc(var(--omm-spacing) + var(--omm-safe-area-bottom));
     margin: auto;
     background-color: var(--toast-surface);
     color: var(--toast-on-surface);
-    min-width: 20ch;
-    max-width: 40ch;
+  
     padding: var(--omm-spacing-s) var(--omm-spacing);
     border-radius: var(--omm-corner);
     border: 1px solid color-mix(in srgb, var(--toast-on-surface) 30%, transparent);
@@ -31,6 +31,11 @@
     }
     button {
         color: var(--toast-on-surface);
+    }
+
+    .toast-actions {
+        display: flex;
+        gap: var(--omm-spacing);
     }
 
     .toast-action {

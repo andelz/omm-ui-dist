@@ -12,7 +12,7 @@ npm i omm-ui@github:andelz/omm-ui-dist#v0.0.1
 
 `andelz/omm-ui-dist` holds nothing but the built package: every release is one
 commit plus an immutable `vX.Y.Z` tag, cut by
-[`scripts/release-omm-ui.js`](https://github.com/andelz/dox/blob/master/scripts/release-omm-ui.js)
+[`scripts/release-lib.js`](https://github.com/andelz/dox/blob/master/scripts/release-lib.js)
 in the source repo. Always pin the tag — a branch reference re-resolves on every
 `npm install` and will silently move consumers onto a new version.
 
